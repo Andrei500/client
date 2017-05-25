@@ -105,12 +105,14 @@ export default {
         font-size: 14px;
     }
 
+    input:focus + label {
+        color: #e53935;
+    }
+
     input:focus + label,
     .active {
         font-size: 12px;
         position: absolute;
-        /*right: 0;*/
-        /*left: auto;*/
         top: -0.9rem;
         cursor: text;
     }

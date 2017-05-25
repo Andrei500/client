@@ -1,7 +1,7 @@
 <template>
 
-    <div style="background: url('https://pp.userapi.com/c836521/v836521740/37270/iRO5akibeI4.jpg') center center no-repeat; background-size: 105%;">
-        <form action="#">
+    <div ref="parallax" class="bg_parallax" @mousemove="move($event)">
+        <form action="#" @mousemove="move($event)">
             <img src="../../assets/img/logo.svg" alt="Наша Почта Online">
             <h2>Наша Почта Online</h2>
 
@@ -20,7 +20,7 @@
                 v-model.trim="password">
             </field>
 
-            <submit text="Войти" :disabled="!phone || !password"></submit>
+            <submit text="Войти" :disabled="isValid"></submit>
 
         </form>
     </div>
@@ -41,11 +41,43 @@ export default {
     components: {
         Field,
         Submit
+    },
+    computed: {
+        isValid() {
+            const isValidPhone = (this.phone.length >= 18),
+                  isValidPass = (this.password.length == 8);
+
+            return !(isValidPhone && isValidPass);
+        }
+    },
+    methods: {
+        move(e) {
+            const movementStrength = 25,
+                  height = movementStrength / window.screen.height,
+                  width = movementStrength / window.screen.width,
+                  pageX = e.pageX - (window.screen.width / 2),
+                  pageY = e.pageY - (window.screen.height / 2),
+                  newvalueX = width * pageX * -1 - 25,
+                  newvalueY = height * pageY * -1 - 50;
+
+            this.$refs.parallax.style.backgroundPosition = newvalueX + "px " + newvalueY + "px";
+        }
     }
 }
 </script>
 
 <style scoped>
+
+    .bg_parallax {
+        background: url('../../assets/img/red.jpeg') -25px -50px no-repeat;
+        width: 100%;
+        height:100%;
+        position: fixed;
+        top: 0;
+        z-index:0;
+        background-size: 110% 110%;
+    }
+
     div {
         display: flex;
         align-items: center;
@@ -65,6 +97,7 @@ export default {
 
     img {
         width: 150px;
+        margin-bottom: 10px;
     }
 
     h2 {
