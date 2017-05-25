@@ -28,7 +28,6 @@ export default {
         background: #e53935;
         color: #fff;
         cursor: pointer;
-        margin-top: 10px;
         position: relative;
         overflow: hidden;
         outline: none;

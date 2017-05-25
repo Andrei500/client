@@ -103,6 +103,9 @@ export default {
     img {
         width: 150px;
         margin-bottom: 10px;
+
+        animation: rotate 1.5s ease;
+        animation-delay: .8s;
     }
 
     h2 {
@@ -121,6 +124,14 @@ export default {
         transform: scale(1);
         opacity: 1;
       }
+    }
+    @keyframes rotate {
+        from {
+            transform: rotateY(0);
+        }
+        to {
+            transform: rotateY(180deg);
+        }
     }
 
 </style>
