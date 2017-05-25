@@ -2,6 +2,7 @@
     <div>
         <input
             autocomplete="off"
+            :autofocus="autofocus"
             :type="type"
             :id="id"
             v-mask="regEx"
@@ -35,6 +36,10 @@ export default {
         mask: {
             type: String,
             default: ''
+        },
+        autofocus: {
+            type: Boolean,
+            default: false
         }
     },
     data() {

@@ -31,9 +31,10 @@ export default {
         margin-top: 20px;
         position: relative;
         overflow: hidden;
+        outline: none;
     }
     button:disabled {
-        opacity: .8;
+        background: #aaa;
         cursor: default;
     }
     button:disabled:hover::before {
@@ -49,9 +50,11 @@ export default {
         background: rgba(0, 0, 0, 0.07);
         transform: rotate(45deg);
         transition: all .3s ease-in-out;
+        opacity: 0;
     }
     button:hover::before {
         left: -400px;
+        opacity: 1;
     }
     button:active {
         background: #f64a46;

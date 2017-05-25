@@ -10,7 +10,8 @@
                 id="phone"
                 placeholder="Телефон"
                 v-model="phone"
-                mask="tel">
+                mask="tel"
+                autofocus>
             </field>
 
             <field
