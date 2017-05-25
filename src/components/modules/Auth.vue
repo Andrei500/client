@@ -1,29 +1,32 @@
 <template>
 
     <div ref="parallax" class="bg_parallax" @mousemove="move($event)">
-        <form action="#" @mousemove="move($event)">
-            <img src="../../assets/img/logo.svg" alt="Наша Почта Online">
-            <h2>Наша Почта Online</h2>
 
-            <field
-                type="text"
-                id="phone"
-                placeholder="Телефон"
-                v-model="phone"
-                mask="tel"
-                autofocus>
-            </field>
+        <transition name="scale">
+            <form action="#" @mousemove="move($event)">
+                <img src="../../assets/img/logo.svg" alt="Наша Почта Online">
+                <h2>Наша Почта Online</h2>
 
-            <field
-                type="password"
-                id="password"
-                placeholder="Пароль"
-                v-model.trim="password">
-            </field>
+                <field
+                    type="text"
+                    id="phone"
+                    placeholder="Телефон"
+                    v-model="phone"
+                    mask="tel"
+                    autofocus>
+                </field>
 
-            <submit text="Войти" :disabled="isValid"></submit>
+                <field
+                    type="password"
+                    id="password"
+                    placeholder="Пароль"
+                    v-model.trim="password">
+                </field>
 
-        </form>
+                <submit text="Войти" :disabled="isValid"></submit>
+
+            </form>
+        </transition>
     </div>
 
 </template>
@@ -94,6 +97,7 @@ export default {
         box-sizing: border-box;
         box-shadow: 3px 3px 15px rgba(0, 0, 0, .2);
         border-radius: 5px;
+        animation: scale-in .8s ease-in-out;
     }
 
     img {
@@ -106,6 +110,17 @@ export default {
         margin-bottom: 40px;
         letter-spacing: -1px;
         font-size: 24px;
+    }
+
+    @keyframes scale-in {
+      0% {
+        transform: scale(1.2);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
     }
 
 </style>

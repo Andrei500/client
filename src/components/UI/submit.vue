@@ -28,7 +28,7 @@ export default {
         background: #e53935;
         color: #fff;
         cursor: pointer;
-        margin-top: 20px;
+        margin-top: 10px;
         position: relative;
         overflow: hidden;
         outline: none;
@@ -58,6 +58,9 @@ export default {
     }
     button:active {
         background: #f64a46;
+    }
+    button:disabled:active {
+        background: #aaa;
     }
 
 </style>
