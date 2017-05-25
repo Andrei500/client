@@ -1,6 +1,7 @@
 <template>
     <div>
         <input
+            autocomplete="off"
             :type="type"
             :id="id"
             v-mask="regEx"

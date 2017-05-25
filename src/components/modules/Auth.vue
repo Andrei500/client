@@ -20,7 +20,7 @@
                 v-model="password">
             </field>
 
-            <submit text="Войти" :disabled="isValid"></submit>
+            <submit text="Войти" :disabled="!phone || !password"></submit>
 
         </form>
     </div>
@@ -32,29 +32,17 @@ import Field from '../UI/Field.vue';
 import Submit from '../UI/Submit.vue';
 
 export default {
-    components: {
-        Field,
-        Submit
-    },
     data() {
         return {
             phone: '',
             password: ''
         }
     },
-    computed: {
-        isValid() {
-            return !this.phone || !this.password;
-        }
-    },
-    methods: {
-        onInput(newValue) {
-            if (this.phone.length = 0) this.phone = '+';
-        }
+    components: {
+        Field,
+        Submit
     }
 }
-
-
 </script>
 
 <style scoped>
