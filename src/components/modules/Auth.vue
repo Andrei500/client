@@ -17,7 +17,7 @@
                 type="password"
                 id="password"
                 placeholder="Пароль"
-                v-model="password">
+                v-model.trim="password">
             </field>
 
             <submit text="Войти" :disabled="!phone || !password"></submit>
