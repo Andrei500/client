@@ -1,0 +1,65 @@
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    font: 16px/120% "Light";
+    color: rgba(0, 0, 0, .8);
+    background: rgba(0, 0, 0, .02);
+}
+
+.form {
+    width: 400px;
+    background: #fff;
+    text-align: center;
+    padding: 50px 40px;
+    box-sizing: border-box;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, .2);
+    border-radius: 5px;
+}
+
+.form__logo {
+    width: 150px;
+}
+
+.form__title {
+    text-align: center;
+    font-weight: normal;
+    margin-bottom: 50px;
+}
+
+.form__field {
+    position: relative;
+}
+
+.form__field input {
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, .5);
+    outline: none;
+    height: 30px;
+    width: 100%;
+}
+
+.form__field input:focus {
+    box-shadow: 0 1px 0 #e53935;
+    border-bottom: 1px solid #e53935;
+}
+
+.form__field input + label {
+    top: 0.5rem;
+    color: rgba(0, 0, 0, .5);
+    position: absolute;
+    left: 0;
+    cursor: text;
+    transition: .2s ease-out;
+}
+
+
+
+.form__field input:focus + label {
+    font-size: 12px;
+    top: -0.8rem;
+    position: absolute;
+    left: 0;
+    cursor: text;
+}
