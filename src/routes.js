@@ -1,4 +1,4 @@
-import Auth from './components/modules/Auth.vue';
+import Auth from './components/pages/Auth.vue';
 
 export const routes = [
     {
