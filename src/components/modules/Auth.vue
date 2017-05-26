@@ -13,10 +13,12 @@
                     placeholder="Телефон"
                     v-model="phone"
                     mask="tel"
-                    autofocus>
+                    autofocus
+                    @input="focusToNext($event)">
                 </field>
 
                 <field
+                    ref="password"
                     type="password"
                     id="password"
                     placeholder="Пароль"
@@ -65,6 +67,13 @@ export default {
                   newvalueY = height * pageY * -1 - 50;
 
             this.$refs.parallax.style.backgroundPosition = newvalueX + "px " + newvalueY + "px";
+        },
+        focusToNext(value) {
+            if (value[1] == 3) {
+                if (value.length == 19) this.$refs.password.$el.children.password.focus();
+            }   else {
+                if (value.length == 18) this.$refs.password.$el.children.password.focus();
+            }
         }
     }
 }
