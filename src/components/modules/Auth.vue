@@ -23,7 +23,7 @@
                 v-model.trim="password">
             </field>
 
-            <submit text="Войти" :disabled="isValid"></submit>
+            <submit text="Войти" :disabled="!isValid"></submit>
 
         </form>
     </div>
@@ -50,7 +50,7 @@ export default {
             const isValidPhone = (this.phone.length >= 18),
                   isValidPass = (this.password.length == 8);
 
-            return !(isValidPhone && isValidPass);
+            return isValidPhone && isValidPass;
         }
     },
     methods: {
