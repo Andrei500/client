@@ -1,34 +1,31 @@
 <template>
 
     <div ref="parallax" class="bg_parallax" @mousemove="move($event)">
+        <form action="#" @mousemove="move($event)">
+            <img src="../../assets/img/logo.svg" alt="Наша Почта Online">
+            <h2>Наша Почта Online</h2>
 
-        <transition name="scale">
-            <form action="#" @mousemove="move($event)">
-                <img src="../../assets/img/logo.svg" alt="Наша Почта Online">
-                <h2>Наша Почта Online</h2>
+            <field
+                type="text"
+                id="phone"
+                placeholder="Телефон"
+                v-model="phone"
+                mask="tel"
+                autofocus
+                @input="focusToPassword($event)">
+            </field>
 
-                <field
-                    type="text"
-                    id="phone"
-                    placeholder="Телефон"
-                    v-model="phone"
-                    mask="tel"
-                    autofocus
-                    @input="focusToNext($event)">
-                </field>
+            <field
+                ref="password"
+                type="password"
+                id="password"
+                placeholder="Пароль"
+                v-model.trim="password">
+            </field>
 
-                <field
-                    ref="password"
-                    type="password"
-                    id="password"
-                    placeholder="Пароль"
-                    v-model.trim="password">
-                </field>
+            <submit text="Войти" :disabled="isValid"></submit>
 
-                <submit text="Войти" :disabled="isValid"></submit>
-
-            </form>
-        </transition>
+        </form>
     </div>
 
 </template>
@@ -68,7 +65,7 @@ export default {
 
             this.$refs.parallax.style.backgroundPosition = newvalueX + "px " + newvalueY + "px";
         },
-        focusToNext(value) {
+        focusToPassword(value) {
             if (value[1] == 3) {
                 if (value.length == 19) this.$refs.password.$el.children.password.focus();
             }   else {
