@@ -20,7 +20,8 @@
                 type="password"
                 id="password"
                 placeholder="Пароль"
-                v-model.trim="password">
+                v-model.trim="password"
+                @input="cutLength($event)">
             </field>
 
             <submit text="Войти" :disabled="!isValid"></submit>
@@ -71,6 +72,9 @@ export default {
             }   else {
                 if (value.length == 18) this.$refs.password.$el.children.password.focus();
             }
+        },
+        cutLength(value) {
+            if (value.length > 8) this.password = this.$refs.password.value = value.substring(0, 8);
         }
     }
 }
