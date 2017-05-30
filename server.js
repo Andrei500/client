@@ -13,8 +13,12 @@ app.get('/', function(req, res) {
 app.get('/deploy', function(req, res) {
   exec('git pull', function(error, stdout, stderr) {
     if (!error) {
-      exec('npm run build', function(error, stdout, stderr) {
-        error ? res.send(error) : res.send("OK");
+      exec('npm i --no-option', function(error, stdout, stderr) {
+        if (!error) {
+          exec('npm run build', function(error, stdout, stderr) {
+            error ? res.send(error) : res.send("OK");
+          });
+        }
       });
     }
   });
