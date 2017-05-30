@@ -10,7 +10,7 @@ app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname + '/dist/index.html'));
 });
 
-app.get('/deploy', function(req, res) {
+app.post('/deploy', function(req, res) {
   exec('git pull', function(error, stdout, stderr) {
     if (!error) {
       exec('npm i --no-option', function(error, stdout, stderr) {
