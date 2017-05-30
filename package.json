@@ -4,6 +4,7 @@
   "description": "client side",
   "author": "Andrey Klimash <andrey.klimash@gmail.com>",
   "private": true,
+  "main": "server.js",
   "scripts": {
     "dev": "node build/dev-server.js",
     "build": "node build/build.js"
