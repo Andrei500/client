@@ -3,7 +3,7 @@
     <div ref="parallax" class="bg_parallax" @mousemove="move($event)">
         <form action="#" @mousemove="move($event)">
             <img src="../../assets/img/logo.svg" alt="Наша Почта Online">
-            <h2>Наша Почта</h2>
+            <h2>Наша Почта Online</h2>
 
             <field
                 type="text"
