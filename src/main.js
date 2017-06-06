@@ -13,8 +13,8 @@ const router = new VueRouter({
 });
 
 new Vue({
-  el: '#app',
-  router,
-  template: '<App/>',
-  components: { App }
+    el: '#app',
+    router,
+    template: '<App/>',
+    components: { App }
 });

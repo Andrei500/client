@@ -4,21 +4,23 @@
 
 <script>
 export default {
-    
+
 }
 </script>
 
-<style>
-@import "./assets/css/normalize.css";
-@import "./assets/css/fonts.css";
+<style lang="sass">
+@import "./assets/css/normalize.css"
+@import "./assets/css/fonts.css"
+@import "./assets/css/icon-font.css"
 
-body {
-    height: 100vh;
-    font: 16px/120% "Light";
-    color: rgba(0, 0, 0, .8);
-    background: rgba(0, 0, 0, .02);
-    margin: 0;
-    padding: 0;
-}
+@import "./configs/styles_config.sass"
+
+body
+    height: 100vh
+    font: 14px/120% "Light"
+    color: $dark
+    background: $light
+    margin: 0
+    padding: 0
 
 </style>

@@ -78,47 +78,49 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="sass" scoped>
 
-    div {
-        position: relative;
-        margin-bottom: 30px;
-    }
+    @import "../../configs/styles_config.sass"
 
-    input {
-        border: none;
-        box-shadow: none;
-        border-bottom: 1px solid #aaa;
-        outline: none;
-        height: 30px;
-        width: 100%;
-        background: transparent;
-    }
+    div
+        position: relative
+        margin-bottom: 30px
 
-    input:focus {
-        box-shadow: 0 1px 0 #e53935;
-        border-bottom: 1px solid #e53935;
-    }
 
-    label {
-        top: 0.5rem;
-        color: #aaa;
-        position: absolute;
-        left: 0;
-        cursor: text;
-        transition: .2s ease-out;
-        font-size: 14px;
-    }
+    input
+        border: none
+        box-shadow: none
+        border-bottom: 1px solid $hard
+        outline: none
+        height: 30px
+        width: 100%
+        background: transparent
 
-    input:focus + label {
-        color: #e53935;
-    }
+
+    input:focus
+        box-shadow: 0 1px 0 $primary-color
+        border-bottom: 1px solid $primary-color
+
+
+    label
+        top: 0.5rem
+        color: $hard
+        position: absolute
+        left: 0
+        cursor: text
+        transition: .2s ease-out
+        font-size: 14px
+
+
+    input:focus + label
+        color: $primary-color
+
 
     input:focus + label,
-    .active {
-        font-size: 12px;
-        position: absolute;
-        top: -0.9rem;
-        cursor: text;
-    }
+    .active
+        font-size: 12px
+        position: absolute
+        top: -0.9rem
+        cursor: text
+
 </style>

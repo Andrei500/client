@@ -2,8 +2,8 @@
 
     <div ref="parallax" class="bg_parallax" @mousemove="move($event)">
         <form action="#" @mousemove="move($event)">
-            <img src="../../assets/img/logo.svg" alt="Наша Почта Online">
-            <h2>Наша Почта Online</h2>
+            <img src="../../assets/img/logo.png" alt="Наша Почта Online">
+            <h2>{{name}}</h2>
 
             <field
                 type="text"
@@ -32,12 +32,17 @@
 </template>
 
 <script>
+import config from '../../configs/main_app_config.js';
+
 import Field from '../UI/Field.vue';
 import Submit from '../UI/Submit.vue';
+
 
 export default {
     data() {
         return {
+            name: config.name,
+            pathToLogo: config.pathToLogo,
             phone: '',
             password: ''
         }
@@ -83,7 +88,7 @@ export default {
 <style scoped>
 
     .bg_parallax {
-        background: url('../../assets/img/red.jpeg') -25px -50px no-repeat;
+        background: url('../../assets/img/bg_auth.jpg') -25px -50px no-repeat;
         width: 100%;
         height:100%;
         position: fixed;
