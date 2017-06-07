@@ -1,20 +1,40 @@
 <template>
 
-    <div class="top_panel">
+    <div>
 
-        <div class="left">
-            <img src="../../assets/img/logo.png" height="40" alt="">
-            <h2>{{shortName}}</h2>
-            <p>кабинет оператора</p>
+        <div class="top_panel">
+
+            <div class="left">
+                <img src="../../assets/img/logo.png" height="40" alt="">
+                <h2>{{shortName}}</h2>
+                <p>кабинет оператора</p>
+            </div>
+
+            <div class="right">
+
+                <search/>
+                <bell/>
+                <user-name/>
+
+            </div>
         </div>
 
-        <div class="right">
+        <sidebar-comp>
+            <div class="sidebar_child">
+                <button-comp
+                    text="Создать накладную"
+                    icon="add_ttn"
+                    :disabled="showFormInvoice"
+                    @click.native="showFormInvoice = true">
+                </button-comp>
+            </div>
+            <div class="sidebar_child">
+            </div>
+        </sidebar-comp>
 
-            <search/>
-            <bell/>
-            <user-name/>
-
-        </div>
+        <transition name="fade-in-left">
+            <form-invoice v-if="showFormInvoice" @close="showFormInvoice = false"></form-invoice>
+        </transition>
     </div>
 
 </template>
@@ -25,17 +45,24 @@ import config from '../../configs/main_app_config.js';
 import Search from '../modules/Search.vue';
 import Bell from '../modules/Bell.vue';
 import UserName from '../modules/UserName.vue';
+import SidebarComp from '../modules/SidebarComp.vue';
+import ButtonComp from '../UI/ButtonComp.vue';
+import FormInvoice from '../modules/FormInvoice.vue';
 
 export default {
     data() {
         return {
-            shortName: config.shortName
+            shortName: config.shortName,
+            showFormInvoice: false
         }
     },
     components: {
         Search,
         Bell,
-        UserName
+        UserName,
+        SidebarComp,
+        FormInvoice,
+        ButtonComp
     }
 }
 </script>
@@ -43,8 +70,16 @@ export default {
 <style lang="sass" scoped>
     @import "../../configs/styles_config.sass"
 
-    *
-        box-sizing: border-box
+    .fade-in-left-enter-active
+        transition: all .4s ease
+
+    .fade-in-left-leave-active
+        transition: all .4s ease-in-out
+
+    .fade-in-left-enter, .fade-in-left-leave-to
+        transform: translateX(calc(100% - 300px))
+        opacity: 0
+
 
     .top_panel
         width: 100%
@@ -53,7 +88,8 @@ export default {
         top: 0
         left: 0
         background: #fff
-        box-shadow: 1px 5px 10px $medium
+        box-shadow: 1px 2px 10px $medium
+        z-index: 1
 
     .left
         width: 300px
@@ -78,5 +114,11 @@ export default {
         align-items: center
         width: calc(100% - 300px)
         justify-content: space-between
+
+    .sidebar_child
+        padding: 20px
+
+        & + .sidebar_child
+            border-top: 1px solid $medium
 
 </style>

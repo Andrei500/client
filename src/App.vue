@@ -15,6 +15,14 @@ export default {
 
 @import "./configs/styles_config.sass"
 
+*
+    box-sizing: border-box
+    margin: 0
+    padding: 0
+
+h1, h2, h3, h4, h5, h6
+    font-weight: normal
+
 body
     height: 100vh
     font: 14px/120% "Light"
@@ -22,5 +30,6 @@ body
     background: $light
     margin: 0
     padding: 0
+    overflow: hidden
 
 </style>

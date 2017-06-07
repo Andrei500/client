@@ -81,7 +81,7 @@ export default {
             width: 15px
             height: 15px
             background: $primary-color
-            color: #fff
+            @if $primary-color == #ffc107 { color: $dark } @else { color: #fff }
             border-radius: 50%
             font-size: 11px
             line-height: 16px

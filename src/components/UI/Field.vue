@@ -109,7 +109,6 @@ export default {
         left: 0
         cursor: text
         transition: .2s ease-out
-        font-size: 14px
 
 
     input:focus + label
