@@ -6,14 +6,38 @@
         </div>
 
         <h4>1. Отправитель</h4>
-        <field
-            type="text"
-            id="phone_sender"
-            placeholder="Телефон"
-            v-model="phone_sender"
-            mask="tel"
-            autofocus>
-        </field>
+        <div class="field_wrap">
+            <div style="width: 210px">
+                <field
+                    type="text"
+                    id="phone_sender"
+                    placeholder="Телефон"
+                    v-model="phone_sender"
+                    mask="tel"
+                    autofocus>
+                </field>
+            </div>
+            <div style="width: 330px">
+                <field
+                    type="text"
+                    id="name_sender"
+                    placeholder="ФИО"
+                    v-model="name_sender">
+                </field>
+            </div>
+            <div style="width: 330px">
+                <field
+                    type="text"
+                    id="adress_sender"
+                    placeholder="Адрес"
+                    v-model="adress_sender">
+                </field>
+            </div>
+            <div class="button_doc_wrap">
+                <passport></passport>
+            </div>
+        </div>
+
 
         <div class="footer">
             730 р
@@ -30,12 +54,15 @@
 <script>
 import ButtonComp from '../UI/ButtonComp.vue';
 import Field from '../UI/Field.vue';
+import Passport from '../modules/Passport.vue';
 
 export default {
     data() {
         return {
             valid: '',
-            phone_sender: '+'
+            phone_sender: '+',
+            name_sender: '',
+            adress_sender: ''
         }
     },
     methods: {
@@ -45,7 +72,8 @@ export default {
     },
     components: {
         ButtonComp,
-        Field
+        Field,
+        Passport
     }
 }
 </script>
@@ -64,16 +92,17 @@ export default {
         background: $light
         overflow: scroll
         padding: 80px 20px
+        box-shadow: 1px 2px 10px lighten($hard, 20%)
 
         & h4
             font-family: 'Regular'
-            margin-bottom: 20px
+            margin: 0 0 20px 0
 
     .header, .footer
         position: fixed
         width: calc(100vw - 300px)
         height: 60px
-        background: $medium
+        background: #fff
         display: flex
         align-items: center
         padding: 0 20px
@@ -82,10 +111,12 @@ export default {
     .footer
         bottom: 0
         right: 0
+        box-shadow: -1px -2px 10px $medium
 
     .header
         top: 0
         right: 0
+        box-shadow: 1px 2px 10px $medium
 
         & h3
             font-weight: normal
@@ -102,9 +133,22 @@ export default {
         & i
             font-size: 12px
             color: $hard
+            transition: all .3s ease
 
             &:hover
                 color: $dark
+
+    .field_wrap
+        display: flex
+        justify-content: space-between
+        align-items: center
+
+        & div + div
+            margin-left: 20px
+
+
+    .button_doc_wrap
+
 
 
 </style>

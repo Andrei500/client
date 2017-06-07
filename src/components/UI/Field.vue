@@ -84,7 +84,6 @@ export default {
 
     div
         position: relative
-        margin-bottom: 30px
 
 
     input
@@ -103,7 +102,7 @@ export default {
 
 
     label
-        top: 0.5rem
+        top: 0.4rem
         color: $hard
         position: absolute
         left: 0
@@ -117,9 +116,9 @@ export default {
 
     input:focus + label,
     .active
-        font-size: 12px
+        font-size: 11px
         position: absolute
-        top: -0.9rem
+        top: -0.8rem
         cursor: text
 
 </style>

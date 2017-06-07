@@ -58,7 +58,7 @@ export default {
             line-height: 19px
 
         &:disabled
-            background: darken($medium, 8%)
+            background: $medium
             cursor: default
 
 </style>

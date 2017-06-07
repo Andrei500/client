@@ -68,6 +68,7 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+    
     @import "../../configs/styles_config.sass"
 
     .fade-in-left-enter-active
