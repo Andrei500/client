@@ -22,6 +22,11 @@ app.post('/deploy', function(req, res) {
   });
 });
 
+//robots.txt
+app.get('/robots.txt', function(req, res) {
+  res.sendFile(path.join(__dirname + '/robots.txt'));
+});
+
 app.listen(port);
 
 console.log("Running at Port " + port);
