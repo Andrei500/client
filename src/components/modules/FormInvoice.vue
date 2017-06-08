@@ -6,35 +6,125 @@
         </div>
 
         <h4>1. Отправитель</h4>
-        <div class="field_wrap">
-            <div style="width: 210px">
+        <div class="field_wrap" ref="sender">
+            <div style="width: 200px">
                 <field
                     type="text"
                     id="phone_sender"
                     placeholder="Телефон"
-                    v-model="phone_sender"
+                    v-model="sender.phone"
                     mask="tel"
                     autofocus>
                 </field>
             </div>
-            <div style="width: 330px">
+            <div style="width: 320px">
                 <field
                     type="text"
                     id="name_sender"
                     placeholder="ФИО"
-                    v-model="name_sender">
+                    v-model="sender.name">
                 </field>
             </div>
-            <div style="width: 330px">
+            <div style="width: 320px">
                 <field
                     type="text"
                     id="adress_sender"
                     placeholder="Адрес"
-                    v-model="adress_sender">
+                    v-model="sender.adress">
                 </field>
             </div>
             <div class="button_doc_wrap">
-                <passport></passport>
+                <passport @select="sender.docs = $event" @open="addOffset('sender', $event)"></passport>
+            </div>
+        </div>
+
+        <h4>2. Получатель</h4>
+        <div class="field_wrap" ref="getter">
+            <div style="width: 200px">
+                <field
+                    type="text"
+                    id="phone_getter"
+                    placeholder="Телефон"
+                    v-model="getter.phone"
+                    mask="tel">
+                </field>
+            </div>
+            <div style="width: 320px">
+                <field
+                    type="text"
+                    id="name_getter"
+                    placeholder="ФИО"
+                    v-model="getter.name">
+                </field>
+            </div>
+            <div style="width: 320px">
+                <field
+                    type="text"
+                    id="adress_getter"
+                    placeholder="Адрес"
+                    v-model="getter.adress">
+                </field>
+            </div>
+            <div class="button_doc_wrap">
+                <passport @select="getter.docs = $event" @open="addOffset('getter', $event)"></passport>
+            </div>
+        </div>
+
+        <h4>3. Груз</h4>
+        <div class="field_wrap">
+            <div style="width: 200px">
+                <select-comp :options="typesOfLoad" @select="changeTypeOfLoad($event)"></select-comp>
+            </div>
+            <div style="width: 65px">
+                <field
+                    type="text"
+                    id="weight"
+                    placeholder="Вес, кг"
+                    v-model="load.weight">
+                </field>
+            </div>
+            <div style="width: 65px">
+                <field
+                    type="text"
+                    id="length"
+                    placeholder="Д, см"
+                    v-model="load.length">
+                </field>
+            </div>
+            <div style="width: 65px">
+                <field
+                    type="text"
+                    id="width"
+                    placeholder="Ш, см"
+                    v-model="load.width">
+                </field>
+            </div>
+            <div style="width: 65px">
+                <field
+                    type="text"
+                    id="height"
+                    placeholder="В, см"
+                    v-model="load.height">
+                </field>
+            </div>
+            <div style="width: 100px">
+                <field
+                    type="text"
+                    id="price"
+                    placeholder="Цена, р"
+                    v-model="load.price">
+                </field>
+            </div>
+            <div style="width: 200px">
+                <field
+                    type="text"
+                    id="description"
+                    placeholder="Описание"
+                    v-model="load.description">
+                </field>
+            </div>
+            <div class="button_doc_wrap">
+                <passport @select="getter.docs = $event" @open="addOffset('getter', $event)"></passport>
             </div>
         </div>
 
@@ -52,28 +142,67 @@
 </template>
 
 <script>
+import config from '../../configs/main_app_config.js';
 import ButtonComp from '../UI/ButtonComp.vue';
 import Field from '../UI/Field.vue';
 import Passport from '../modules/Passport.vue';
+import SelectComp from '../UI/SelectComp.vue';
 
 export default {
     data() {
         return {
             valid: '',
-            phone_sender: '+',
-            name_sender: '',
-            adress_sender: ''
+            sender: {
+                phone: '+',
+                name: '',
+                adress: '',
+                docs: {}
+            },
+            getter: {
+                phone: '+',
+                name: '',
+                adress: '',
+                docs: {}
+            },
+            load: {
+                weight: 0,
+                length: 0,
+                width: 0,
+                height: 0,
+                price: 0,
+                description: ''
+            }
+        }
+    },
+    computed: {
+        typesOfLoad: function () {
+            const types = [];
+            for (var i = 0; i < config.typesOfLoad.length; i++) {
+                types.push({
+                    name: config.typesOfLoad[i]
+                });
+            }
+            return types;
         }
     },
     methods: {
         closeForm() {
             this.$emit('close');
+        },
+        addOffset(who, val) {
+            const
+                el = this.$refs[who],
+                className = 'with_offset';
+
+            if (val) el.classList.add(className);
+            else el.classList.remove(className);
         }
     },
     components: {
         ButtonComp,
         Field,
-        Passport
+        Passport,
+        SelectComp
     }
 }
 </script>
@@ -96,7 +225,7 @@ export default {
 
         & h4
             font-family: 'Regular'
-            margin: 0 0 20px 0
+            margin-bottom: 5px
 
     .header, .footer
         position: fixed
@@ -141,10 +270,14 @@ export default {
     .field_wrap
         display: flex
         justify-content: space-between
-        align-items: center
+        align-items: flex-end
+        margin-bottom: 30px
 
         & div + div
             margin-left: 20px
+
+        &.with_offset
+            margin-bottom: 100px
 
 
     .button_doc_wrap

@@ -68,6 +68,7 @@ export default {
             this.selectIndex = index;
             this.toggleList(false);
             this.$refs.select.blur();
+            this.$emit('select', this.selected)
         },
         toggleList(is) {
             const value = (is !== undefined) ? is : !this.showList;
@@ -94,11 +95,6 @@ export default {
 
     @import "../../configs/styles_config.sass"
 
-    .list_wrap
-        position: absolute
-        width: 100%
-        overflow: hidden
-
     .to-bottom-enter-active
         transition: all .2s linear
 
@@ -121,7 +117,9 @@ export default {
         background: #fff
         border-radius: 3px
         font-family: 'Regular'
-        z-index: 2
+        white-space: nowrap
+        overflow: hidden
+        text-overflow: ellipsis
 
         &.active
             border-radius: 3px 3px 0 0
@@ -129,16 +127,23 @@ export default {
             & i::before
                 transform: rotate(-180deg)
 
+    .list_wrap
+        position: absolute
+        width: 100%
+        overflow: hidden
+        z-index: 5
+
     ul
         list-style: none
         background: #fff
-        z-index: 3
-        box-shadow: 1px 2px 10px $medium
 
         & li
             padding: 10px 15px
             cursor: pointer
             border-top: 1px solid $medium
+            white-space: nowrap
+            overflow: hidden
+            text-overflow: ellipsis
 
             &:hover
                 background: $light

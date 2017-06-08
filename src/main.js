@@ -1,6 +1,8 @@
 import Vue from 'vue';
+
 import VueRouter from 'vue-router';
 Vue.use(VueRouter);
+
 import VueMask from './plugins/v-mask';
 Vue.use(VueMask);
 

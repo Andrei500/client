@@ -3,16 +3,30 @@
         <button @click="toggleActive()" :class="{ 'active': active }"><i class="icon-passport"></i></button>
         <div v-if="active" class="doc_fields_wrap">
 
-            <div style="width: 230px">
-                <select-comp></select-comp>
+            <div style="width: 180px">
+                Документ, подтверждаю-<br>щий личность:
+            </div>
+            <div style="width: 320px">
+                <select-comp :options="docsToSelect" @select="changeDoc($event)"></select-comp>
             </div>
 
-            <div style="width: 230px">
+            <div style="width: 150px">
                 <field
                     type="text"
-                    id="adress_sender"
-                    placeholder="Адрес"
-                    v-model="adress_sender">
+                    ref="series"
+                    id="series"
+                    placeholder="Серия"
+                    v-model="docData.series"
+                    @input="returnData()">
+                </field>
+            </div>
+            <div style="width: 150px">
+                <field
+                    type="text"
+                    id="number"
+                    placeholder="Номер"
+                    v-model="docData.number"
+                    @input="returnData()">
                 </field>
             </div>
 
@@ -29,12 +43,42 @@ export default {
     data() {
         return {
             active: false,
-            adress_sender: ''
+            docsToSelect: [
+                {
+                    name: 'Паспорт',
+                },
+                {
+                    name: 'Водительские права',
+                },
+                {
+                    name: 'Пенсионное удостоверение',
+                },
+                {
+                    name: 'Военный билет',
+                },
+                {
+                    name: 'Студенческий билет',
+                }
+            ],
+            docData: {
+                selectedDoc: 1,
+                series: '',
+                number: ''
+            }
         }
     },
     methods: {
         toggleActive() {
             this.active = !this.active;
+            this.$emit('open', this.active);
+        },
+        changeDoc(selectedDoc) {
+            this.docData.selectedDoc = selectedDoc.name;
+            this.$refs.series.$el.children.series.focus();
+            this.returnData();
+        },
+        returnData() {
+            this.$emit('select', this.docData);
         }
     },
     components: {
@@ -77,10 +121,10 @@ export default {
         right: 0
         top: 62px
         border-radius: 3px
-        padding: 25px 20px 20px 20px
+        padding: 20px 80px 20px 20px
         display: flex
         justify-content: space-between
-        align-items: center
+        align-items: flex-end
 
         & div + div
             margin-left: 20px
