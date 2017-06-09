@@ -7,7 +7,6 @@
 
             <field
                 type="text"
-                id="phone"
                 placeholder="Телефон"
                 v-model="phone"
                 mask="tel"
@@ -18,7 +17,6 @@
             <field
                 ref="password"
                 type="password"
-                id="password"
                 placeholder="Пароль"
                 v-model.trim="password"
                 @input="cutLength($event)">

@@ -3,18 +3,17 @@
         <button @click="toggleActive()" :class="{ 'active': active }"><i class="icon-passport"></i></button>
         <div v-if="active" class="doc_fields_wrap">
 
-            <div style="width: 180px">
+            <div style="width: 180px; margin-bottom: 5px">
                 Документ, подтверждаю-<br>щий личность:
             </div>
             <div style="width: 320px">
-                <select-comp :options="docsToSelect" @select="changeDoc($event)"></select-comp>
+                <select-comp :options="docsToSelect" v-model="docData.selectedDoc"></select-comp>
             </div>
 
             <div style="width: 150px">
                 <field
                     type="text"
                     ref="series"
-                    id="series"
                     placeholder="Серия"
                     v-model="docData.series"
                     @input="returnData()">
@@ -23,7 +22,6 @@
             <div style="width: 150px">
                 <field
                     type="text"
-                    id="number"
                     placeholder="Номер"
                     v-model="docData.number"
                     @input="returnData()">
@@ -46,22 +44,27 @@ export default {
             docsToSelect: [
                 {
                     name: 'Паспорт',
+                    value: 1
                 },
                 {
                     name: 'Водительские права',
+                    value: 2
                 },
                 {
                     name: 'Пенсионное удостоверение',
+                    value: 3
                 },
                 {
                     name: 'Военный билет',
+                    value: 4
                 },
                 {
                     name: 'Студенческий билет',
+                    value: 5
                 }
             ],
             docData: {
-                selectedDoc: 1,
+                selectedDoc: {},
                 series: '',
                 number: ''
             }
@@ -78,7 +81,7 @@ export default {
             this.returnData();
         },
         returnData() {
-            this.$emit('select', this.docData);
+            this.$emit('input', this.docData);
         }
     },
     components: {

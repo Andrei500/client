@@ -4,14 +4,13 @@
             autocomplete="off"
             :autofocus="autofocus"
             :type="type"
-            :id="id"
             v-mask="regEx"
             :value="value"
             @focus="addPlus()"
             @input="setValue($event.target.value)"
         >
         <label
-            :for="id"
+            @click="focusToInput($event)"
             :class="{ active : !!value }"
         >{{placeholder}}</label>
 
@@ -21,10 +20,6 @@
 <script>
 export default {
     props: {
-        id: {
-            type: String,
-            default: 'input'
-        },
         type: {
             type: String,
             default: 'text'
@@ -73,6 +68,9 @@ export default {
                 if (!this.value) this.setValue('+');
                 else return;
             }   else return;
+        },
+        focusToInput(e) {
+            e.target.previousElementSibling.focus();
         }
     }
 }

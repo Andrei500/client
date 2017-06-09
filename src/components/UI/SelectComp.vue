@@ -68,11 +68,19 @@ export default {
             this.selectIndex = index;
             this.toggleList(false);
             this.$refs.select.blur();
-            this.$emit('select', this.selected)
+            this.$emit('input', this.selected)
         },
         toggleList(is) {
+            if (!this.showList) document.addEventListener('click', this.closeSelect, false);
+            else document.removeEventListener('click', this.closeSelect, false);
+
             const value = (is !== undefined) ? is : !this.showList;
             this.showList = value;
+        },
+        closeSelect: function(e) {
+            // if (!e.target == this.$refs.select) {
+            //     this.showList = false;
+            // }
         },
         onDownKey() {
             if (this.selectIndex < this.options.length - 1) this.selectIndex++;
@@ -82,7 +90,6 @@ export default {
         },
         onEnterKey() {
             this.select(this.selectIndex);
-
         }
     },
     mounted() {
@@ -111,31 +118,40 @@ export default {
         display: flex
         justify-content: space-between
         align-items: center
-        padding: 10px 15px
+        padding: 12px 15px
         color: $dark
         text-decoration: none
         background: #fff
         border-radius: 3px
-        font-family: 'Regular'
+        font: 14px 'Regular'
         white-space: nowrap
         overflow: hidden
         text-overflow: ellipsis
+        // z-index: 7
 
         &.active
             border-radius: 3px 3px 0 0
+            z-index: 7
 
             & i::before
                 transform: rotate(-180deg)
+
+            & + .list_wrap
+                box-shadow: 2px 3px 10px $medium
 
     .list_wrap
         position: absolute
         width: 100%
         overflow: hidden
-        z-index: 5
+        z-index: 7
+        transition: all .3s linear
+
 
     ul
         list-style: none
         background: #fff
+        font-size: 14px
+        z-index: 5
 
         & li
             padding: 10px 15px
@@ -144,6 +160,7 @@ export default {
             white-space: nowrap
             overflow: hidden
             text-overflow: ellipsis
+            z-index: 5
 
             &:hover
                 background: $light
@@ -158,8 +175,11 @@ export default {
         display: block
         margin-bottom: 3px
 
-    i::before
-        transition: all .3s ease
+    i
+        margin-left: 10px
+
+        &::before
+            transition: all .3s ease
 
 
 </style>

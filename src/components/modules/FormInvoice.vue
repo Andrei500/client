@@ -1,7 +1,15 @@
 <template>
-    <div class="invoice_form">
+    <div ref="form" class="invoice_form">
         <div class="header">
-            <h3>Создание накладной</h3>
+            <div class="title_wrap">
+                <h3>Создание накладной для доставки:</h3>
+                <div style="width: 220px">
+                    <select-comp
+                        :options="typesOfDelivery"
+                        v-model="typeOfDelivery">
+                    </select-comp>
+                </div>
+            </div>
             <button @click="closeForm()"><i class="icon-close"></i></button>
         </div>
 
@@ -10,7 +18,6 @@
             <div style="width: 200px">
                 <field
                     type="text"
-                    id="phone_sender"
                     placeholder="Телефон"
                     v-model="sender.phone"
                     mask="tel"
@@ -20,7 +27,6 @@
             <div style="width: 320px">
                 <field
                     type="text"
-                    id="name_sender"
                     placeholder="ФИО"
                     v-model="sender.name">
                 </field>
@@ -28,13 +34,12 @@
             <div style="width: 320px">
                 <field
                     type="text"
-                    id="adress_sender"
                     placeholder="Адрес"
                     v-model="sender.adress">
                 </field>
             </div>
             <div class="button_doc_wrap">
-                <passport @select="sender.docs = $event" @open="addOffset('sender', $event)"></passport>
+                <passport v-model="sender.docs" @open="addOffset('sender', $event)"></passport>
             </div>
         </div>
 
@@ -43,7 +48,6 @@
             <div style="width: 200px">
                 <field
                     type="text"
-                    id="phone_getter"
                     placeholder="Телефон"
                     v-model="getter.phone"
                     mask="tel">
@@ -52,7 +56,6 @@
             <div style="width: 320px">
                 <field
                     type="text"
-                    id="name_getter"
                     placeholder="ФИО"
                     v-model="getter.name">
                 </field>
@@ -60,25 +63,24 @@
             <div style="width: 320px">
                 <field
                     type="text"
-                    id="adress_getter"
                     placeholder="Адрес"
                     v-model="getter.adress">
                 </field>
             </div>
             <div class="button_doc_wrap">
-                <passport @select="getter.docs = $event" @open="addOffset('getter', $event)"></passport>
+                <passport v-model="getter.docs" @open="addOffset('getter', $event)"></passport>
             </div>
         </div>
 
-        <h4>3. Груз</h4>
-        <div class="field_wrap">
+        <h4 style="margin-bottom: 15px">3. Груз</h4>
+        <transition-group name="list" tag="div">
+        <div style="margin-bottom: 15px" class="field_wrap" v-for="(load, index) in loads" :key="load">
             <div style="width: 200px">
-                <select-comp :options="typesOfLoad" @select="changeTypeOfLoad($event)"></select-comp>
+                <select-comp :options="typesOfLoad" v-model="load.type"></select-comp>
             </div>
             <div style="width: 65px">
                 <field
                     type="text"
-                    id="weight"
                     placeholder="Вес, кг"
                     v-model="load.weight">
                 </field>
@@ -86,7 +88,6 @@
             <div style="width: 65px">
                 <field
                     type="text"
-                    id="length"
                     placeholder="Д, см"
                     v-model="load.length">
                 </field>
@@ -94,7 +95,6 @@
             <div style="width: 65px">
                 <field
                     type="text"
-                    id="width"
                     placeholder="Ш, см"
                     v-model="load.width">
                 </field>
@@ -102,7 +102,6 @@
             <div style="width: 65px">
                 <field
                     type="text"
-                    id="height"
                     placeholder="В, см"
                     v-model="load.height">
                 </field>
@@ -110,7 +109,6 @@
             <div style="width: 100px">
                 <field
                     type="text"
-                    id="price"
                     placeholder="Цена, р"
                     v-model="load.price">
                 </field>
@@ -118,16 +116,19 @@
             <div style="width: 200px">
                 <field
                     type="text"
-                    id="description"
                     placeholder="Описание"
                     v-model="load.description">
                 </field>
             </div>
             <div class="button_doc_wrap">
-                <passport @select="getter.docs = $event" @open="addOffset('getter', $event)"></passport>
+                <button :disabled="!(loads.length > 1)" @click="delPlace(index)"><i class="icon-close"></i></button>
             </div>
         </div>
+        </transition-group>
 
+        <div class="add_btn_wrap">
+            <button @click="addPlace()">+ Добавить место</button>
+        </div>
 
         <div class="footer">
             730 р
@@ -152,6 +153,7 @@ export default {
     data() {
         return {
             valid: '',
+            typeOfDelivery: {},
             sender: {
                 phone: '+',
                 name: '',
@@ -164,7 +166,9 @@ export default {
                 adress: '',
                 docs: {}
             },
-            load: {
+            loads: [],
+            loadParams: {
+                type: {},
                 weight: 0,
                 length: 0,
                 width: 0,
@@ -179,7 +183,18 @@ export default {
             const types = [];
             for (var i = 0; i < config.typesOfLoad.length; i++) {
                 types.push({
-                    name: config.typesOfLoad[i]
+                    name: config.typesOfLoad[i],
+                    value: (i + 1)
+                });
+            }
+            return types;
+        },
+        typesOfDelivery: function () {
+            const types = [];
+            for (var i = 0; i < config.typesOfDelivery.length; i++) {
+                types.push({
+                    name: config.typesOfDelivery[i],
+                    value: (i + 1)
                 });
             }
             return types;
@@ -196,6 +211,14 @@ export default {
 
             if (val) el.classList.add(className);
             else el.classList.remove(className);
+        },
+        addPlace() {
+            const loadParams = Object.assign({}, this.loadParams);
+            this.loads.push(loadParams);
+            this.$refs.form.scrollTop += 50;
+        },
+        delPlace(index) {
+            this.loads.splice(index, 1);
         }
     },
     components: {
@@ -203,6 +226,9 @@ export default {
         Field,
         Passport,
         SelectComp
+    },
+    created() {
+        this.addPlace();
     }
 }
 </script>
@@ -225,7 +251,7 @@ export default {
 
         & h4
             font-family: 'Regular'
-            margin-bottom: 5px
+            margin: 0
 
     .header, .footer
         position: fixed
@@ -236,6 +262,7 @@ export default {
         align-items: center
         padding: 0 20px
         justify-content: space-between
+        z-index: 6
 
     .footer
         bottom: 0
@@ -247,10 +274,14 @@ export default {
         right: 0
         box-shadow: 1px 2px 10px $medium
 
-        & h3
-            font-weight: normal
-            font-size: 16px
-            margin: 0
+        & .title_wrap
+            display: flex
+            align-items: center
+
+            & h3
+                font-weight: normal
+                font-size: 16px
+                margin: 0 10px 0 0
 
         & button
             border: none
@@ -277,10 +308,62 @@ export default {
             margin-left: 20px
 
         &.with_offset
-            margin-bottom: 100px
+            margin-bottom: 110px
 
 
     .button_doc_wrap
+
+        & button
+            background: none
+            outline: none
+            border: none
+            padding: 0 19px
+            color: $hard
+            padding: 5px 20px
+            cursor: pointer
+
+            &:disabled
+                & i
+                    color: lighten($hard, 10%)
+
+                &:hover
+                    cursor: default
+
+                    & i
+                        color: lighten($hard, 10%)
+
+            & i
+                transition: all .3s ease
+
+            &:hover i
+                color: $dark
+
+    .add_btn_wrap
+        text-align: right
+
+        & button
+            background: $medium
+            border: none
+            outline: none
+            padding: 10px 15px
+            border-radius: 3px
+            margin: 10px 20px
+            transition: all .3s ease
+            cursor: pointer
+
+            &:hover
+                background: $primary-color
+
+
+    .field_wrap
+        transition: all .3s linear
+
+    .list-enter, .list-leave-to
+        opacity: 0
+        transform: translateX(-100%)
+
+    .list-leave-active
+        position: absolute
 
 
 
