@@ -1,8 +1,16 @@
 <template>
     <div class="field_wrap" ref="sender">
-        <h4>{{ title }}</h4>
+
+        <div class="title">
+            <h4>{{ title }}</h4>
+            <label>
+                  <input type="checkbox" value="true">
+                  юр. лицо
+            </label>
+        </div>
 
         <field
+            width="50%"
             type="text"
             placeholder="Телефон"
             v-model="client.phone"
@@ -17,6 +25,7 @@
         </field>
 
         <field
+            width="50%"
             type="text"
             placeholder="Адрес"
             v-model="client.adress">
@@ -88,19 +97,30 @@ export default {
         border-radius: 5px
         padding: 20px 30px
 
-        & h4
+        & .title
             width: 50%
-            padding: 15px 20px 15px 27px
+            padding: 3px 20px 3px 27px
             font-family: 'Regular'
             border-left: 3px solid $primary-color
             margin-left: -30px
+
+            & label
+                font: 12px 'Light'
+                color: $hard
+                display: block
+                margin-top: 5px
+                cursor: pointer
+                transition: all .3s ease
+
+                &:hover
+                    color: $dark
 
         & div
             width: 100%
 
             &:first-of-type
                 width: 50%
-                margin: 15px 0
+                margin-top: 15px
 
             & + div
             margin-top: 20px

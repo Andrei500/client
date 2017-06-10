@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div :style="'width:' + width">
         <input
             autocomplete="off"
             :autofocus="autofocus"
@@ -35,6 +35,10 @@ export default {
         autofocus: {
             type: Boolean,
             default: false
+        },
+        width: {
+            type: String,
+            dufault: '100%'
         }
     },
     data() {
