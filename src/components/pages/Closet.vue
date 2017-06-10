@@ -68,7 +68,7 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-    
+
     @import "../../configs/styles_config.sass"
 
     .fade-in-left-enter-active
@@ -78,7 +78,7 @@ export default {
         transition: all .4s ease-in-out
 
     .fade-in-left-enter, .fade-in-left-leave-to
-        transform: translateX(calc(100% - 300px))
+        transform: translateX(50%)
         opacity: 0
 
 

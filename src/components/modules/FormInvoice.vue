@@ -13,68 +13,17 @@
             <button @click="closeForm()"><i class="icon-close"></i></button>
         </div>
 
-
-        <div class="field_wrap" style="width: 50%" ref="sender">
-            <h4 style="width: 50%; padding: 10px 20px 10px 10px">Отправитель</h4>
-            <div style="width: 50%; padding: 10px 20px 0px 0; margin-bottom: 20px">
-                <field
-                    type="text"
-                    placeholder="Телефон"
-                    v-model="sender.phone"
-                    mask="tel"
-                    autofocus>
-                </field>
-            </div>
-            <div style="width: 100%; padding: 10px 20px 10px 0">
-                <field
-                    type="text"
-                    placeholder="ФИО"
-                    v-model="sender.name">
-                </field>
-            </div>
-            <div style="width: 100%; padding: 10px 20px 10px 0">
-                <field
-                    type="text"
-                    placeholder="Адрес"
-                    v-model="sender.adress">
-                </field>
-            </div>
-            <div class="button_doc_wrap">
-                <passport v-model="sender.docs" @open="addOffset('sender', $event)"></passport>
-            </div>
+        <div class="clients_wrap">
+            <client
+                title="Отправитель">
+            </client>
+            <client
+                title="Получатель">
+            </client>
         </div>
 
-        <h4>2. Получатель</h4>
-        <div class="field_wrap" ref="getter">
-            <div style="width: 200px">
-                <field
-                    type="text"
-                    placeholder="Телефон"
-                    v-model="getter.phone"
-                    mask="tel">
-                </field>
-            </div>
-            <div style="width: 320px">
-                <field
-                    type="text"
-                    placeholder="ФИО"
-                    v-model="getter.name">
-                </field>
-            </div>
-            <div style="width: 150px">
-                <select-comp :options="typesOfLoad"></select-comp>
-            </div>
-            <div style="width: 150px">
-                <field
-                    type="text"
-                    placeholder="Адрес"
-                    v-model="getter.adress">
-                </field>
-            </div>
-            <div class="button_doc_wrap">
-                <passport v-model="getter.docs" @open="addOffset('getter', $event)"></passport>
-            </div>
-        </div>
+
+
 
         <h4 style="margin-bottom: 15px">3. Груз</h4>
         <transition-group name="list" tag="div">
@@ -150,7 +99,7 @@
 import config from '../../configs/main_app_config.js';
 import ButtonComp from '../UI/ButtonComp.vue';
 import Field from '../UI/Field.vue';
-import Passport from '../modules/Passport.vue';
+import Client from '../modules/Client.vue';
 import SelectComp from '../UI/SelectComp.vue';
 
 export default {
@@ -158,18 +107,8 @@ export default {
         return {
             valid: '',
             typeOfDelivery: {},
-            sender: {
-                phone: '+',
-                name: '',
-                adress: '',
-                docs: {}
-            },
-            getter: {
-                phone: '+',
-                name: '',
-                adress: '',
-                docs: {}
-            },
+            sender: {},
+            getter: {},
             loads: [],
             loadParams: {
                 type: {},
@@ -208,14 +147,6 @@ export default {
         closeForm() {
             this.$emit('close');
         },
-        addOffset(who, val) {
-            const
-                el = this.$refs[who],
-                className = 'with_offset';
-
-            if (val) el.classList.add(className);
-            else el.classList.remove(className);
-        },
         scrollDown(el, height) {
             let start = 0;
 
@@ -241,8 +172,8 @@ export default {
     components: {
         ButtonComp,
         Field,
-        Passport,
-        SelectComp
+        SelectComp,
+        Client
     },
     created() {
         this.addPlace();
@@ -265,12 +196,6 @@ export default {
         overflow: scroll
         padding: 80px 20px
         box-shadow: 1px 2px 10px lighten($hard, 20%)
-
-        & h4
-            font-family: 'Regular'
-            margin: 0
-            padding: 10px
-            border-left: 3px solid $primary-color
 
     .header, .footer
         position: fixed
@@ -317,18 +242,7 @@ export default {
             &:hover
                 color: $dark
 
-    .field_wrap
-        display: flex
-        justify-content: space-between
-        align-items: flex-end
-        margin-bottom: 30px
-        flex-wrap: wrap
 
-        & div + div
-            margin-left: 20px
-
-        &.with_offset
-            margin-bottom: 110px
 
 
     .button_doc_wrap
@@ -375,9 +289,6 @@ export default {
                 background: $primary-color
 
 
-    .field_wrap
-        transition: all .3s linear
-
     .list-enter, .list-leave-to
         opacity: 0
         transform: translateX(-100%)
@@ -385,6 +296,15 @@ export default {
     .list-leave-active
         position: absolute
 
+    .clients_wrap
+        display: flex
+        justify-content: space-between
+
+        & > div
+            width: 50%
+
+            & + div
+                margin-left: 20px
 
 
 </style>

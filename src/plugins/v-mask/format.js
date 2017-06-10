@@ -5,7 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 exports.default = function (data, mask) {
-  if (mask == 'false') return data;
+  
+  if (!mask) return data;
 
   var maskStartRegExp = /^([^#ANX]+)/;
 

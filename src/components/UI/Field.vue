@@ -87,7 +87,7 @@ export default {
     input
         border: none
         box-shadow: none
-        border-bottom: 1px solid $hard
+        border-bottom: 1px solid $medium
         outline: none
         height: 30px
         width: 100%
