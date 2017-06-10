@@ -1,5 +1,5 @@
 <template>
-    <div ref="form" class="invoice_form">
+    <div ref="invoice_form" class="invoice_form">
         <div class="header">
             <div class="title_wrap">
                 <h3>Создание накладной для доставки:</h3>
@@ -13,9 +13,10 @@
             <button @click="closeForm()"><i class="icon-close"></i></button>
         </div>
 
-        <h4>1. Отправитель</h4>
-        <div class="field_wrap" ref="sender">
-            <div style="width: 200px">
+
+        <div class="field_wrap" style="width: 50%" ref="sender">
+            <h4 style="width: 50%; padding: 10px 20px 10px 10px">Отправитель</h4>
+            <div style="width: 50%; padding: 10px 20px 0px 0; margin-bottom: 20px">
                 <field
                     type="text"
                     placeholder="Телефон"
@@ -24,14 +25,14 @@
                     autofocus>
                 </field>
             </div>
-            <div style="width: 320px">
+            <div style="width: 100%; padding: 10px 20px 10px 0">
                 <field
                     type="text"
                     placeholder="ФИО"
                     v-model="sender.name">
                 </field>
             </div>
-            <div style="width: 320px">
+            <div style="width: 100%; padding: 10px 20px 10px 0">
                 <field
                     type="text"
                     placeholder="Адрес"
@@ -60,7 +61,10 @@
                     v-model="getter.name">
                 </field>
             </div>
-            <div style="width: 320px">
+            <div style="width: 150px">
+                <select-comp :options="typesOfLoad"></select-comp>
+            </div>
+            <div style="width: 150px">
                 <field
                     type="text"
                     placeholder="Адрес"
@@ -127,7 +131,7 @@
         </transition-group>
 
         <div class="add_btn_wrap">
-            <button @click="addPlace()">+ Добавить место</button>
+            <button ref="addPlace" @click="addPlace($event)">+ Добавить место</button>
         </div>
 
         <div class="footer">
@@ -212,10 +216,23 @@ export default {
             if (val) el.classList.add(className);
             else el.classList.remove(className);
         },
-        addPlace() {
+        scrollDown(el, height) {
+            let start = 0;
+
+            const scr = setInterval(() => {
+                start += 1;
+                el.scrollTop += start;
+
+                if (start > height) clearInterval(scr);
+
+            }, 17);
+        },
+        addPlace(event) {
             const loadParams = Object.assign({}, this.loadParams);
             this.loads.push(loadParams);
-            this.$refs.form.scrollTop += 50;
+
+            if (event !== undefined) this.scrollDown(this.$refs.invoice_form, 40);
+
         },
         delPlace(index) {
             this.loads.splice(index, 1);
@@ -252,6 +269,8 @@ export default {
         & h4
             font-family: 'Regular'
             margin: 0
+            padding: 10px
+            border-left: 3px solid $primary-color
 
     .header, .footer
         position: fixed
@@ -303,6 +322,7 @@ export default {
         justify-content: space-between
         align-items: flex-end
         margin-bottom: 30px
+        flex-wrap: wrap
 
         & div + div
             margin-left: 20px
