@@ -6,6 +6,9 @@ Vue.use(VueRouter);
 import VueMask from './plugins/v-mask';
 Vue.use(VueMask);
 
+import Tooltips from './plugins/v-tooltip';
+Vue.directive('tooltip', Tooltips);
+
 import App from './App';
 import { routes } from './routes.js';
 

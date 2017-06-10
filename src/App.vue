@@ -1,5 +1,7 @@
 <template>
-    <router-view></router-view>
+    <div class="main_wrapper">
+        <router-view></router-view>
+    </div>
 </template>
 
 <script>
@@ -31,5 +33,58 @@ body
     margin: 0
     padding: 0
     overflow: hidden
+
+    .main_wrapper
+        width: 1280px
+        margin: auto
+
+    .tooltip
+        position: absolute
+        z-index: 10000
+        background: rgba(0, 0, 0, .8)
+        transition: all .3s ease 0
+        padding: 5px 10px
+        height: 26px
+        font: 12px 'Light'
+        color: #fff
+        border-radius: 3px
+        white-space: nowrap
+        opacity: 0
+
+        &.active
+            transition: all .3s ease .3s
+            opacity: 1
+
+        &.left::before
+            content: ''
+            position: absolute
+            right: -12px
+            top: 7px
+            border: 6px solid transparent
+            border-left: 6px solid rgba(0, 0, 0, .8)
+
+        &.right::before
+            content: ''
+            position: absolute
+            left: -12px
+            top: 7px
+            border: 6px solid transparent
+            border-right: 6px solid rgba(0, 0, 0, .8)
+
+        &.top::before
+            content: ''
+            position: absolute
+            left: calc(50% - 6px)
+            top: 26px
+            border: 6px solid transparent
+            border-top: 6px solid rgba(0, 0, 0, .8)
+
+        &.bottom::before
+            content: ''
+            position: absolute
+            left: calc(50% - 6px)
+            top: -12px
+            border: 6px solid transparent
+            border-bottom: 6px solid rgba(0, 0, 0, .8)
 
 </style>

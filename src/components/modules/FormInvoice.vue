@@ -131,7 +131,7 @@
         </transition-group>
 
         <div class="add_btn_wrap">
-            <button ref="addPlace" @click="addPlace($event)">+ Добавить место</button>
+            <button @click="addPlace($event)">+ Добавить место</button>
         </div>
 
         <div class="footer">
