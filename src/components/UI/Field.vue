@@ -1,5 +1,5 @@
 <template>
-    <div :style="'width:' + width">
+    <div :style="{ width }">
         <input
             autocomplete="off"
             :autofocus="autofocus"
@@ -38,7 +38,7 @@ export default {
         },
         width: {
             type: String,
-            dufault: '100%'
+            default: '100%'
         }
     },
     data() {
@@ -86,6 +86,7 @@ export default {
 
     div
         position: relative
+        height: 40px
 
 
     input
@@ -93,18 +94,18 @@ export default {
         box-shadow: none
         border-bottom: 1px solid $medium
         outline: none
-        height: 30px
         width: 100%
         background: transparent
-
+        padding: 16px 0 8px
+        transition: all .3s ease
 
     input:focus
-        box-shadow: 0 1px 0 $primary-color
-        border-bottom: 1px solid $primary-color
+        padding-top: 15px
+        border-bottom: 2px solid $primary-color
 
 
     label
-        top: 0.4rem
+        top: 16px
         color: $hard
         position: absolute
         left: 0
@@ -120,7 +121,7 @@ export default {
     .active
         font-size: 11px
         position: absolute
-        top: -0.8rem
+        top: -3px
         cursor: text
 
 </style>

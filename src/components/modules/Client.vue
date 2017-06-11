@@ -10,7 +10,7 @@
         </div>
 
         <field
-            width="50%"
+            width="200px"
             type="text"
             placeholder="Телефон"
             v-model="client.phone"
@@ -24,23 +24,37 @@
             v-model="client.name">
         </field>
 
+        <select-comp width="200px" :options="cities" v-model="adress.city"></select-comp>
+
         <field
-            width="50%"
+            width="200px"
             type="text"
             placeholder="Адрес"
             v-model="client.adress">
         </field>
 
-        <div class="button_doc_wrap">
-            <passport v-model="client.docs" @open="addOffset('sender', $event)"></passport>
-        </div>
+        <select-comp width="200px" :options="docsToSelect" v-model="client.docs.type"></select-comp>
+
+        <field
+            width="90px"
+            type="text"
+            placeholder="Серия"
+            v-model="client.docs.series">
+        </field>
+
+        <field
+            width="90px"
+            type="text"
+            placeholder="Номер"
+            v-model="client.docs.number">
+        </field>
+
     </div>
 </template>
 
 <script>
 
 import Field from '../UI/Field.vue';
-import Passport from './Passport.vue';
 import SelectComp from '../UI/SelectComp.vue';
 
 export default {
@@ -57,9 +71,52 @@ export default {
             client: {
                 phone: '+',
                 name: '',
-                adress: '',
-                docs: {}
-            }
+                docs: {
+                    type: {},
+                    series: '',
+                    number: 0
+                }
+            },
+            adress: {
+                city: ''
+            },
+            docsToSelect: [
+                {
+                    name: 'Паспорт',
+                    value: 1
+                },
+                {
+                    name: 'Водительские права',
+                    value: 2
+                },
+                {
+                    name: 'Пенсионное удостоверение',
+                    value: 3
+                },
+                {
+                    name: 'Военный билет',
+                    value: 4
+                },
+                {
+                    name: 'Студенческий билет',
+                    value: 5
+                }
+            ]
+        }
+    },
+
+    computed: {
+        cities() {
+            return [
+                {
+                    name: 'Макеевка',
+                    value: 1,
+                },
+                {
+                    name: 'Донецк',
+                    value: 2
+                }
+            ]
         }
     },
 
@@ -75,14 +132,13 @@ export default {
     },
     components: {
         Field,
-        Passport,
         SelectComp
     }
 
 }
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 
     @import "../../configs/styles_config.sass"
 
@@ -96,6 +152,7 @@ export default {
         background: #fff
         border-radius: 5px
         padding: 20px 30px
+        width: 490px
 
         & .title
             width: 50%
@@ -116,7 +173,7 @@ export default {
                     color: $dark
 
         & div
-            width: 100%
+
 
             &:first-of-type
                 width: 50%

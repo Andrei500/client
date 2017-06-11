@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div :style="{ width }">
         <span v-if="title">{{ title }}</span>
         <a href="#" ref="select" :class="['select', { 'active': showList }]"
             @click="toggleList()"
@@ -30,6 +30,10 @@ export default {
         title: {
             type: String,
             default: ''
+        },
+        width: {
+            type: String,
+            default: '100%'
         },
         options: {
             type: Array,
@@ -127,17 +131,20 @@ export default {
         white-space: nowrap
         overflow: hidden
         text-overflow: ellipsis
-        // z-index: 7
+        border: 1px solid $medium
+        height: 40px
 
         &.active
             border-radius: 3px 3px 0 0
+            border-bottom: none
             z-index: 7
+            // box-shadow: 1px 1px 10px rgba(0, 0, 0, .05)
 
             & i::before
                 transform: rotate(-180deg)
 
             & + .list_wrap
-                box-shadow: 2px 3px 10px $medium
+                // box-shadow: 1px 1px 10px rgba(0, 0, 0, .05)
 
     .list_wrap
         position: absolute
