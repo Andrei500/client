@@ -96,11 +96,12 @@ export default {
         outline: none
         width: 100%
         background: transparent
-        padding: 16px 0 8px
+        padding: 17px 0 7px
+        height: 40px
         transition: all .3s ease
 
     input:focus
-        padding-top: 15px
+        padding: 17px 0 6px
         border-bottom: 2px solid $primary-color
 
 
@@ -121,7 +122,7 @@ export default {
     .active
         font-size: 11px
         position: absolute
-        top: -3px
+        top: -2px
         cursor: text
 
 </style>

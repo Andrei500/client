@@ -3,10 +3,12 @@
 
         <div class="title">
             <h4>{{ title }}</h4>
-            <label>
-                  <input type="checkbox" value="true">
-                  юр. лицо
-            </label>
+
+                 <checkbox
+                    size="12px"
+                    title="юр. лицо"
+                    v-model="client.jur">
+                </checkbox>
         </div>
 
         <field
@@ -19,8 +21,17 @@
         </field>
 
         <field
+            v-if="client.jur"
+            :width="(client.jur) ? '200px' : ''"
             type="text"
-            placeholder="ФИО"
+            placeholder="Организация"
+            v-model="client.name">
+        </field>
+
+        <field
+            :width="(client.jur) ? '200px' : '100%'"
+            type="text"
+            :placeholder="(client.jur) ? 'Представитель' : 'Фамилия Имя Отчество'"
             v-model="client.name">
         </field>
 
@@ -36,14 +47,14 @@
         <select-comp width="200px" :options="docsToSelect" v-model="client.docs.type"></select-comp>
 
         <field
-            width="90px"
+            width="92px"
             type="text"
             placeholder="Серия"
             v-model="client.docs.series">
         </field>
 
         <field
-            width="90px"
+            width="92px"
             type="text"
             placeholder="Номер"
             v-model="client.docs.number">
@@ -56,6 +67,7 @@
 
 import Field from '../UI/Field.vue';
 import SelectComp from '../UI/SelectComp.vue';
+import Checkbox from '../UI/Checkbox.vue';
 
 export default {
 
@@ -69,6 +81,7 @@ export default {
     data() {
         return {
             client: {
+                jur: false,
                 phone: '+',
                 name: '',
                 docs: {
@@ -90,7 +103,7 @@ export default {
                     value: 2
                 },
                 {
-                    name: 'Пенсионное удостоверение',
+                    name: 'Пенсионное',
                     value: 3
                 },
                 {
@@ -132,7 +145,8 @@ export default {
     },
     components: {
         Field,
-        SelectComp
+        SelectComp,
+        Checkbox
     }
 
 }
@@ -151,36 +165,29 @@ export default {
         transition: all .3s linear
         background: #fff
         border-radius: 5px
-        padding: 20px 30px
-        width: 490px
+        padding: 20px 25px 8px
+        border: 1px solid $medium
+
 
         & .title
-            width: 50%
-            padding: 3px 20px 3px 27px
+            width: 225px
+            height: 60px
+            line-height: 22px
+            padding: 20px 0 20px 25px
             font-family: 'Regular'
-            border-left: 3px solid $primary-color
-            margin-left: -30px
+            border-bottom: 1px solid $medium
+            border-right: 1px solid $medium
+            margin-left: -25px
+            margin-top: -20px
+            background: $light
+            border-radius: 5px 0 0 0
 
-            & label
-                font: 12px 'Light'
-                color: $hard
-                display: block
-                margin-top: 5px
-                cursor: pointer
-                transition: all .3s ease
+            & h4
+                display: inline-block
+                margin-right: 10px
 
-                &:hover
-                    color: $dark
-
-        & div
-
-
-            &:first-of-type
-                width: 50%
-                margin-top: 15px
-
-            & + div
-            margin-top: 20px
+        & div + div
+            margin-bottom: 15px
 
         &.with_offset
             margin-bottom: 110px
