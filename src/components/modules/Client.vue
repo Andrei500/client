@@ -35,18 +35,30 @@
             v-model="client.name">
         </field>
 
-        <select-comp width="200px" :options="cities" v-model="adress.city"></select-comp>
+        <typehead
+            width="200px"
+            :options="cities"
+            v-model="adress.city"
+            @input="focusToNext('adress')">
+        </typehead>
 
         <field
+            ref="adress"
             width="200px"
             type="text"
             placeholder="Адрес"
             v-model="client.adress">
         </field>
 
-        <select-comp width="200px" :options="docsToSelect" v-model="client.docs.type"></select-comp>
+        <select-comp
+            width="200px"
+            :options="docsToSelect"
+            v-model="client.docs.type"
+            @input="focusToNext('series')">
+        </select-comp>
 
         <field
+            ref="series"
             width="92px"
             type="text"
             placeholder="Серия"
@@ -68,6 +80,7 @@
 import Field from '../UI/Field.vue';
 import SelectComp from '../UI/SelectComp.vue';
 import Checkbox from '../UI/Checkbox.vue';
+import Typehead from '../UI/Typehead.vue';
 
 export default {
 
@@ -146,7 +159,8 @@ export default {
     components: {
         Field,
         SelectComp,
-        Checkbox
+        Checkbox,
+        Typehead
     }
 
 }
@@ -160,7 +174,7 @@ export default {
         display: flex
         justify-content: space-between
         align-items: flex-start
-        margin-bottom: 30px
+        margin-bottom: 20px
         flex-wrap: wrap
         transition: all .3s linear
         background: #fff
@@ -187,7 +201,7 @@ export default {
                 margin-right: 10px
 
         & div + div
-            margin-bottom: 15px
+            margin-bottom: 20px
 
         &.with_offset
             margin-bottom: 110px

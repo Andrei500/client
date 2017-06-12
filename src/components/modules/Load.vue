@@ -1,0 +1,223 @@
+<template>
+    <div class="field_wrap">
+        <div class="title">
+            <h4>Груз</h4>
+        </div>
+
+    <transition-group name="list" tag="div">
+    <div class="loads_list_wrap" v-for="(load, index) in loads" :key="load">
+        <select-comp
+            width="200px"
+            :options="typesOfLoad"
+            v-model="load.type">
+        </select-comp>
+        <field
+            width="200px"
+            type="text"
+            placeholder="Описание"
+            v-model="load.description">
+        </field>
+        <field
+            width="72px"
+            type="text"
+            placeholder="Вес, кг"
+            v-model="load.weight">
+        </field>
+        <field
+            width="72px"
+            type="text"
+            placeholder="Д, см"
+            v-model="load.length">
+        </field>
+        <field
+            width="72px"
+            type="text"
+            placeholder="Ш, см"
+            v-model="load.width">
+        </field>
+        <field
+            width="72px"
+            type="text"
+            placeholder="В, см"
+            v-model="load.height">
+        </field>
+        <field
+            width="72px"
+            type="text"
+            placeholder="Цена, р"
+            v-model="load.price">
+        </field>
+        <button v-tooltip.left="(loads.length > 1) ? 'Убрать место' : false" :disabled="!(loads.length > 1)" @click="delPlace(index)"><i class="icon-close"></i></button>
+    </div>
+    </transition-group>
+
+    <div class="add_btn_wrap">
+        <button @click="addPlace($event)">+ Добавить место</button>
+    </div>
+    </div>
+</template>
+
+<script>
+
+import ButtonComp from '../UI/ButtonComp.vue';
+import Field from '../UI/Field.vue';
+import SelectComp from '../UI/SelectComp.vue';
+
+export default {
+
+    data() {
+        return {
+            loads: [],
+            loadParams: {
+                type: {},
+                weight: 0,
+                length: 0,
+                width: 0,
+                height: 0,
+                price: 0,
+                description: ''
+            }
+        }
+    },
+    computed: {
+        typesOfLoad: function () {
+            return [
+                {
+                    name: 'Документ',
+                    value: 0
+                },
+                {
+                    name: 'Груз',
+                    value: 1
+                },
+                {
+                    name: 'Ценные бумаги',
+                    value: 2
+                }
+            ];
+        }
+    },
+    methods: {
+        scrollDown(el, height) {
+            let start = 0;
+
+            const scr = setInterval(() => {
+                start += 1;
+                el.scrollTop += start;
+
+                if (start > height) clearInterval(scr);
+
+            }, 17);
+        },
+        addPlace(event) {
+            const loadParams = Object.assign({}, this.loadParams);
+            this.loads.push(loadParams);
+
+            // if (event !== undefined) this.scrollDown(this.$refs.invoice_form, 40);
+
+        },
+        delPlace(index) {
+            this.loads.splice(index, 1);
+        }
+    },
+    components: {
+        ButtonComp,
+        Field,
+        SelectComp
+    },
+    created() {
+        this.addPlace();
+    }
+
+}
+</script>
+
+<style lang="sass" scoped>
+
+    @import "../../configs/styles_config.sass"
+
+    .field_wrap
+        display: flex
+        justify-content: space-between
+        align-items: flex-start
+        margin-bottom: 30px
+        flex-wrap: wrap
+        transition: all .3s linear
+        background: #fff
+        border-radius: 5px
+        padding: 20px 25px 8px
+        border: 1px solid $medium
+
+
+        & .title
+            width: 225px
+            height: 60px
+            line-height: 22px
+            padding: 20px 0 20px 25px
+            font-family: 'Regular'
+            border-bottom: 1px solid $medium
+            border-right: 1px solid $medium
+            margin-left: -25px
+            margin-top: -20px
+            background: $light
+            border-radius: 5px 0 0 0
+
+            & h4
+                display: inline-block
+                margin-right: 10px
+
+        & button
+            border: none
+            outline: none
+            background: none
+            cursor: pointer
+            padding: 0
+            margin-left: 18px
+
+        & i
+            color: $hard
+            transition: all .3s ease
+
+            &:hover
+                color: $dark
+
+    .loads_list_wrap
+        width: 100%
+        display: flex
+        justify-content: space-between
+        margin-top: 20px
+
+        & > div + div
+            margin-left: 18px
+
+    .add_btn_wrap
+        width: 100%
+        text-align: right
+        padding: 20px 0
+
+        & button
+            background: $medium
+            border: none
+            outline: none
+            padding: 10px 15px
+            border-radius: 3px
+            transition: all .3s ease
+            cursor: pointer
+
+            &:hover
+                background: $primary-color
+
+
+    .list-enter, .list-leave-to
+        opacity: 0
+        transform: translateX(-100%)
+
+    .list-leave-active
+        position: absolute
+
+
+
+
+
+
+</style>

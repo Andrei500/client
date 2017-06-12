@@ -1,25 +1,30 @@
 <template>
     <div :style="{ width }">
-        <a href="#" ref="select" :class="['select', { 'active': showList }]"
+        <input
+            type="text"
+            ref="select"
+            :class="['select', { 'active': showList }]"
             @mousedown.prevent="onClick()"
             @focus="onFocus()"
             @blur="onBlur()"
             @keydown.down="onDownKey()"
             @keydown.up="onUpKey()"
             @keydown.enter="onEnterKey()"
-            @keydown.esc="onEscape()">
-            <span>{{ selected.name }}</span>
-            <i class="icon-chevron"></i>
-        </a>
+            @keydown.esc="onEscape()"
+            v-model="search"
+        >
+        <i @mousedown.prevent="onClick()" class="icon-chevron"></i>
+        <span @mousedown.prevent="onClick()" v-if="!showList" ref="text">{{ selected.name }}</span>
         <div class="list_wrap">
             <transition name="to-bottom">
                 <ul v-if="showList" ref="list">
                     <li
-                        v-for="(option, index) in options"
+                        v-for="(option, index) in filteredOptions"
                         :class="[selectIndex === index ? 'active_item': '']"
                         @mousedown.prevent="select(option)">
                             {{ option.name }}
                     </li>
+                    <li v-if="!filteredOptions">Город не найден...</li>
                 </ul>
             </transition>
         </div>
@@ -56,11 +61,23 @@ export default {
     data() {
         return {
             showList: false,
+            search: '',
             selected: {
                 name: '',
                 value: 0
             },
             selectIndex: 0
+        }
+    },
+    computed: {
+        filteredOptions() {
+            const
+                exp = new RegExp(this.search, 'i'),
+                filteredOptions = this.options.filter((option) => {
+                    return exp.test(option.name);
+                });
+
+            return (filteredOptions.length) ? filteredOptions : false;
         }
     },
     methods: {
@@ -77,6 +94,7 @@ export default {
             this.showList = true;
         },
         onBlur() {
+            this.search = '';
             this.selectIndex = 0;
             this.$refs.list.scrollTop = 0;
             this.showList = false;
@@ -128,13 +146,8 @@ export default {
         border: 1px solid $medium
         height: 40px
         color: $dark
-
-        & span
-            display: inline-block
-            width: calc(100% - 20px)
-            white-space: nowrap
-            overflow: hidden
-            text-overflow: ellipsis
+        width: 100%
+        cursor: pointer
 
         &:focus
             outline: none
@@ -144,8 +157,25 @@ export default {
             border-bottom: none
             z-index: 7
 
-            & i::before
+            & + i::before
                 transform: rotate(-180deg)
+
+    i
+        position: absolute
+        margin-left: 10px
+        top: 13px
+        right: 16px
+        cursor: pointer
+
+        &::before
+            transition: all .3s ease
+
+    span
+        font-family: 'Regular'
+        position: absolute
+        top: 13px
+        left: 16px
+        cursor: pointer
 
     .list_wrap
         position: absolute
@@ -181,12 +211,6 @@ export default {
 
     .active_item
         background: $light
-
-    i
-        margin-left: 10px
-
-        &::before
-            transition: all .3s ease
 
 
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div ref="invoice_form" class="invoice_form">
+    <div @keydown.up.prevent @keydown.down.prevent ref="invoice_form" class="invoice_form">
         <div class="header">
             <div class="title_wrap">
                 <h3>Создание накладной для доставки:</h3>
@@ -22,66 +22,7 @@
             </client>
         </div>
 
-
-
-
-        <h4 style="margin-bottom: 15px">3. Груз</h4>
-        <transition-group name="list" tag="div">
-        <div style="margin-bottom: 15px" class="field_wrap" v-for="(load, index) in loads" :key="load">
-            <div style="width: 200px">
-                <select-comp :options="typesOfLoad" v-model="load.type"></select-comp>
-            </div>
-            <div style="width: 65px">
-                <field
-                    type="text"
-                    placeholder="Вес, кг"
-                    v-model="load.weight">
-                </field>
-            </div>
-            <div style="width: 65px">
-                <field
-                    type="text"
-                    placeholder="Д, см"
-                    v-model="load.length">
-                </field>
-            </div>
-            <div style="width: 65px">
-                <field
-                    type="text"
-                    placeholder="Ш, см"
-                    v-model="load.width">
-                </field>
-            </div>
-            <div style="width: 65px">
-                <field
-                    type="text"
-                    placeholder="В, см"
-                    v-model="load.height">
-                </field>
-            </div>
-            <div style="width: 100px">
-                <field
-                    type="text"
-                    placeholder="Цена, р"
-                    v-model="load.price">
-                </field>
-            </div>
-            <div style="width: 200px">
-                <field
-                    type="text"
-                    placeholder="Описание"
-                    v-model="load.description">
-                </field>
-            </div>
-            <div class="button_doc_wrap">
-                <button :disabled="!(loads.length > 1)" @click="delPlace(index)"><i class="icon-close"></i></button>
-            </div>
-        </div>
-        </transition-group>
-
-        <div class="add_btn_wrap">
-            <button @click="addPlace($event)">+ Добавить место</button>
-        </div>
+        <load></load>
 
         <div class="footer">
             730 р
@@ -100,6 +41,7 @@ import config from '../../configs/main_app_config.js';
 import ButtonComp from '../UI/ButtonComp.vue';
 import Field from '../UI/Field.vue';
 import Client from '../modules/Client.vue';
+import Load from '../modules/Load.vue';
 import SelectComp from '../UI/SelectComp.vue';
 
 export default {
@@ -108,30 +50,10 @@ export default {
             valid: '',
             typeOfDelivery: {},
             sender: {},
-            getter: {},
-            loads: [],
-            loadParams: {
-                type: {},
-                weight: 0,
-                length: 0,
-                width: 0,
-                height: 0,
-                price: 0,
-                description: ''
-            }
+            getter: {}
         }
     },
     computed: {
-        typesOfLoad: function () {
-            const types = [];
-            for (var i = 0; i < config.typesOfLoad.length; i++) {
-                types.push({
-                    name: config.typesOfLoad[i],
-                    value: (i + 1)
-                });
-            }
-            return types;
-        },
         typesOfDelivery: function () {
             const types = [];
             for (var i = 0; i < config.typesOfDelivery.length; i++) {
@@ -146,37 +68,14 @@ export default {
     methods: {
         closeForm() {
             this.$emit('close');
-        },
-        scrollDown(el, height) {
-            let start = 0;
-
-            const scr = setInterval(() => {
-                start += 1;
-                el.scrollTop += start;
-
-                if (start > height) clearInterval(scr);
-
-            }, 17);
-        },
-        addPlace(event) {
-            const loadParams = Object.assign({}, this.loadParams);
-            this.loads.push(loadParams);
-
-            if (event !== undefined) this.scrollDown(this.$refs.invoice_form, 40);
-
-        },
-        delPlace(index) {
-            this.loads.splice(index, 1);
         }
     },
     components: {
         ButtonComp,
         Field,
         SelectComp,
-        Client
-    },
-    created() {
-        this.addPlace();
+        Client,
+        Load
     }
 }
 </script>
@@ -241,60 +140,6 @@ export default {
 
             &:hover
                 color: $dark
-
-
-
-
-    .button_doc_wrap
-
-        & button
-            background: none
-            outline: none
-            border: none
-            padding: 0 19px
-            color: $hard
-            padding: 5px 20px
-            cursor: pointer
-
-            &:disabled
-                & i
-                    color: lighten($hard, 10%)
-
-                &:hover
-                    cursor: default
-
-                    & i
-                        color: lighten($hard, 10%)
-
-            & i
-                transition: all .3s ease
-
-            &:hover i
-                color: $dark
-
-    .add_btn_wrap
-        text-align: right
-
-        & button
-            background: $medium
-            border: none
-            outline: none
-            padding: 10px 15px
-            border-radius: 3px
-            margin: 10px 20px
-            transition: all .3s ease
-            cursor: pointer
-
-            &:hover
-                background: $primary-color
-
-
-    .list-enter, .list-leave-to
-        opacity: 0
-        transform: translateX(-100%)
-
-    .list-leave-active
-        position: absolute
 
     .clients_wrap
         display: flex

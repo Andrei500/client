@@ -9,6 +9,14 @@ Vue.use(VueMask);
 import Tooltips from './plugins/v-tooltip';
 Vue.directive('tooltip', Tooltips);
 
+Vue.mixin({
+    methods: {
+        focusToNext(elem) {
+            this.$refs[elem].$el.children[0].focus();
+        }
+    }
+})
+
 import App from './App';
 import { routes } from './routes.js';
 

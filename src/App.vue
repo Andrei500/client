@@ -51,6 +51,9 @@ body
         white-space: nowrap
         opacity: 0
 
+        &:hover
+            opacity: 0
+
         &.active
             transition: all .3s ease .3s
             opacity: 1

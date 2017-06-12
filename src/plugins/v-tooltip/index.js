@@ -1,50 +1,58 @@
 export default {
-    inserted: (el, binding) => {
+    componentUpdated: (el, binding) => {
 
-        const
-            tooltip = document.createElement('span'),
-            sizes = { height: el.offsetHeight, width: el.offsetWidth };
+        if (binding.value) {
 
-        let
-            offsetTop = 0,
-            offsetLeft = 0;
+            const
+                tooltip = document.createElement('span'),
+                sizes = { height: el.offsetHeight, width: el.offsetWidth };
 
-        el.style.position = 'relative';
-        tooltip.classList.add('tooltip');
-        tooltip.innerText = binding.value;
-        el.appendChild(tooltip);
+            let
+                offsetTop = 0,
+                offsetLeft = 0;
 
-        if (binding.modifiers.top) {
-            tooltip.classList.add('top');
+            el.style.position = 'relative';
+            tooltip.classList.add('tooltip');
+            tooltip.innerText = binding.value;
+            el.appendChild(tooltip);
 
-            offsetTop = -tooltip.offsetHeight - 10;
-            offsetLeft = (sizes.width - tooltip.offsetWidth) / 2;
-        };
-        if (binding.modifiers.right) {
-            tooltip.classList.add('right');
+            if (binding.modifiers.top) {
+                tooltip.classList.add('top');
 
-            offsetTop = (sizes.height - tooltip.offsetHeight) / 2;
-            offsetLeft = sizes.width + 10;
-        };
-        if (binding.modifiers.bottom) {
-            tooltip.classList.add('bottom');
+                offsetTop = -tooltip.offsetHeight - 10;
+                offsetLeft = (sizes.width - tooltip.offsetWidth) / 2;
+            };
+            if (binding.modifiers.right) {
+                tooltip.classList.add('right');
 
-            offsetTop = sizes.height + 10;
-            offsetLeft = (sizes.width - tooltip.offsetWidth) / 2;
-        };
+                offsetTop = (sizes.height - tooltip.offsetHeight) / 2;
+                offsetLeft = sizes.width + 10;
+            };
+            if (binding.modifiers.bottom) {
+                tooltip.classList.add('bottom');
 
-        if (binding.modifiers.left) {
-            tooltip.classList.add('left');
+                offsetTop = sizes.height + 10;
+                offsetLeft = (sizes.width - tooltip.offsetWidth) / 2;
+            };
 
-            offsetTop = (sizes.height - tooltip.offsetHeight) / 2;
-            offsetLeft = -tooltip.offsetWidth - 10;
-        };
+            if (binding.modifiers.left) {
+                tooltip.classList.add('left');
 
-        tooltip.style.top = offsetTop + 'px';
-        tooltip.style.left = offsetLeft + 'px';
+                offsetTop = (sizes.height - tooltip.offsetHeight) / 2;
+                offsetLeft = -tooltip.offsetWidth - 10;
+            };
 
-        el.onmouseenter = () => tooltip.classList.add('active');
-        el.onmouseleave = () => tooltip.classList.remove('active');
+            tooltip.style.top = offsetTop + 'px';
+            tooltip.style.left = offsetLeft + 'px';
+
+            el.onmouseenter = (event) => {
+                console.log(event.target);
+                if (event.target.classList.contains('tooltip')) console.log('yes');
+                tooltip.classList.add('active');
+            }
+            el.onmouseleave = () => tooltip.classList.remove('active');
+
+        }
 
     }
 }

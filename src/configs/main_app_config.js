@@ -3,11 +3,6 @@ module.exports = {
     // shortName: "НП Online"
     name: "East Express Logistics",
     shortName: "East Express",
-    typesOfLoad: [
-        'Документ',
-        'Груз',
-        'Ценные бумаги'
-    ],
     typesOfDelivery: [
         'Отделение-Отделение',
         'Отделение-Адрес',
