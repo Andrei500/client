@@ -10,7 +10,7 @@
                     </select-comp>
                 </div>
             </div>
-            <button @click="closeForm()"><i class="icon-close"></i></button>
+            <button @click="$emit('close')"><i class="icon-close"></i></button>
         </div>
 
         <div class="clients_wrap">
@@ -63,11 +63,6 @@ export default {
                 });
             }
             return types;
-        }
-    },
-    methods: {
-        closeForm() {
-            this.$emit('close');
         }
     },
     components: {

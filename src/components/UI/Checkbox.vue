@@ -1,6 +1,6 @@
 <template lang="html">
     <div :style="{ fontSize: size }">
-          <input @focus="focused()" type="checkbox" id="we" v-model="value">
+          <input @focus="$emit('focus')" type="checkbox" id="we" v-model="value">
           <label @click="value = !value">юр. лицо</label>
     </div>
 </template>
@@ -25,11 +25,6 @@ export default {
     watch: {
         value(val) {
             this.$emit('input', val);
-        }
-    },
-    methods: {
-        focused() {
-            this.$emit('focus');
         }
     }
 }
