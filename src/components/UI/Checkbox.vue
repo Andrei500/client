@@ -1,7 +1,7 @@
 <template lang="html">
     <div :style="{ fontSize: size }">
           <input @focus="$emit('focus')" type="checkbox" id="we" v-model="value">
-          <label @click="value = !value">юр. лицо</label>
+          <label @click="value = !value">{{ title }}</label>
     </div>
 </template>
 
@@ -47,7 +47,7 @@ export default {
         &:not(:checked) + label,
         &:checked + label
             position: relative
-            padding-left: 1.75rem
+            padding-left: 2rem
             cursor: pointer
             color: $hard
             font: 1em 'Light'
@@ -79,7 +79,7 @@ export default {
             left: 0
             width: 17px
             height: 17px
-            font: 16px 'fontello'
+            font: 17px 'fontello'
             color: $primary-color
             transition: all .2s
 

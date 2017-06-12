@@ -3,6 +3,20 @@
         <div class="title">
             <h4>Груз</h4>
         </div>
+        <div class="services">
+            <checkbox
+                title="Хрупкость">
+            </checkbox>
+            <checkbox
+                title="Срочность">
+            </checkbox>
+            <checkbox
+                title="Опасность">
+            </checkbox>
+            <checkbox
+                title="Упаковка">
+            </checkbox>
+        </div>
 
     <transition-group name="list" tag="div">
     <div class="loads_list_wrap" v-for="(load, index) in loads" :key="load">
@@ -18,31 +32,31 @@
             v-model="load.description">
         </field>
         <field
-            width="72px"
+            width="68px"
             type="text"
             placeholder="Вес, кг"
             v-model="load.weight">
         </field>
         <field
-            width="72px"
+            width="68px"
             type="text"
             placeholder="Д, см"
             v-model="load.length">
         </field>
         <field
-            width="72px"
+            width="68px"
             type="text"
             placeholder="Ш, см"
             v-model="load.width">
         </field>
         <field
-            width="72px"
+            width="68px"
             type="text"
             placeholder="В, см"
             v-model="load.height">
         </field>
         <field
-            width="72px"
+            width="68px"
             type="text"
             placeholder="Цена, р"
             v-model="load.price">
@@ -62,6 +76,7 @@
 import ButtonComp from '../UI/ButtonComp.vue';
 import Field from '../UI/Field.vue';
 import SelectComp from '../UI/SelectComp.vue';
+import Checkbox from '../UI/Checkbox.vue';
 
 export default {
 
@@ -123,7 +138,8 @@ export default {
     components: {
         ButtonComp,
         Field,
-        SelectComp
+        SelectComp,
+        Checkbox
     },
     created() {
         this.addPlace();
@@ -145,19 +161,19 @@ export default {
         transition: all .3s linear
         background: #fff
         border-radius: 5px
-        padding: 20px 25px 8px
+        padding: 20px
         border: 1px solid $medium
 
 
         & .title
-            width: 225px
+            width: 220px
             height: 60px
             line-height: 22px
             padding: 20px 0 20px 25px
             font-family: 'Regular'
             border-bottom: 1px solid $medium
             border-right: 1px solid $medium
-            margin-left: -25px
+            margin-left: -20px
             margin-top: -20px
             background: $light
             border-radius: 5px 0 0 0
@@ -166,13 +182,24 @@ export default {
                 display: inline-block
                 margin-right: 10px
 
+        & .services
+            width: calc(100% - 180px)
+            height: 60px
+            margin-top: -20px
+            margin-right: -20px
+            line-height: 60px
+            border-bottom: 1px solid $medium
+
+            & > div
+                margin-left: 20px
+
         & button
             border: none
             outline: none
             background: none
             cursor: pointer
             padding: 0
-            margin-left: 18px
+            margin-left: 20px
 
         & i
             color: $hard
@@ -188,7 +215,7 @@ export default {
         margin-top: 20px
 
         & > div + div
-            margin-left: 18px
+            margin-left: 20px
 
     .add_btn_wrap
         width: 100%

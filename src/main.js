@@ -1,3 +1,5 @@
+document.body.style.zoom = (window.innerWidth * 100 / 1280) + "%";
+
 import Vue from 'vue';
 
 import VueRouter from 'vue-router';
