@@ -4,7 +4,8 @@
         <div class="title">
             <h4>{{ title }}</h4>
 
-                 <checkbox
+                <checkbox
+                    @focus="focusToNext('phone')"
                     size="12px"
                     title="юр. лицо"
                     v-model="client.jur">
@@ -12,6 +13,7 @@
         </div>
 
         <field
+            ref="phone"
             width="200px"
             type="text"
             placeholder="Телефон"
