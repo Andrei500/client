@@ -88,7 +88,7 @@ export default {
         z-index: 3
         background: $light
         overflow: scroll
-        padding: 80px 30px 80px 20px
+        padding: 80px 20px
         box-shadow: 1px 2px 10px lighten($hard, 20%)
 
     .header, .footer
@@ -141,7 +141,7 @@ export default {
         justify-content: space-between
 
         & > div
-            width: 470px
+            width: 460px
 
 
 </style>

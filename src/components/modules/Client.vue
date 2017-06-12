@@ -13,7 +13,7 @@
         </div>
 
         <field
-            ref="phone"
+        ref="pho"
             width="200px"
             type="text"
             placeholder="Телефон"
@@ -61,14 +61,14 @@
 
         <field
             ref="series"
-            width="92px"
+            width="90px"
             type="text"
             placeholder="Серия"
             v-model="client.docs.series">
         </field>
 
         <field
-            width="92px"
+            width="90px"
             type="text"
             placeholder="Номер"
             v-model="client.docs.number">
@@ -181,19 +181,19 @@ export default {
         transition: all .3s linear
         background: #fff
         border-radius: 5px
-        padding: 20px 25px 8px
+        padding: 20px 20px 0
         border: 1px solid $medium
 
 
         & .title
-            width: 225px
+            width: 220px
             height: 60px
             line-height: 22px
             padding: 20px 0 20px 25px
             font-family: 'Regular'
             border-bottom: 1px solid $medium
             border-right: 1px solid $medium
-            margin-left: -25px
+            margin-left: -20px
             margin-top: -20px
             background: $light
             border-radius: 5px 0 0 0
