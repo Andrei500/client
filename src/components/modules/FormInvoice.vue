@@ -81,8 +81,8 @@ export default {
 
     .invoice_form
         position: absolute
-        width: calc(100vw - 300px)
         height: 100vh
+        width: 980px
         right: 0
         top: 0
         z-index: 3
@@ -93,7 +93,6 @@ export default {
 
     .header, .footer
         position: fixed
-        width: calc(100vw - 300px)
         height: 60px
         background: #fff
         display: flex
@@ -101,6 +100,7 @@ export default {
         padding: 0 20px
         justify-content: space-between
         z-index: 6
+        width: 980px
 
     .footer
         bottom: 0

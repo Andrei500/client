@@ -1,7 +1,5 @@
 <template>
-    <div class="main_wrapper">
         <router-view></router-view>
-    </div>
 </template>
 
 <script>
@@ -33,10 +31,6 @@ body
     margin: 0
     padding: 0
     overflow: hidden
-
-    .main_wrapper
-        width: 1280px
-        margin: auto
 
     .tooltip
         position: absolute
