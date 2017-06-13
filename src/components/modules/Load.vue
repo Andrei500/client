@@ -244,9 +244,5 @@ export default {
 
     .list-enter, .list-leave-to
         opacity: 0
-        transform: translateX(-100%)
-
-    .list-leave-active
-        position: absolute
 
 </style>
