@@ -82,7 +82,7 @@ export default {
     .invoice_form
         position: absolute
         height: 100vh
-        width: 980px
+        width: 995px
         right: 0
         top: 0
         z-index: 3
