@@ -47,7 +47,7 @@ export default {
         &:not(:checked) + label,
         &:checked + label
             position: relative
-            padding-left: 2rem
+            padding-left: 1.7rem
             cursor: pointer
             color: $hard
             font: 1em 'Light'
@@ -65,8 +65,8 @@ export default {
             content: ''
             position: absolute
             left: 0; top: 0
-            width: 15px
-            height: 15px
+            width: 14px
+            height: 14px
             border: 1px solid $medium
             background: #fff
             border-radius: 2px
@@ -77,9 +77,9 @@ export default {
             position: absolute
             top: 0
             left: 0
-            width: 17px
-            height: 17px
-            font: 17px 'fontello'
+            width: 16px
+            height: 16px
+            font: 16px 'fontello'
             color: $primary-color
             transition: all .2s
 

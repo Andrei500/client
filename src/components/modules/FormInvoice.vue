@@ -22,7 +22,7 @@
             </client>
         </div>
 
-        <load></load>
+        <load @addedPlace="scrollDown($refs.invoice_form, 40)"></load>
 
         <div class="footer">
             730 р

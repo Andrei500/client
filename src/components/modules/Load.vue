@@ -23,9 +23,11 @@
         <select-comp
             width="200px"
             :options="typesOfLoad"
-            v-model="load.type">
+            v-model="load.type"
+            @input="focusToNext('description')">
         </select-comp>
         <field
+            ref="description"
             width="200px"
             type="text"
             placeholder="Описание"
@@ -113,23 +115,10 @@ export default {
         }
     },
     methods: {
-        scrollDown(el, height) {
-            let start = 0;
-
-            const scr = setInterval(() => {
-                start += 1;
-                el.scrollTop += start;
-
-                if (start > height) clearInterval(scr);
-
-            }, 17);
-        },
         addPlace(event) {
             const loadParams = Object.assign({}, this.loadParams);
             this.loads.push(loadParams);
-
-            // if (event !== undefined) this.scrollDown(this.$refs.invoice_form, 40);
-
+            if (event !== undefined) this.$emit('addedPlace');
         },
         delPlace(index) {
             this.loads.splice(index, 1);
@@ -156,7 +145,7 @@ export default {
         display: flex
         justify-content: space-between
         align-items: flex-start
-        margin-bottom: 30px
+        margin-bottom: 10px
         flex-wrap: wrap
         transition: all .3s linear
         background: #fff
@@ -220,7 +209,7 @@ export default {
     .add_btn_wrap
         width: 100%
         text-align: right
-        padding: 20px 0
+        padding-top: 20px
 
         & button
             background: $medium
