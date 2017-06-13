@@ -1,4 +1,4 @@
-document.body.style.zoom = (window.innerWidth * 100 / 1280) + "%";
+document.body.style.zoom = (window.innerWidth * 100 / 1295) + "%";
 
 import Vue from 'vue';
 
