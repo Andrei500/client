@@ -141,7 +141,7 @@ export default {
 
         &.active
             border-radius: 3px 3px 0 0
-            border-bottom: none
+            border-bottom-color: transparent
             z-index: 7
 
             & i::before

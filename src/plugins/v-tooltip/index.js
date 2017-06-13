@@ -12,6 +12,7 @@ export default {
                 offsetLeft = 0;
 
             el.style.position = 'relative';
+            el.style.overflow = 'hidden';
             tooltip.classList.add('tooltip');
             tooltip.innerText = binding.value;
             el.appendChild(tooltip);
@@ -46,11 +47,13 @@ export default {
             tooltip.style.left = offsetLeft + 'px';
 
             el.onmouseenter = (event) => {
-                console.log(event.target);
-                if (event.target.classList.contains('tooltip')) console.log('yes');
+                event.target.style.overflow = 'visible';
                 tooltip.classList.add('active');
             }
-            el.onmouseleave = () => tooltip.classList.remove('active');
+            el.onmouseleave = (event) => {
+                event.target.style.overflow = 'hidden';
+                tooltip.classList.remove('active');
+            }
 
         }
 

@@ -3,6 +3,7 @@
         <input
             autocomplete="off"
             :autofocus="autofocus"
+            :disabled="disabled.isTrue"
             :type="type"
             v-mask="regEx"
             :value="value"
@@ -39,6 +40,14 @@ export default {
         width: {
             type: String,
             default: '100%'
+        },
+        disabled: {
+            type: Object,
+            default() {
+                return {
+                    isTrue: false
+                }
+            }
         }
     },
     data() {
@@ -100,9 +109,13 @@ export default {
         height: 40px
         transition: all .3s ease
 
-    input:focus
-        padding: 17px 0 6px
-        border-bottom: 2px solid $primary-color
+        &:focus
+            padding: 17px 0 6px
+            border-bottom: 2px solid $primary-color
+
+        &:disabled + label
+            opacity: .3
+            cursor: default
 
 
     label

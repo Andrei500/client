@@ -19,52 +19,61 @@
         </div>
 
     <transition-group name="list" tag="div">
-    <div class="loads_list_wrap" v-for="(load, index) in loads" :key="load">
-        <select-comp
-            width="200px"
-            :options="typesOfLoad"
-            v-model="load.type"
-            @input="focusToNext('description')">
-        </select-comp>
-        <field
-            ref="description"
-            width="200px"
-            type="text"
-            placeholder="Описание"
-            v-model="load.description">
-        </field>
-        <field
-            width="68px"
-            type="text"
-            placeholder="Вес, кг"
-            v-model="load.weight">
-        </field>
-        <field
-            width="68px"
-            type="text"
-            placeholder="Д, см"
-            v-model="load.length">
-        </field>
-        <field
-            width="68px"
-            type="text"
-            placeholder="Ш, см"
-            v-model="load.width">
-        </field>
-        <field
-            width="68px"
-            type="text"
-            placeholder="В, см"
-            v-model="load.height">
-        </field>
-        <field
-            width="68px"
-            type="text"
-            placeholder="Цена, р"
-            v-model="load.price">
-        </field>
-        <button v-tooltip.left="(loads.length > 1) ? 'Убрать место' : false" :disabled="!(loads.length > 1)" @click="delPlace(index)"><i class="icon-close"></i></button>
-    </div>
+        <div class="loads_list_wrap" v-for="(load, index) in loads" :key="load">
+            <select-comp
+                width="200px"
+                :options="typesOfLoad"
+                v-model="load.type"
+                @input="focusToNext('description' + index)">
+            </select-comp>
+            <field
+                :ref="'description' + index"
+                width="200px"
+                type="text"
+                placeholder="Описание"
+                v-model="load.description">
+            </field>
+            <field
+                width="68px"
+                type="text"
+                placeholder="Вес, кг"
+                :disabled="{ isTrue: load.type.value === 1 || load.type.value === 2 }"
+                v-model="load.weight">
+            </field>
+            <field
+                width="68px"
+                type="text"
+                placeholder="Д, см"
+                :disabled="{ isTrue: load.type.value === 1 || load.type.value === 2 }"
+                v-model="load.length">
+            </field>
+            <field
+                width="68px"
+                type="text"
+                placeholder="Ш, см"
+                :disabled="{ isTrue: load.type.value === 1 || load.type.value === 2 }"
+                v-model="load.width">
+            </field>
+            <field
+                width="68px"
+                type="text"
+                placeholder="В, см"
+                :disabled="{ isTrue: load.type.value === 1 || load.type.value === 2 }"
+                v-model="load.height">
+            </field>
+            <field
+                width="68px"
+                type="text"
+                placeholder="Цена, р"
+                v-model="load.price">
+            </field>
+            <button
+                v-tooltip.left="(loads.length > 1) ? 'Убрать место' : false"
+                :disabled="!(loads.length > 1)"
+                @click="delPlace(index)">
+                <i class="icon-close"></i>
+            </button>
+        </div>
     </transition-group>
 
     <div class="add_btn_wrap">
@@ -100,11 +109,11 @@ export default {
         typesOfLoad: function () {
             return [
                 {
-                    name: 'Документ',
+                    name: 'Груз',
                     value: 0
                 },
                 {
-                    name: 'Груз',
+                    name: 'Документ',
                     value: 1
                 },
                 {
@@ -190,6 +199,14 @@ export default {
             padding: 0
             margin-left: 20px
 
+            &:disabled i
+                color: $medium
+
+                &:hover
+                    color: $medium
+                    cursor: default
+
+
         & i
             color: $hard
             transition: all .3s ease
@@ -202,6 +219,7 @@ export default {
         display: flex
         justify-content: space-between
         margin-top: 20px
+        transition: all .3s linear
 
         & > div + div
             margin-left: 20px
