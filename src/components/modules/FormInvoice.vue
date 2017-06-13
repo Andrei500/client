@@ -85,7 +85,7 @@ export default {
         right: 0
         top: 0
         z-index: 3
-        background: $light
+        background: lighten($light, 5%)
         overflow: scroll
         padding: 80px 20px
         box-shadow: 1px 2px 10px lighten($hard, 20%)
