@@ -47,7 +47,7 @@ export default {
         &:not(:checked) + label,
         &:checked + label
             position: relative
-            padding-left: 1.7rem
+            padding-left: 1.5rem
             cursor: pointer
             color: $hard
             font: 1em 'Light'

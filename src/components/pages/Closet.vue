@@ -72,15 +72,18 @@ export default {
     @import "../../configs/styles_config.sass"
 
     .fade-in-left-enter-active
-        transition: all .4s ease
+        transition: all .3s ease
 
     .fade-in-left-leave-active
-        transition: all .4s ease-in-out
+        transition: all .3s ease
 
-    .fade-in-left-enter, .fade-in-left-leave-to
-        transform: translateX(50%)
+    .fade-in-left-enter
         opacity: 0
+        transform: translate(200px)
 
+    .fade-in-left-leave-to
+        opacity: 0
+        transform: translate(200px)
 
     .top_panel
         width: 100%

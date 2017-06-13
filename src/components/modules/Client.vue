@@ -189,7 +189,7 @@ export default {
             width: 220px
             height: 60px
             line-height: 22px
-            padding: 20px 0 20px 25px
+            padding: 20px 0 20px 20px
             font-family: 'Regular'
             border-bottom: 1px solid $medium
             border-right: 1px solid $medium

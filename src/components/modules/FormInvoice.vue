@@ -3,12 +3,11 @@
         <div class="header">
             <div class="title_wrap">
                 <h3>Создание накладной для доставки:</h3>
-                <div style="width: 220px">
                     <select-comp
+                        width="230px"
                         :options="typesOfDelivery"
                         v-model="typeOfDelivery">
                     </select-comp>
-                </div>
             </div>
             <button @click="$emit('close')"><i class="icon-close"></i></button>
         </div>
@@ -100,7 +99,7 @@ export default {
         padding: 0 20px
         justify-content: space-between
         z-index: 6
-        width: 980px
+        width: 995px
 
     .footer
         bottom: 0
