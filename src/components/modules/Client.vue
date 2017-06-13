@@ -13,7 +13,7 @@
         </div>
 
         <field
-        ref="pho"
+            ref="phone"
             width="200px"
             type="text"
             placeholder="Телефон"

@@ -4,9 +4,9 @@ module.exports = {
     name: "East Express Logistics",
     shortName: "East Express",
     typesOfDelivery: [
-        'Отделение-Отделение',
-        'Отделение-Адрес',
-        'Адрес-Отделение',
+        'Склад-Склад',
+        'Склад-Адрес',
+        'Адрес-Склад',
         'Адрес-Адрес'
     ]
 }

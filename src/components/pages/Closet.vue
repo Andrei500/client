@@ -92,7 +92,7 @@ export default {
         top: 0
         left: 0
         background: #fff
-        box-shadow: 1px 2px 10px $medium
+        box-shadow: 1px 2px 10px $trans-black
         z-index: 1
 
     .left

@@ -1,8 +1,8 @@
 <template>
     <div :style="{ width }">
         <input
+            ref="input"
             autocomplete="off"
-            :autofocus="autofocus"
             :disabled="disabled.isTrue"
             :type="type"
             v-mask="regEx"
@@ -11,7 +11,7 @@
             @input="setValue($event.target.value)"
         >
         <label
-            @click="focusToInput($event)"
+            @click="focusToInput()"
             :class="{ active : !!value }"
         >{{placeholder}}</label>
 
@@ -82,9 +82,12 @@ export default {
                 else return;
             }   else return;
         },
-        focusToInput(e) {
-            e.target.previousElementSibling.focus();
+        focusToInput() {
+            this.$refs.input.focus();
         }
+    },
+    mounted() {
+        if (this.autofocus) this.focusToInput();
     }
 }
 </script>
@@ -96,6 +99,7 @@ export default {
     div
         position: relative
         height: 40px
+        line-height: 40px
 
 
     input
@@ -120,6 +124,7 @@ export default {
 
     label
         top: 16px
+        line-height: 16px
         color: $hard
         position: absolute
         left: 0

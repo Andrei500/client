@@ -8,28 +8,11 @@ Vue.use(VueRouter);
 import VueMask from './plugins/v-mask';
 Vue.use(VueMask);
 
-import Tooltips from './plugins/v-tooltip';
-Vue.directive('tooltip', Tooltips);
+import tooltips from './plugins/v-tooltip';
+Vue.directive('tooltip', tooltips);
 
-Vue.mixin({
-    methods: {
-        focusToNext(elem) {
-            if (!this.$refs[elem][0]) this.$refs[elem].$el.children[0].focus();
-            else this.$refs[elem][0].$el.children[0].focus();
-        },
-        scrollDown(el, height) {
-            let start = 0;
-
-            const scr = setInterval(() => {
-                start += 1;
-                el.scrollTop += start;
-
-                if (start > height) clearInterval(scr);
-
-            }, 17);
-        }
-    }
-})
+import mixin from './mixin.js';
+Vue.mixin(mixin)
 
 import App from './App';
 import { routes } from './routes.js';

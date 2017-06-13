@@ -89,7 +89,7 @@ export default {
         min-width: 195px
         background: #fff
         margin: 0
-        box-shadow: 1px 2px 10px $medium
+        box-shadow: 1px 2px 10px $trans-black
         list-style: none
         padding: 0
         cursor: pointer
@@ -110,7 +110,7 @@ export default {
             height: 40px
             display: flex
             align-items: center
-            justify-content: space-between;
+            justify-content: space-between
 
             &:hover
                 background: $light

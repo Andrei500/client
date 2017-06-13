@@ -97,7 +97,7 @@ export default {
         background: #fff
         margin: 0
         right: -30px
-        box-shadow: 1px 2px 10px $medium
+        box-shadow: 1px 2px 10px $trans-black
         list-style: none
         padding: 0
 

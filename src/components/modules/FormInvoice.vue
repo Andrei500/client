@@ -2,12 +2,31 @@
     <div @keydown.up.prevent @keydown.down.prevent ref="invoice_form" class="invoice_form">
         <div class="header">
             <div class="title_wrap">
-                <h3>Создание накладной для доставки:</h3>
+                <h3><i class="icon-add_ttn"></i>Создание накладной</h3>
+
+                    <p>Доставка:</p>
                     <select-comp
-                        width="230px"
+                        width="170px"
                         :options="typesOfDelivery"
                         v-model="typeOfDelivery">
                     </select-comp>
+                    <p>Оплата:</p>
+                    <select-comp
+                        width="170px"
+                        :options="typesOfPayer"
+                        v-model="payer.who">
+                    </select-comp>
+                    <p style="margin: 0 20px 0 0"></p>
+                    <transition name="to-down">
+                        <field
+                            v-if="payer.who.value === 3"
+                            width="160px"
+                            type="text"
+                            placeholder="Организация"
+                            v-model="payer.who.name"
+                            autofocus>
+                        </field>
+                    </transition>
             </div>
             <button @click="$emit('close')"><i class="icon-close"></i></button>
         </div>
@@ -48,6 +67,13 @@ export default {
         return {
             valid: '',
             typeOfDelivery: {},
+            payer: {
+                who: {
+                    name: '',
+                    value: 1
+                },
+                name: ''
+            },
             sender: {},
             getter: {}
         }
@@ -62,6 +88,22 @@ export default {
                 });
             }
             return types;
+        },
+        typesOfPayer: function () {
+            return [
+                {
+                    name: 'Отправитель',
+                    value: 1
+                },
+                {
+                    name: 'Получатель',
+                    value: 2
+                },
+                {
+                    name: 'Третье лицо...',
+                    value: 3
+                }
+            ]
         }
     },
     components: {
@@ -86,9 +128,10 @@ export default {
         top: 0
         z-index: 3
         background: lighten($light, 5%)
-        overflow: scroll
+        overflow-y: scroll
+        overflow-x: hidden
         padding: 80px 20px
-        box-shadow: 1px 2px 10px lighten($hard, 20%)
+        box-shadow: 1px 2px 10px rgba(0, 0, 0, .3)
 
     .header, .footer
         position: fixed
@@ -104,12 +147,12 @@ export default {
     .footer
         bottom: 0
         right: 0
-        box-shadow: -1px -2px 10px $medium
+        box-shadow: 5px -2px 10px $trans-black
 
     .header
         top: 0
         right: 0
-        box-shadow: 1px 2px 10px $medium
+        box-shadow: 5px 2px 10px $trans-black
 
         & .title_wrap
             display: flex
@@ -117,8 +160,23 @@ export default {
 
             & h3
                 font-weight: normal
-                font-size: 16px
-                margin: 0 10px 0 0
+                font: 14px 'Medium'
+                height: 60px
+                line-height: 60px
+                width: 220px
+                border-right: 1px solid $medium
+
+                & i
+                    font-size: 18px
+                    margin-right: 5px
+                    color: $primary-color
+
+                    &:hover
+                        color: $primary-color
+
+            & p
+                margin: 0 10px 0 20px
+                color: $hard
 
         & button
             border: none
@@ -141,6 +199,14 @@ export default {
 
         & > div
             width: 460px
+
+
+    .to-down-enter-active, .to-down-leave-active,
+        transition: all .3s ease
+
+    .to-down-enter, .to-down-leave-to
+        transform: translateY(-10px)
+        opacity: 0
 
 
 </style>

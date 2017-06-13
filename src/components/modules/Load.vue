@@ -11,11 +11,21 @@
                 title="Срочность">
             </checkbox>
             <checkbox
-                title="Опасность">
-            </checkbox>
-            <checkbox
                 title="Упаковка">
             </checkbox>
+            <checkbox
+                title="Наложенный платеж"
+                v-model="services.cashpay">
+            </checkbox>
+            <transition name="to-down">
+                <field
+                    v-if="services.cashpay"
+                    width="90px"
+                    type="text"
+                    placeholder="Сумма, р"
+                    autofocus>
+                </field>
+            </transition>
         </div>
 
     <transition-group name="list" tag="div">
@@ -102,6 +112,9 @@ export default {
                 height: 0,
                 price: 0,
                 description: ''
+            },
+            services: {
+                cashpay: 0
             }
         }
     },
@@ -187,6 +200,8 @@ export default {
             margin-right: -20px
             line-height: 60px
             border-bottom: 1px solid $medium
+            display: flex
+            align-items: center
 
             & > div
                 margin-left: 20px
@@ -199,8 +214,13 @@ export default {
             padding: 0
             margin-left: 20px
 
-            &:disabled i
-                color: $medium
+            &:disabled
+
+                &:hover
+                    cursor: default
+
+                & i
+                    color: $medium
 
                 &:hover
                     color: $medium
@@ -244,5 +264,13 @@ export default {
 
     .list-enter, .list-leave-to
         opacity: 0
+
+    .to-down-enter-active, .to-down-leave-active,
+        transition: all .3s ease
+
+    .to-down-enter, .to-down-leave-to
+        transform: translateY(-10px)
+        opacity: 0
+
 
 </style>
