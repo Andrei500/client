@@ -38,6 +38,7 @@ export default {
         outline: none
         transition: all .3s ease
         cursor: pointer
+        font-family: 'Regular'
         border-radius: 3px
         background: $primary-color
         @if $primary-color == #ffc107 { color: $dark } @else { color: #fff }
