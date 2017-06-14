@@ -4,6 +4,7 @@
             type="text"
             ref="select"
             :class="['select', { 'active': showList }]"
+            @input="onInput()"
             @mousedown.prevent="onClick()"
             @focus="onFocus()"
             @blur="onBlur()"
@@ -14,15 +15,18 @@
             v-model="search"
         >
         <i @mousedown.prevent="onClick()" class="icon-chevron"></i>
-        <span @mousedown.prevent="onClick()" v-if="!showList" ref="text">{{ selected.name }}</span>
+        <span @mousedown.prevent="onClick()" v-if="!showList" ref="text">
+            {{ selected.name }}
+            <sup class="extendValue" v-if="extendValue">{{ selected[extendValue] }}</sup>
+        </span>
         <div class="list_wrap">
             <transition name="to-bottom">
                 <ul v-if="showList" ref="list">
-                    <li
+                    <li :class="[selectIndex === index ? 'active_item': '']"
                         v-for="(option, index) in filteredOptions"
-                        :class="[selectIndex === index ? 'active_item': '']"
                         @mousedown.prevent="select(option)">
-                            {{ option.name }}
+                        {{ option.name }}
+                        <sup class="extendValue" v-if="extendValue">{{ option[extendValue] }}</sup>
                     </li>
                     <li v-if="!filteredOptions">Город не найден...</li>
                 </ul>
@@ -56,6 +60,10 @@ export default {
                     }
                 ];
             }
+        },
+        extendValue: {
+            type: String,
+            default: ''
         }
     },
     data() {
@@ -100,16 +108,26 @@ export default {
             this.showList = false;
         },
         onDownKey() {
-            if (this.options.length -1 > this.selectIndex) this.selectIndex++;
+            if (this.filteredOptions.length -1 > this.selectIndex) {
+                this.selectIndex++;
+                if (this.selectIndex > 2) this.$refs.list.scrollTop += this.$refs.list.children[0].clientHeight;
+            }
         },
         onUpKey() {
-            if (this.selectIndex > 0) this.selectIndex--;
+            if (this.selectIndex > 0) {
+                this.selectIndex--;
+                if (this.selectIndex < (this.filteredOptions.length -2 )) this.$refs.list.scrollTop -= this.$refs.list.children[0].clientHeight;
+            }
         },
         onEnterKey() {
-            this.select(this.options[this.selectIndex]);
+            this.select(this.filteredOptions[this.selectIndex]);
         },
         onEscape() {
             this.$refs.select.blur();
+        },
+        onInput() {
+            this.selectIndex = 0;
+            this.$refs.list.scrollTop = 0;
         }
     },
     mounted() {
@@ -194,6 +212,8 @@ export default {
         border-top: none
         border-radius: 0 0 3px 3px
         overflow: hidden
+        overflow-y: scroll
+        max-height: 190px
 
         & li
             padding: 10px 15px
@@ -211,6 +231,10 @@ export default {
 
     .active_item
         background: $light
+
+    .extendValue
+        color: $hard
+        font: 10px 'Light'
 
 
 </style>

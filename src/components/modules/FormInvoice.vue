@@ -33,39 +33,50 @@
 
         <div class="clients_wrap">
             <client
-                title="Отправитель">
+                title="Отправитель"
+                v-model="sender">
             </client>
             <client
-                title="Получатель">
+                title="Получатель"
+                v-model="getter">
             </client>
         </div>
 
-        <load @addedPlace="scrollDown($refs.invoice_form, 40)"></load>
+        <load
+            v-model="load"
+            @addedPlace="scrollDown($refs.invoice_form, 40)">
+        </load>
 
         <div class="footer">
-            730 р
+            <calc-panel
+                :from="sender.adress"
+                :to="getter.adress"
+                :load="load">
+            </calc-panel>
             <button-comp
                 text="Распечатать"
                 icon="print"
                 small="true"
-                :disabled="valid">
+                :disabled="!valid">
             </button-comp>
         </div>
+
     </div>
 </template>
 
 <script>
 import config from '../../configs/main_app_config.js';
-import ButtonComp from '../UI/ButtonComp.vue';
 import Field from '../UI/Field.vue';
 import Client from '../modules/Client.vue';
 import Load from '../modules/Load.vue';
 import SelectComp from '../UI/SelectComp.vue';
+import CalcPanel from '../modules/CalcPanel.vue';
+import ButtonComp from '../UI/ButtonComp.vue';
 
 export default {
     data() {
         return {
-            valid: '',
+            valid: false,
             typeOfDelivery: {},
             payer: {
                 who: {
@@ -75,11 +86,15 @@ export default {
                 name: ''
             },
             sender: {},
-            getter: {}
+            getter: {},
+            load: {}
         }
     },
     computed: {
-        typesOfDelivery: function () {
+        isValid() {
+            return { isValid: false }
+        },
+        typesOfDelivery() {
             const types = [];
             for (var i = 0; i < config.typesOfDelivery.length; i++) {
                 types.push({
@@ -89,7 +104,7 @@ export default {
             }
             return types;
         },
-        typesOfPayer: function () {
+        typesOfPayer() {
             return [
                 {
                     name: 'Отправитель',
@@ -107,11 +122,12 @@ export default {
         }
     },
     components: {
-        ButtonComp,
         Field,
         SelectComp,
         Client,
-        Load
+        Load,
+        CalcPanel,
+        ButtonComp
     }
 }
 </script>
@@ -127,11 +143,12 @@ export default {
         right: 0
         top: 0
         z-index: 3
-        background: lighten($light, 5%)
+        background: $light
         overflow-y: scroll
         overflow-x: hidden
         padding: 80px 20px
         box-shadow: 1px 2px 10px rgba(0, 0, 0, .3)
+
 
     .header, .footer
         position: fixed

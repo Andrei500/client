@@ -24,7 +24,7 @@ export default {
     },
     watch: {
         value(val) {
-            this.$emit('input', val);
+            this.$emit('input', { name: this.title, value: val});
         }
     }
 }

@@ -38,9 +38,10 @@
         </field>
 
         <typehead
+            extendValue="region"
             width="200px"
             :options="cities"
-            v-model="adress.city"
+            v-model="client.adress.city"
             @input="focusToNext('adress')">
         </typehead>
 
@@ -73,7 +74,7 @@
             placeholder="Номер"
             v-model="client.docs.number">
         </field>
-
+{{ returnClient }}
     </div>
 </template>
 
@@ -103,10 +104,10 @@ export default {
                     type: {},
                     series: '',
                     number: 0
+                },
+                adress: {
+                    city: ''
                 }
-            },
-            adress: {
-                city: ''
             },
             docsToSelect: [
                 {
@@ -135,16 +136,154 @@ export default {
 
     computed: {
         cities() {
-            return [
-                {
-                    name: 'Макеевка',
+            return [{
                     value: 1,
+                    name: 'Амвросиевка',
+                    region: 'ДНР',
+                    terminal: false
                 },
                 {
+                    value: 2,
+                    name: 'Горловка',
+                    region: 'ДНР',
+                    terminal: false
+                },
+                {
+                    value: 3,
+                    name: 'Дебальцево',
+                    region: 'ДНР',
+                    terminal: false
+                },
+                {
+                    value: 4,
+                    name: 'Докучаевск',
+                    region: 'ДНР',
+                    terminal: false
+                },
+                {
+                    value: 5,
                     name: 'Донецк',
-                    value: 2
+                    region: 'ДНР',
+                    terminal: true
+                },
+                {
+                    value: 6,
+                    name: 'Енакиево',
+                    region: 'ДНР',
+                    terminal: false
+                },
+                {
+                    value: 7,
+                    name: 'Ждановка',
+                    region: 'ДНР',
+                    terminal: false
+                },
+                {
+                    value: 8,
+                    name: 'Зугрес',
+                    region: 'ДНР',
+                    terminal: false
+                },
+                {
+                    value: 9,
+                    name: 'Иловайск',
+                    region: 'ДНР',
+                    terminal: false
+                },
+                {
+                    value: 10,
+                    name: 'Кировское',
+                    region: 'ДНР',
+                    terminal: false
+                },
+                {
+                    value: 11,
+                    name: 'Макеевка',
+                    region: 'ДНР',
+                    terminal: true
+                },
+                {
+                    value: 12,
+                    name: 'Моспино',
+                    region: 'ДНР',
+                    terminal: false
+                },
+                {
+                    value: 13,
+                    name: 'Новоазовск',
+                    region: 'ДНР',
+                    terminal: false
+                },
+                {
+                    value: 14,
+                    name: 'Новый свет',
+                    region: 'ДНР',
+                    terminal: false
+                },
+                {
+                    value: 15,
+                    name: 'Седово',
+                    region: 'ДНР',
+                    terminal: false
+                },
+                {
+                    value: 16,
+                    name: 'Снежное',
+                    region: 'ДНР',
+                    terminal: false
+                },
+                {
+                    value: 17,
+                    name: 'Старобешево',
+                    region: 'ДНР',
+                    terminal: false
+                },
+                {
+                    value: 18,
+                    name: 'Тельманово',
+                    region: 'ДНР',
+                    terminal: false
+                },
+                {
+                    value: 19,
+                    name: 'Торез',
+                    region: 'ДНР',
+                    terminal: false
+                },
+                {
+                    value: 20,
+                    name: 'Углегорск',
+                    region: 'ДНР',
+                    terminal: false
+                },
+                {
+                    value: 21,
+                    name: 'Харцызск',
+                    region: 'ДНР',
+                    terminal: false
+                },
+                {
+                    value: 22,
+                    name: 'Шахтерск',
+                    region: 'ДНР',
+                    terminal: false
+                },
+                {
+                    value: 23,
+                    name: 'Ясиноватая',
+                    region: 'ДНР',
+                    terminal: false
+                },
+                {
+                    value: 24,
+                    name: 'Ростов-на-Дону',
+                    region: 'РФ',
+                    terminal: true
                 }
             ]
+        },
+        returnClient() {
+            this.$emit('input', this.client);
         }
     },
 

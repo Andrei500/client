@@ -5,35 +5,39 @@
         </div>
         <div class="services">
             <checkbox
-                title="Хрупкость">
+                title="Хрупкость"
+                v-model="load.services.fragile">
             </checkbox>
             <checkbox
-                title="Срочность">
+                title="Срочность"
+                v-model="load.services.urgent">
             </checkbox>
             <checkbox
-                title="Упаковка">
+                title="Упаковка"
+                v-model="load.services.pack">
             </checkbox>
             <checkbox
                 title="Наложенный платеж"
-                v-model="services.cashpay">
+                v-model="load.services.cashpay.active">
             </checkbox>
             <transition name="to-down">
                 <field
-                    v-if="services.cashpay"
+                    v-if="load.services.cashpay.active.value"
                     width="90px"
                     type="text"
                     placeholder="Сумма, р"
-                    autofocus>
+                    autofocus
+                    v-model="load.services.cashpay.sum">
                 </field>
             </transition>
         </div>
 
     <transition-group name="list" tag="div">
-        <div class="loads_list_wrap" v-for="(load, index) in loads" :key="load">
+        <div class="places_list_wrap" v-for="(place, index) in load.places" :key="place">
             <select-comp
                 width="200px"
                 :options="typesOfLoad"
-                v-model="load.type"
+                v-model="place.type"
                 @input="focusToNext('description' + index)">
             </select-comp>
             <field
@@ -41,45 +45,45 @@
                 width="200px"
                 type="text"
                 placeholder="Описание"
-                v-model="load.description">
+                v-model="place.description">
             </field>
             <field
-                width="68px"
+                width="70px"
                 type="text"
                 placeholder="Вес, кг"
-                :disabled="{ isTrue: load.type.value === 1 || load.type.value === 2 }"
-                v-model="load.weight">
+                :disabled="{ isTrue: place.type.value === 1 || place.type.value === 2 }"
+                v-model="place.weight">
             </field>
             <field
-                width="68px"
+                width="70px"
                 type="text"
                 placeholder="Д, см"
-                :disabled="{ isTrue: load.type.value === 1 || load.type.value === 2 }"
-                v-model="load.length">
+                :disabled="{ isTrue: place.type.value === 1 || place.type.value === 2 }"
+                v-model="place.length">
             </field>
             <field
-                width="68px"
+                width="70px"
                 type="text"
                 placeholder="Ш, см"
-                :disabled="{ isTrue: load.type.value === 1 || load.type.value === 2 }"
-                v-model="load.width">
+                :disabled="{ isTrue: place.type.value === 1 || place.type.value === 2 }"
+                v-model="place.width">
             </field>
             <field
-                width="68px"
+                width="70px"
                 type="text"
                 placeholder="В, см"
-                :disabled="{ isTrue: load.type.value === 1 || load.type.value === 2 }"
-                v-model="load.height">
+                :disabled="{ isTrue: place.type.value === 1 || place.type.value === 2 }"
+                v-model="place.height">
             </field>
             <field
-                width="68px"
+                width="70px"
                 type="text"
                 placeholder="Цена, р"
-                v-model="load.price">
+                v-model="place.price">
             </field>
             <button
-                v-tooltip.left="(loads.length > 1) ? 'Убрать место' : false"
-                :disabled="!(loads.length > 1)"
+                v-tooltip.left="(load.places.length > 1) ? 'Убрать место' : false"
+                :disabled="!(load.places.length > 1)"
                 @click="delPlace(index)">
                 <i class="icon-close"></i>
             </button>
@@ -89,6 +93,7 @@
     <div class="add_btn_wrap">
         <button @click="addPlace($event)">+ Добавить место</button>
     </div>
+    {{ returnLoad }}
     </div>
 </template>
 
@@ -103,7 +108,18 @@ export default {
 
     data() {
         return {
-            loads: [],
+            load: {
+                places: [],
+                services: {
+                    fragile: false,
+                    urgent: false,
+                    pack: false,
+                    cashpay: {
+                        active: false,
+                        sum: 0
+                    }
+                }
+            },
             loadParams: {
                 type: {},
                 weight: 0,
@@ -112,13 +128,14 @@ export default {
                 height: 0,
                 price: 0,
                 description: ''
-            },
-            services: {
-                cashpay: 0
             }
+
         }
     },
     computed: {
+        returnLoad() {
+            this.$emit('input', this.load);
+        },
         typesOfLoad: function () {
             return [
                 {
@@ -139,11 +156,11 @@ export default {
     methods: {
         addPlace(event) {
             const loadParams = Object.assign({}, this.loadParams);
-            this.loads.push(loadParams);
+            this.load.places.push(loadParams);
             if (event !== undefined) this.$emit('addedPlace');
         },
         delPlace(index) {
-            this.loads.splice(index, 1);
+            this.load.places.splice(index, 1);
         }
     },
     components: {
@@ -234,7 +251,7 @@ export default {
             &:hover
                 color: $dark
 
-    .loads_list_wrap
+    .places_list_wrap
         width: 100%
         display: flex
         justify-content: space-between
