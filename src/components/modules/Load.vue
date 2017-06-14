@@ -185,7 +185,7 @@ export default {
         display: flex
         justify-content: space-between
         align-items: flex-start
-        margin-bottom: 40px
+        margin-bottom: 35px
         flex-wrap: wrap
         transition: all .3s linear
         background: #fff
