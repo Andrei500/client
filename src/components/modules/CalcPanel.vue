@@ -98,7 +98,7 @@ export default {
                     [7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 1] // 23 Ростов-на-Дону
                 ],
 
-                sroki: [
+                periods: [
                     //    0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23
                     [1, 3, 4, 4, 4, 3, 3, 3, 2, 3, 3, 3, 4, 3, 4, 3, 3, 4, 3, 4, 3, 3, 3, 7], // 0  Амвросиевка
                     [3, 1, 2, 4, 3, 2, 2, 2, 3, 2, 3, 4, 5, 4, 5, 3, 4, 5, 3, 2, 3, 3, 3, 7], // 1  Горловка
@@ -126,7 +126,7 @@ export default {
                     [7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 1] // 23 Ростов-на-Дону
                 ],
 
-                tarif: [
+                tariff: [
                     //     <1   <5  <10  <20  <35  <50  v>50  o>.25
                     [0, 0, 0, 0, 0, 0, [0, 0]], // TZ == 0
                     [50, 65, 75, 100, 130, 150, [0.7, 140]], // TZ == 1
@@ -138,7 +138,7 @@ export default {
                     [400, 500, 575, 700, 800, 900, [8, 1600]] // TZ == 7
                 ],
 
-                tarifCur: [
+                tariffCur: [
                     //  <1  <5 <10 <20 <35  <50  >50
                     30, 50, 60, 70, 80, 100, 200
                 ]
@@ -148,8 +148,17 @@ export default {
     },
     computed: {
 
-        TZ() {
-            return false;
+        TZ() { return this.tables.TZ[this.from.city.value - 1][this.to.city.value - 1]; },
+        period() { return this.tables.periods[this.from.city.value - 1][this.to.city.value - 1]; },
+
+        trans() {
+            switch (expression) {
+                case expression:
+
+                    break;
+                default:
+
+            }
         },
 
         fragile() {
@@ -159,6 +168,15 @@ export default {
             return this.sums.reduce((result, item) => {
                 return result + item.value;
             }, 0);
+        }
+    },
+    methods: {
+        calcPlace(place) {
+            if (this.TZ > 0) {
+                if (place.type.value === 1) {
+
+                }
+            }
         }
     }
 }
