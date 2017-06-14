@@ -25,7 +25,9 @@ h1, h2, h3, h4, h5, h6
 
 body
     height: 100vh
-    font: 14px/120% "Light"
+    font-size: 14px
+    line-height: 120%
+    font-family: "Light"
     color: $dark
     background: $light
     margin: 0
