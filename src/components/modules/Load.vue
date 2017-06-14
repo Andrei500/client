@@ -51,34 +51,35 @@
                 width="70px"
                 type="text"
                 placeholder="Вес, кг"
-                :disabled="{ isTrue: place.type.value === 1 || place.type.value === 2 }"
+                :disabled="{ isTrue: place.type.value !== 0 }"
                 v-model="place.weight">
             </field>
             <field
                 width="70px"
                 type="text"
                 placeholder="Д, см"
-                :disabled="{ isTrue: place.type.value === 1 || place.type.value === 2 }"
+                :disabled="{ isTrue: place.type.value !== 0 }"
                 v-model="place.length">
             </field>
             <field
                 width="70px"
                 type="text"
                 placeholder="Ш, см"
-                :disabled="{ isTrue: place.type.value === 1 || place.type.value === 2 }"
+                :disabled="{ isTrue: place.type.value !== 0 }"
                 v-model="place.width">
             </field>
             <field
                 width="70px"
                 type="text"
                 placeholder="В, см"
-                :disabled="{ isTrue: place.type.value === 1 || place.type.value === 2 }"
+                :disabled="{ isTrue: place.type.value !== 0 }"
                 v-model="place.height">
             </field>
             <field
                 width="70px"
                 type="text"
                 placeholder="Цена, р"
+                :disabled="{ isTrue: place.type.value === 1 }"
                 v-model="place.price">
             </field>
             <button

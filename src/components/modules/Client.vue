@@ -23,17 +23,17 @@
         </field>
 
         <field
-            v-if="client.jur"
-            :width="(client.jur) ? '200px' : ''"
+            v-if="client.jur.value"
+            :width="(client.jur.value) ? '200px' : ''"
             type="text"
             placeholder="Организация"
             v-model="client.name">
         </field>
 
         <field
-            :width="(client.jur) ? '200px' : '100%'"
+            :width="(client.jur.value) ? '200px' : '100%'"
             type="text"
-            :placeholder="(client.jur) ? 'Представитель' : 'Фамилия Имя Отчество'"
+            :placeholder="(client.jur.value) ? 'Представитель' : 'Фамилия Имя Отчество'"
             v-model="client.name">
         </field>
 
