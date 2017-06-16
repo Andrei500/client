@@ -60,7 +60,7 @@ export default {
     data() {
         return {
             showList: false,
-            selected: this.options[0],
+            selected: {},
             selectIndex: 0
         }
     },
@@ -79,7 +79,6 @@ export default {
         },
         onBlur() {
             this.selectIndex = 0;
-            this.$refs.list.scrollTop = 0;
             this.showList = false;
         },
         onDownKey() {
@@ -96,6 +95,7 @@ export default {
         }
     },
     mounted() {
+        this.select(this.options[0]);
         if (this.autofocus) this.$refs.select.focus();
     },
     destroyed() {
@@ -191,6 +191,5 @@ export default {
 
         &::before
             transition: all .3s ease
-
 
 </style>
