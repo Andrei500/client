@@ -98,7 +98,6 @@
     <div class="add_btn_wrap">
         <button @click="addPlace($event)">+ Добавить место</button>
     </div>
-    {{ returnLoad }}
     </div>
 </template>
 
@@ -137,9 +136,6 @@ export default {
         }
     },
     computed: {
-        returnLoad() {
-            this.$emit('input', this.load);
-        },
         typesOfLoad: function () {
             return [
                 {
@@ -175,6 +171,9 @@ export default {
     },
     created() {
         this.addPlace();
+    },
+    updated() {
+        this.$emit('input', this.load);
     }
 
 }
@@ -225,6 +224,9 @@ export default {
 
             & > div
                 margin-left: 20px
+
+            & + div
+                width: 100%
 
         & button
             border: none

@@ -73,7 +73,6 @@
             placeholder="Номер"
             v-model="client.docs.number">
         </field>
-{{ returnClient }}
     </div>
 </template>
 
@@ -284,12 +283,8 @@ export default {
                     terminal: true
                 }
             ]
-        },
-        returnClient() {
-            this.$emit('input', this.client);
         }
     },
-
     methods: {
         addOffset(who, val) {
             const
@@ -305,8 +300,10 @@ export default {
         SelectComp,
         Checkbox,
         Typehead
+    },
+    updated() {
+        this.$emit('input', this.client);
     }
-
 }
 </script>
 
