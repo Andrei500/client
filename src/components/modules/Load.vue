@@ -29,7 +29,7 @@
             </transition>
             <transition name="to-down">
                 <field
-                    v-if="load.services.sendBack.type.value"
+                    v-if="load.services.sendBack.type.value === 2"
                     width="120px"
                     type="text"
                     placeholder="Сумма, р"
