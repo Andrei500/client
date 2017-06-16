@@ -70,10 +70,7 @@ export default {
         return {
             showList: false,
             search: '',
-            selected: {
-                name: '',
-                value: 0
-            },
+            selected: this.options[0],
             selectIndex: 0
         }
     },
@@ -129,9 +126,6 @@ export default {
             this.selectIndex = 0;
             this.$refs.list.scrollTop = 0;
         }
-    },
-    mounted() {
-        this.select(this.options[0]);
     }
 }
 </script>

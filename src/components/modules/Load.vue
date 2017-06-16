@@ -6,7 +6,8 @@
         <div class="services">
             <checkbox
                 title="Хрупкость"
-                v-model="load.services.fragile">
+                v-model="load.services.fragile"
+                @focus="focusToNext('typeOfLoad' + '0')">
             </checkbox>
             <checkbox
                 title="Срочность"
@@ -35,6 +36,7 @@
     <transition-group name="list" tag="div">
         <div class="places_list_wrap" v-for="(place, index) in load.places" :key="place">
             <select-comp
+                :ref="'typeOfLoad' + index"
                 width="200px"
                 :options="typesOfLoad"
                 v-model="place.type"

@@ -8,10 +8,12 @@
                     <select-comp
                         width="170px"
                         :options="typesOfDelivery"
-                        v-model="typeOfDelivery">
+                        v-model="typeOfDelivery"
+                        @input="focusToNext('payer')">
                     </select-comp>
                     <p>Оплата:</p>
                     <select-comp
+                        ref="payer"
                         width="170px"
                         :options="typesOfPayer"
                         v-model="payer.who">
@@ -34,7 +36,8 @@
         <div class="clients_wrap">
             <client
                 title="Отправитель"
-                v-model="sender">
+                v-model="sender"
+                autofocus>
             </client>
             <client
                 title="Получатель"

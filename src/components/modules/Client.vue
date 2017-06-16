@@ -1,15 +1,14 @@
 <template>
-    <div class="field_wrap" ref="sender">
+    <div class="field_wrap">
 
         <div class="title">
             <h4>{{ title }}</h4>
-
-                <checkbox
-                    @focus="focusToNext('phone')"
-                    size="12px"
-                    title="юр. лицо"
-                    v-model="client.jur">
-                </checkbox>
+            <checkbox
+                @focus="focusToNext('phone')"
+                size="12px"
+                title="юр. лицо"
+                v-model="client.jur">
+            </checkbox>
         </div>
 
         <field
@@ -19,7 +18,7 @@
             placeholder="Телефон"
             v-model="client.phone"
             mask="tel"
-            autofocus>
+            :autofocus="autofocus">
         </field>
 
         <field
@@ -91,6 +90,10 @@ export default {
         title: {
             type: String,
             default: 'Заголовок'
+        },
+        autofocus: {
+            type: Boolean,
+            default: false
         }
     },
 

@@ -56,10 +56,7 @@ export default {
     data() {
         return {
             showList: false,
-            selected: {
-                name: '',
-                value: 0
-            },
+            selected: this.options[0],
             selectIndex: 0
         }
     },
@@ -93,9 +90,6 @@ export default {
         onEscape() {
             this.$refs.select.blur();
         }
-    },
-    mounted() {
-        this.select(this.options[0]);
     }
 }
 </script>
