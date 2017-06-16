@@ -70,16 +70,17 @@ export default {
         return {
             showList: false,
             search: '',
-            selected: this.options[0],
+            selected: {},
             selectIndex: 0
         }
     },
     computed: {
         filteredOptions() {
             const
-                exp = new RegExp(this.search, 'i'),
+                search = this.search,
                 filteredOptions = this.options.filter((option) => {
-                    return exp.test(option.name);
+                    const pathOfCityName = option.name.split('').slice(0, search.length).join('');
+                    if (search.toLowerCase() === pathOfCityName.toLowerCase()) return option;
                 });
 
             return (filteredOptions.length) ? filteredOptions : false;
@@ -126,6 +127,9 @@ export default {
             this.selectIndex = 0;
             this.$refs.list.scrollTop = 0;
         }
+    },
+    mounted() {
+        this.select(this.options[0]);
     }
 }
 </script>
