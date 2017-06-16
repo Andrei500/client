@@ -10,25 +10,32 @@
                 @focus="focusToNext('typeOfLoad' + '0')">
             </checkbox>
             <checkbox
-                title="Срочность"
-                v-model="load.services.urgent">
-            </checkbox>
-            <checkbox
                 title="Упаковка"
                 v-model="load.services.pack">
             </checkbox>
             <checkbox
-                title="Наложенный платеж"
-                v-model="load.services.cashpay.active">
+                title="Обратная доставка"
+                v-model="load.services.sendBack.active">
             </checkbox>
             <transition name="to-down">
+                <select-comp
+                    v-if="load.services.sendBack.active.value"
+                    autofocus
+                    width="140px"
+                    :options="typesOfLoad"
+                    v-model="load.services.sendBack.type"
+                    @destroy="load.services.sendBack.type = {}">
+                </select-comp>
+            </transition>
+            <transition name="to-down">
                 <field
-                    v-if="load.services.cashpay.active.value"
-                    width="90px"
+                    v-if="load.services.sendBack.type.value"
+                    width="120px"
                     type="text"
                     placeholder="Сумма, р"
                     autofocus
-                    v-model="load.services.cashpay.sum">
+                    v-model="load.services.sendBack.sum"
+                    @destroy="load.services.sendBack.sum = 0">
                 </field>
             </transition>
         </div>
@@ -115,10 +122,10 @@ export default {
                 places: [],
                 services: {
                     fragile: false,
-                    urgent: false,
                     pack: false,
-                    cashpay: {
+                    sendBack: {
                         active: false,
+                        type: {},
                         sum: 0
                     }
                 }
@@ -218,7 +225,6 @@ export default {
             height: 60px
             margin-top: -20px
             margin-right: -20px
-            line-height: 60px
             border-bottom: 1px solid $medium
             display: flex
             align-items: center

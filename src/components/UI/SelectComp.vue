@@ -29,6 +29,10 @@
 <script>
 export default {
     props: {
+        autofocus: {
+            type: Boolean,
+            default: false
+        },
         width: {
             type: String,
             default: '100%'
@@ -90,6 +94,12 @@ export default {
         onEscape() {
             this.$refs.select.blur();
         }
+    },
+    mounted() {
+        if (this.autofocus) this.$refs.select.focus();
+    },
+    destroyed() {
+        this.$emit('destroy');
     }
 }
 </script>

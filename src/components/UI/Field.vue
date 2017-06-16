@@ -88,6 +88,9 @@ export default {
     },
     mounted() {
         if (this.autofocus) this.focusToInput();
+    },
+    destroyed() {
+        this.$emit('destroy');
     }
 }
 </script>
