@@ -1,6 +1,6 @@
 <template lang="html">
     <div :style="{ fontSize: size }">
-          <input @focus="$emit('focus')" type="checkbox" id="we" v-model="value">
+          <input @focus="$emit('focus')" type="checkbox" v-model="value">
           <label @click="value = !value">{{ title }}</label>
     </div>
 </template>
