@@ -5,11 +5,6 @@
         </div>
         <div class="services">
             <checkbox
-                title="Хрупкость"
-                v-model="load.services.fragile"
-                @focus="focusToNext('typeOfLoad' + '0')">
-            </checkbox>
-            <checkbox
                 title="Упаковка"
                 v-model="load.services.pack">
             </checkbox>
@@ -60,35 +55,35 @@
                 width="70px"
                 type="text"
                 placeholder="Вес, кг"
-                :disabled="{ isTrue: place.type.value !== 0 }"
+                :disabled="!!place.type.value"
                 v-model="place.weight">
             </field>
             <field
                 width="70px"
                 type="text"
                 placeholder="Д, см"
-                :disabled="{ isTrue: place.type.value !== 0 }"
+                :disabled="!!place.type.value"
                 v-model="place.length">
             </field>
             <field
                 width="70px"
                 type="text"
                 placeholder="Ш, см"
-                :disabled="{ isTrue: place.type.value !== 0 }"
+                :disabled="!!place.type.value"
                 v-model="place.width">
             </field>
             <field
                 width="70px"
                 type="text"
                 placeholder="В, см"
-                :disabled="{ isTrue: place.type.value !== 0 }"
+                :disabled="!!place.type.value"
                 v-model="place.height">
             </field>
             <field
                 width="70px"
                 type="text"
                 placeholder="Цена, р"
-                :disabled="{ isTrue: place.type.value === 1 }"
+                :disabled="place.type.value === 1"
                 v-model="place.price">
             </field>
             <button
@@ -121,7 +116,6 @@ export default {
             load: {
                 places: [],
                 services: {
-                    fragile: false,
                     pack: false,
                     sendBack: {
                         active: false,

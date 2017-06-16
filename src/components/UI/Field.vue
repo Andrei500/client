@@ -3,7 +3,7 @@
         <input
             ref="input"
             autocomplete="off"
-            :disabled="disabled.isTrue"
+            :disabled="disabled"
             :type="type"
             v-mask="regEx"
             :value="value"
@@ -42,12 +42,8 @@ export default {
             default: '100%'
         },
         disabled: {
-            type: Object,
-            default() {
-                return {
-                    isTrue: false
-                }
-            }
+            type: Boolean,
+            default: false
         }
     },
     data() {
