@@ -1,7 +1,10 @@
 <template>
     <div class="name_wrap">
         <a @click="toggleMenu()" href="#" :class="['name', { 'active': active }]">
-            <h4>{{ userName }}</h4>
+            <div>
+                <h4>{{ userName }}</h4>
+                <span>{{ city + ', отд. #' + number }}</span>
+            </div>
             <button><i class="icon-chevron"></i></button>
         </a>
         <ul v-if="active">
@@ -18,6 +21,8 @@ export default {
     data() {
         return {
             userName: 'Виолетта Хведынко',
+            city: 'Макеевка',
+            number: 1,
             active: false,
             darkMode: false
         }
@@ -56,6 +61,8 @@ export default {
         background: none
         position: relative
         cursor: pointer
+        padding: 0 5px 0 10px
+        top: -8px
 
     .name
         display: block
@@ -64,12 +71,17 @@ export default {
         padding: 10px 20px
         color: $dark
 
-        & h4
-            display: inline
-            font-family: 'Regular'
-            font-weight: normal
-            margin: 0
-            line-height: 40px
+        & div
+            display: inline-block
+
+            & h4
+                font-family: 'Regular'
+                font-weight: normal
+                margin: 5px 0 0 0
+
+            & span
+                color: $hard
+                font-size: 12px
 
         & button i
             font-size: 12px
