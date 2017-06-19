@@ -53,35 +53,40 @@
             </field>
             <field
                 width="70px"
-                type="text"
+                type="number"
+                :propValue="place.weight"
                 placeholder="Вес, кг"
                 :disabled="!!place.type.value"
                 v-model.number="place.weight">
             </field>
             <field
                 width="70px"
-                type="text"
+                type="number"
+                :propValue="place.length"
                 placeholder="Д, см"
                 :disabled="!!place.type.value"
                 v-model.number="place.length">
             </field>
             <field
                 width="70px"
-                type="text"
+                type="number"
+                :propValue="place.width"
                 placeholder="Ш, см"
                 :disabled="!!place.type.value"
                 v-model.number="place.width">
             </field>
             <field
                 width="70px"
-                type="text"
+                type="number"
+                :propValue="place.height"
                 placeholder="В, см"
                 :disabled="!!place.type.value"
                 v-model.number="place.height">
             </field>
             <field
                 width="70px"
-                type="text"
+                type="number"
+                :propValue="place.price"
                 placeholder="Цена, р"
                 :disabled="place.type.value === 1"
                 v-model.number="place.price">
@@ -125,11 +130,11 @@ export default {
             },
             loadParams: {
                 type: {},
-                weight: 0,
-                length: 0,
-                width: 0,
-                height: 0,
-                price: 0,
+                weight: 10,
+                length: 30,
+                width: 20,
+                height: 20,
+                price: 500,
                 description: ''
             }
 
