@@ -13,23 +13,17 @@
             <div class="right">
 
                 <search/>
-                <bell/>
-                <user-name/>
+                <div>
+                    <bell/>
+                    <user-name/>
+                </div>
 
             </div>
         </div>
 
-        <sidebar-comp>
-            <div class="sidebar_child">
-                <button-comp
-                    text="Создать накладную"
-                    icon="add_ttn"
-                    :disabled="showFormInvoice"
-                    @click.native="showFormInvoice = true">
-                </button-comp>
-            </div>
-            <div class="sidebar_child">
-            </div>
+        <sidebar-comp
+            @openFormInvoice="showFormInvoice = true"
+            :disabledButton="showFormInvoice">
         </sidebar-comp>
 
         <transition name="fade-in-left">
@@ -46,7 +40,6 @@ import Search from '../modules/Search.vue';
 import Bell from '../modules/Bell.vue';
 import UserName from '../modules/UserName.vue';
 import SidebarComp from '../modules/SidebarComp.vue';
-import ButtonComp from '../UI/ButtonComp.vue';
 import FormInvoice from '../modules/FormInvoice.vue';
 
 export default {
@@ -61,8 +54,7 @@ export default {
         Bell,
         UserName,
         SidebarComp,
-        FormInvoice,
-        ButtonComp
+        FormInvoice
     }
 }
 </script>
@@ -96,8 +88,8 @@ export default {
         z-index: 1
 
     .left
-        width: 300px
-        padding: 10px 30px
+        width: 260px
+        padding: 10px 20px
         border-right: 1px solid $medium
 
         & img
@@ -116,13 +108,11 @@ export default {
     .right
         display: flex
         align-items: center
-        width: calc(100% - 300px)
+        width: calc(100% - 260px)
         justify-content: space-between
 
-    .sidebar_child
-        padding: 20px
-
-        & + .sidebar_child
-            border-top: 1px solid $medium
+        & > div
+            display: flex
+            justify-content: space-between
 
 </style>
