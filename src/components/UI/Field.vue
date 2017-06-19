@@ -6,13 +6,13 @@
             :disabled="disabled"
             :type="type"
             v-mask="regEx"
-            :value="value"
+            :value="value || propValue"
             @focus="addPlus()"
             @input="setValue($event.target.value)"
         >
         <label
             @click="focusToInput()"
-            :class="{ active : !!value }"
+            :class="{ active : !!value || !!propValue }"
         >{{placeholder}}</label>
 
     </div>
@@ -44,6 +44,10 @@ export default {
         disabled: {
             type: Boolean,
             default: false
+        },
+        propValue: {
+            type: [String, Number],
+            default: ''
         }
     },
     data() {
