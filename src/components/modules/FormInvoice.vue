@@ -1,5 +1,5 @@
 <template>
-    <div @keydown.up.prevent @keydown.down.prevent ref="invoice_form" class="invoice_form">
+    <div ref="invoice_form" class="invoice_form">
         <div class="header">
             <div class="title_wrap">
                 <h3><i class="icon-add_ttn"></i>Создание накладной</h3>
@@ -155,6 +155,7 @@ export default {
 
     .header, .footer
         position: fixed
+        left: 260px
         height: 60px
         background: #fff
         display: flex
@@ -166,12 +167,10 @@ export default {
 
     .footer
         bottom: 0
-        right: 0
         box-shadow: 5px -2px 10px $trans-black
 
     .header
         top: 0
-        right: 0
         box-shadow: 5px 2px 10px $trans-black
 
         & .title_wrap
