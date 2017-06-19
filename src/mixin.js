@@ -14,6 +14,9 @@ export default {
                 if (start > height) clearInterval(scr);
 
             }, 17);
+        },
+        round(num) {
+             return Math.round((num * 100) / 100);
         }
     }
 }
