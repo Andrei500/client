@@ -1,5 +1,5 @@
 <template>
-    <button :class="{'small': small}" :disabled="disabled"><i :class="'icon-' + icon"></i> {{ text }}</button>
+    <button :class="{'small': small}" :disabled="disabled"><i v-if="icon" :class="'icon-' + icon"></i> {{ text }}</button>
 </template>
 
 <script>
