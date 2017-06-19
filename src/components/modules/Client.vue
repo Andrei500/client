@@ -13,7 +13,7 @@
 
         <field
             ref="phone"
-            width="200px"
+            width="210px"
             type="text"
             placeholder="Телефон"
             v-model="client.phone"
@@ -23,14 +23,14 @@
 
         <field
             v-if="client.jur.value"
-            :width="(client.jur.value) ? '200px' : ''"
+            :width="(client.jur.value) ? '210px' : ''"
             type="text"
             placeholder="Организация"
             v-model="client.name">
         </field>
 
         <field
-            :width="(client.jur.value) ? '200px' : '100%'"
+            :width="(client.jur.value) ? '210px' : '100%'"
             type="text"
             :placeholder="(client.jur.value) ? 'Представитель' : 'Фамилия Имя Отчество'"
             v-model="client.name">
@@ -38,7 +38,7 @@
 
         <typehead
             extendValue="region"
-            width="200px"
+            width="210px"
             :options="cities"
             v-model="client.adress.city"
             @input="focusToNext('adress')">
@@ -46,14 +46,14 @@
 
         <field
             ref="adress"
-            width="200px"
+            width="210px"
             type="text"
             placeholder="Адрес"
             v-model="client.adress">
         </field>
 
         <select-comp
-            width="200px"
+            width="210px"
             :options="docsToSelect"
             v-model="client.docs.type"
             @input="focusToNext('series')">
@@ -61,14 +61,14 @@
 
         <field
             ref="series"
-            width="90px"
+            width="95px"
             type="text"
             placeholder="Серия"
             v-model="client.docs.series">
         </field>
 
         <field
-            width="90px"
+            width="95px"
             type="text"
             placeholder="Номер"
             v-model="client.docs.number">
@@ -325,7 +325,7 @@ export default {
 
 
         & .title
-            width: 220px
+            width: 230px
             height: 60px
             line-height: 22px
             padding: 20px 0 20px 20px

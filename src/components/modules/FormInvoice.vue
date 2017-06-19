@@ -142,7 +142,7 @@ export default {
     .invoice_form
         position: absolute
         height: 100vh
-        width: 995px
+        width: 1035px
         right: 0
         top: 0
         z-index: 3
@@ -162,7 +162,7 @@ export default {
         padding: 0 20px
         justify-content: space-between
         z-index: 6
-        width: 995px
+        width: 1035px
 
     .footer
         bottom: 0
@@ -183,7 +183,7 @@ export default {
                 font: 14px 'Medium'
                 height: 60px
                 line-height: 60px
-                width: 220px
+                width: 230px
                 border-right: 1px solid $medium
 
                 & i
@@ -218,7 +218,7 @@ export default {
         justify-content: space-between
 
         & > div
-            width: 460px
+            width: 480px
 
 
     .to-down-enter-active, .to-down-leave-active,

@@ -39,14 +39,14 @@
         <div class="places_list_wrap" v-for="(place, index) in load.places" :key="place">
             <select-comp
                 :ref="'typeOfLoad' + index"
-                width="200px"
+                width="210px"
                 :options="typesOfLoad"
                 v-model="place.type"
                 @input="focusToNext('description' + index)">
             </select-comp>
             <field
                 :ref="'description' + index"
-                width="200px"
+                width="210px"
                 type="text"
                 placeholder="Описание"
                 v-model="place.description">
@@ -56,35 +56,35 @@
                 type="text"
                 placeholder="Вес, кг"
                 :disabled="!!place.type.value"
-                v-model="place.weight">
+                v-model.number="place.weight">
             </field>
             <field
                 width="70px"
                 type="text"
                 placeholder="Д, см"
                 :disabled="!!place.type.value"
-                v-model="place.length">
+                v-model.number="place.length">
             </field>
             <field
                 width="70px"
                 type="text"
                 placeholder="Ш, см"
                 :disabled="!!place.type.value"
-                v-model="place.width">
+                v-model.number="place.width">
             </field>
             <field
                 width="70px"
                 type="text"
                 placeholder="В, см"
                 :disabled="!!place.type.value"
-                v-model="place.height">
+                v-model.number="place.height">
             </field>
             <field
                 width="70px"
                 type="text"
                 placeholder="Цена, р"
                 :disabled="place.type.value === 1"
-                v-model="place.price">
+                v-model.number="place.price">
             </field>
             <button
                 v-tooltip.left="(load.places.length > 1) ? 'Убрать место' : false"
@@ -197,7 +197,7 @@ export default {
 
 
         & .title
-            width: 220px
+            width: 230px
             height: 60px
             line-height: 22px
             padding: 20px 0 20px 25px
@@ -214,7 +214,7 @@ export default {
                 margin-right: 10px
 
         & .services
-            width: calc(100% - 180px)
+            width: calc(100% - 190px)
             height: 60px
             margin-top: -20px
             margin-right: -20px
@@ -279,6 +279,7 @@ export default {
             border-radius: 3px
             transition: all .3s ease
             cursor: pointer
+            font-family: 'Light'
 
             &:hover
                 background: $primary-color
