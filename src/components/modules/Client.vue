@@ -75,10 +75,6 @@
             </field>
         </template>
 
-        <div style="height: 40px; width: 100%">
-
-        </div>
-
     </div>
 </template>
 
