@@ -7,7 +7,7 @@
                 @focus="focusToNext('phone')"
                 size="12px"
                 title="юр. лицо"
-                v-model="client.jur">
+                v-model="client.jur.is">
             </checkbox>
         </div>
 
@@ -22,17 +22,17 @@
         </field>
 
         <field
-            v-if="client.jur.value"
-            :width="(client.jur.value) ? '210px' : ''"
+            v-if="client.jur.is.value"
+            :width="(client.jur.is.value) ? '210px' : ''"
             type="text"
             placeholder="Организация"
-            v-model="client.name">
+            v-model="client.jur.org">
         </field>
 
         <field
-            :width="(client.jur.value) ? '210px' : '100%'"
+            :width="(client.jur.is.value) ? '210px' : '100%'"
             type="text"
-            :placeholder="(client.jur.value) ? 'Представитель' : 'Фамилия Имя Отчество'"
+            :placeholder="(client.jur.is.value) ? 'Представитель' : 'Фамилия Имя Отчество'"
             v-model="client.name">
         </field>
 
@@ -51,28 +51,34 @@
             placeholder="Адрес"
             v-model="client.adress.adress">
         </field>
+        <template v-if="!hiddenDocsFields">
+            <select-comp
+                width="210px"
+                :options="docsToSelect"
+                v-model="client.docs.type"
+                @input="focusToNext('series')">
+            </select-comp>
 
-        <select-comp
-            width="210px"
-            :options="docsToSelect"
-            v-model="client.docs.type"
-            @input="focusToNext('series')">
-        </select-comp>
+            <field
+                ref="series"
+                width="95px"
+                type="text"
+                placeholder="Серия"
+                v-model="client.docs.series">
+            </field>
 
-        <field
-            ref="series"
-            width="95px"
-            type="text"
-            placeholder="Серия"
-            v-model="client.docs.series">
-        </field>
+            <field
+                width="95px"
+                type="text"
+                placeholder="Номер"
+                v-model="client.docs.number">
+            </field>
+        </template>
 
-        <field
-            width="95px"
-            type="text"
-            placeholder="Номер"
-            v-model="client.docs.number">
-        </field>
+        <div style="height: 40px; width: 100%">
+
+        </div>
+
     </div>
 </template>
 
@@ -93,13 +99,20 @@ export default {
         autofocus: {
             type: Boolean,
             default: false
+        },
+        hiddenDocsFields: {
+            type: Boolean,
+            default: false
         }
     },
 
     data() {
         return {
             client: {
-                jur: false,
+                jur: {
+                    is: {},
+                    org: ''
+                },
                 phone: '+',
                 name: '',
                 docs: {
