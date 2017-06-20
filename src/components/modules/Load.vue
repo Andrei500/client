@@ -42,7 +42,7 @@
                 width="210px"
                 :options="typesOfLoad"
                 v-model="place.type"
-                @input="focusToNext('description' + index)">
+                @input="changeType($event, index); focusToNext('description' + index)">
             </select-comp>
             <field
                 :ref="'description' + index"
@@ -54,7 +54,6 @@
             <field
                 width="70px"
                 type="number"
-                :propValue="place.weight"
                 placeholder="Вес, кг"
                 :disabled="!!place.type.value"
                 v-model.number="place.weight">
@@ -62,7 +61,6 @@
             <field
                 width="70px"
                 type="number"
-                :propValue="place.length"
                 placeholder="Д, см"
                 :disabled="!!place.type.value"
                 v-model.number="place.length">
@@ -70,7 +68,6 @@
             <field
                 width="70px"
                 type="number"
-                :propValue="place.width"
                 placeholder="Ш, см"
                 :disabled="!!place.type.value"
                 v-model.number="place.width">
@@ -78,7 +75,6 @@
             <field
                 width="70px"
                 type="number"
-                :propValue="place.height"
                 placeholder="В, см"
                 :disabled="!!place.type.value"
                 v-model.number="place.height">
@@ -86,7 +82,6 @@
             <field
                 width="70px"
                 type="number"
-                :propValue="place.price"
                 placeholder="Цена, р"
                 :disabled="place.type.value === 1"
                 v-model.number="place.price">
@@ -128,14 +123,37 @@ export default {
                     }
                 }
             },
-            loadParams: {
-                type: {},
-                weight: 10,
-                length: 30,
-                width: 20,
-                height: 20,
-                price: 500,
-                description: ''
+            params: {
+                default: {
+                    type: {},
+                    weight: 0,
+                    length: 0,
+                    width: 0,
+                    height: 0,
+                    price: 0,
+                    description: ''
+                },
+                load: {
+                    weight: 10,
+                    length: 30,
+                    width: 30,
+                    height: 30,
+                    price: 500
+                },
+                doc: {
+                    weight: 1,
+                    length: 30,
+                    width: 21,
+                    height: 1,
+                    price: 100
+                },
+                money: {
+                    weight: 0,
+                    length: 0,
+                    width: 0,
+                    height: 0,
+                    price: 500
+                }
             }
 
         }
@@ -160,12 +178,25 @@ export default {
     },
     methods: {
         addPlace(event) {
-            const loadParams = Object.assign({}, this.loadParams);
+            const loadParams = Object.assign({}, this.params.default);
             this.load.places.push(loadParams);
             if (event !== undefined) this.$emit('addedPlace');
         },
         delPlace(index) {
             this.load.places.splice(index, 1);
+        },
+        changeType(type, index) {
+            let typeOfLoad;
+            switch (type.value) {
+                case 0: typeOfLoad = 'load'; break;
+                case 1: typeOfLoad = 'doc'; break;
+                case 2: typeOfLoad = 'money'; break;
+            }
+            const params = this.params[typeOfLoad];
+
+            Object.keys(params).forEach((key) => {
+                this.load.places[index][key] = params[key];
+            });
         }
     },
     components: {
