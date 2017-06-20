@@ -5,14 +5,15 @@
             autocomplete="off"
             :disabled="disabled"
             :type="type"
+            :min="(type === 'number') ? 0 : false"
             v-mask="regEx"
-            :value="value || propValue"
+            :value="value || ''"
             @focus="addPlus()"
             @input="setValue($event.target.value)"
         >
         <label
             @click="focusToInput()"
-            :class="{ active : !!value || !!propValue }"
+            :class="{ active : !!value  }"
         >{{placeholder}}</label>
 
     </div>
@@ -45,14 +46,9 @@ export default {
             type: Boolean,
             default: false
         },
-        propValue: {
-            type: [String, Number],
+        value: {
+            type: [Number, String],
             default: ''
-        }
-    },
-    data() {
-        return {
-            value: ''
         }
     },
     computed: {
@@ -73,7 +69,6 @@ export default {
     },
     methods: {
         setValue(value) {
-            this.value = value;
             this.$emit('input', value);
         },
         addPlus() {
@@ -120,9 +115,12 @@ export default {
             padding: 17px 0 6px
             border-bottom: 2px solid $primary-color
 
-        &:disabled + label
-            opacity: .3
-            cursor: default
+        &:disabled
+            color: $hard
+
+            & + label
+                opacity: .5
+                cursor: default
 
 
     label
