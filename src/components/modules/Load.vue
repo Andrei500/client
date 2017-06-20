@@ -134,11 +134,11 @@ export default {
                     description: ''
                 },
                 load: {
-                    weight: 10,
-                    length: 30,
-                    width: 30,
-                    height: 30,
-                    price: 500
+                    weight: 0,
+                    length: 0,
+                    width: 0,
+                    height: 0,
+                    price: 0
                 },
                 doc: {
                     weight: 1,
