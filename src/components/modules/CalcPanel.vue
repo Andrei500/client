@@ -33,41 +33,17 @@ export default {
                 };
             }
         },
+        typeOfDelivery: {
+            type: Number,
+            default: 1
+        },
         load: {
-            type: Object,
-            default() {
-                return {};
-            }
+            type: Object
         }
     },
     data() {
         return {
-            sums: [
-                {
-                    name: 'Хрупкость',
-                    value: 100
-                },
-                {
-                    name: 'Срочность',
-                    value: 80
-                },
-                {
-                    name: 'Упаковка',
-                    value: 130
-                },
-                {
-                    name: 'Нал. платеж',
-                    value: 25
-                },
-                {
-                    name: 'Комиссия',
-                    value: 5
-                },
-                {
-                    name: 'Транспортировка',
-                    value: 245
-                }
-            ],
+            sums: [],
             tables: {
 
                 TZ: [
@@ -127,56 +103,158 @@ export default {
                 ],
 
                 tariff: [
-                    //     <1   <5  <10  <20  <35  <50  v>50  o>.25
-                    [0, 0, 0, 0, 0, 0, [0, 0]], // TZ == 0
-                    [50, 65, 75, 100, 130, 150, [0.7, 140]], // TZ == 1
-                    [55, 72, 83, 110, 143, 165, [0.8, 160]], // TZ == 2
-                    [61, 80, 92, 121, 172, 198, [1, 200]], // TZ == 3
-                    [68, 88, 102, 134, 190, 218, [1.3, 260]], // TZ == 4
-                    [75, 97, 113, 148, 228, 262, [1.5, 300]], // TZ == 5
-                    [83, 107, 125, 163, 251, 289, [1.7, 340]], // TZ == 6
-                    [400, 500, 575, 700, 800, 900, [8, 1600]] // TZ == 7
-                ],
-
-                tariffCur: [
-                    //  <1  <5 <10 <20 <35  <50  >50
-                    30, 50, 60, 70, 80, 100, 200
+                    {
+                        min: 0,
+                        max: 1,
+                        prices: [ 0, 50, 55, 61, 68, 75, 83, 400 ],
+                        courierPrice: 30
+                    },
+                    {
+                        min: 1,
+                        max: 5,
+                        prices: [ 0, 65, 72, 80, 88, 97, 107, 500 ],
+                        courierPrice: 50
+                    },
+                    {
+                        min: 5,
+                        max: 10,
+                        prices: [ 0, 75, 83, 92, 102, 113, 125, 575 ],
+                        courierPrice: 60
+                    },
+                    {
+                        min: 10,
+                        max: 20,
+                        prices: [ 0, 100, 110, 121, 134, 148, 163, 700 ],
+                        courierPrice: 70
+                    },
+                    {
+                        min: 20,
+                        max: 35,
+                        prices: [ 0, 130, 143, 172, 190, 228, 251, 800 ],
+                        courierPrice: 80
+                    },
+                    {
+                        min: 35,
+                        max: 50,
+                        prices: [ 0, 150, 165, 198, 218, 262, 289, 900 ],
+                        courierPrice: 100
+                    },
+                    {
+                        min: 50,
+                        max: Infinity,
+                        prices: [ [0, 0], [150, 0.7], [165, 0.8], [198, 1], [218, 1.3], [262, 1.5], [289, 1.7], [900, 8] ],
+                        courierPrice: 200
+                    }
                 ]
             },
 
         }
     },
+    watch: {
+        load: {
+            handler() {
+                this.trans();
+                this.comiss();
+                this.pack();
+            },
+            deep: true
+       },
+       typeOfDelivery() {
+           this.trans();
+       }
+    },
     computed: {
-
-        TZ() { return this.tables.TZ[this.from.city.value - 1][this.to.city.value - 1]; },
-        period() { return this.tables.periods[this.from.city.value - 1][this.to.city.value - 1]; },
-
-        trans() {
-            switch (expression) {
-                case expression:
-
-                    break;
-                default:
-
-            }
+        TZ() {
+            return this.tables.TZ[this.from.city.value - 1][this.to.city.value - 1];
         },
-
-        fragile() {
-            // return (this.load.services.fragile) ? { name: thi }
+        period() {
+            return this.tables.periods[this.from.city.value - 1][this.to.city.value - 1];
         },
         total() {
-            return this.sums.reduce((result, item) => {
-                return result + item.value;
-            }, 0);
+            if (this.sums.length) {
+                return this.sums.reduce((prev, cur) => {
+                    return prev + cur.value;
+                }, 0);
+            } else return 0;
         }
     },
     methods: {
-        calcPlace(place) {
-            if (this.TZ > 0) {
-                if (place.type.value === 1) {
+        calcMaxWeight(load) {
+            const
+                volumeWeight = (load.width * load.height * load.length) / 5000,
+                factWeight = load.weight,
+                maxWeight = (volumeWeight >= factWeight) ? volumeWeight : factWeight;
 
-                }
+            return this.round(maxWeight);
+        },
+        addSum(sum) {
+            let index;
+            this.sums.forEach((item, idx) => {
+                if (item.name === sum.name) index = idx;
+            });
+            (index === undefined) ? this.sums.push(sum) : this.sums[index].value = sum.value;
+        },
+        delSum(sum) {
+            let index;
+            this.sums.forEach((item, idx) => {
+                if (item.name === sum.name) index = idx;
+            });
+            if (index === undefined) return;
+            else this.sums.splice(index, 1);
+        },
+        trans() {
+            const
+                weight = this.load.places
+                                        .map(place => this.calcMaxWeight(place))
+                                        .reduce((prevVal, curVal) => prevVal + curVal),
+                trans = { name: 'Транспортировка', value: 0 },
+                curFrom = { name: 'Забор с адреса', value: 0},
+                curTo = { name: 'Доставка на адрес', value: 0};
+
+            if (weight > 0) {
+                let isFixedPrice = true;
+                const
+                    tariff = this.tables.tariff.find((item, index, array) => {
+                        if ((index + 1) === array.length) isFixedPrice = false;
+                        return (weight > item.min && weight <= item.max);
+                    }),
+                    price = tariff.prices[this.TZ],
+                    totalPrice = (isFixedPrice) ? price : (price[0] + (weight - 50) * price[1]);
+
+                trans.value = this.round(totalPrice);
+                this.addSum(trans);
+
+                if (this.typeOfDelivery === 3 || this.typeOfDelivery === 4) {
+                    curFrom.value = tariff.courierPrice;
+                    this.addSum(curFrom);
+                } else this.delSum(curFrom);
+
+                if (this.typeOfDelivery === 2 || this.typeOfDelivery === 4) {
+                    curTo.value = tariff.courierPrice;
+                    this.addSum(curTo);
+                } else this.delSum(curTo);
+
+            } else this.delSum(trans);
+
+        },
+        comiss() {
+            const
+                summ = this.load.places.reduce((prev, cur) => {
+                    return prev + cur.price;
+                }, 0),
+                comiss = { name: 'Комиссия', value: 0 };
+
+            if (summ > 0) {
+                const comissSum = summ * 0.005;
+                comiss.value = this.round((comissSum > 5) ? comissSum : 5);
+                this.addSum(comiss);
             }
+            else this.delSum(comiss);
+        },
+        pack() {
+            const pack =  { name: this.load.services.pack.name, value: 100 };
+            if (this.load.services.pack.value) this.addSum(pack);
+            else this.delSum(pack);
         }
     }
 }
@@ -185,7 +263,6 @@ export default {
 <style lang="sass" scoped>
 
     @import "../../configs/styles_config.sass"
-
 
     .wrap
         & > span
