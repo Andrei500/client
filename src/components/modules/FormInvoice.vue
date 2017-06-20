@@ -25,7 +25,7 @@
                             width="160px"
                             type="text"
                             placeholder="Организация"
-                            v-model="payer.who.name"
+                            v-model="payer.name"
                             autofocus>
                         </field>
                     </transition>
@@ -41,7 +41,8 @@
             </client>
             <client
                 title="Получатель"
-                v-model="getter">
+                v-model="getter"
+                hiddenDocsFields>
             </client>
         </div>
 
@@ -54,7 +55,8 @@
             <calc-panel
                 :from="sender.adress"
                 :to="getter.adress"
-                :load="load">
+                :load="load"
+                :typeOfDelivery="typeOfDelivery.value">
             </calc-panel>
             <button-comp
                 text="Распечатать"
@@ -82,10 +84,7 @@ export default {
             valid: false,
             typeOfDelivery: {},
             payer: {
-                who: {
-                    name: '',
-                    value: 1
-                },
+                who: {},
                 name: ''
             },
             sender: {},
@@ -160,7 +159,7 @@ export default {
         background: #fff
         display: flex
         align-items: center
-        padding: 0 20px
+        padding: 0 35px 0 20px
         justify-content: space-between
         z-index: 6
         width: 1035px
