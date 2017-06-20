@@ -49,7 +49,7 @@
             width="210px"
             type="text"
             placeholder="Адрес"
-            v-model="client.adress">
+            v-model="client.adress.adress">
         </field>
 
         <select-comp
@@ -108,7 +108,8 @@ export default {
                     number: 0
                 },
                 adress: {
-                    city: ''
+                    city: '',
+                    adress: ''
                 }
             },
             docsToSelect: [
