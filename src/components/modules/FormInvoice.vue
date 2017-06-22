@@ -35,12 +35,14 @@
             <client
                 title="Отправитель"
                 v-model="sender"
-                :cities="citiesFrom">
+                :isCur="isCurFrom"
+                :cities="(isCurFrom) ? cities : citiesWithTerminals">
             </client>
             <client
                 title="Получатель"
                 v-model="getter"
-                :cities="citiesTo"
+                :isCur="isCurTo"
+                :cities="(isCurTo) ? cities : citiesWithTerminals"
                 hiddenDocsFields>
             </client>
         </div>
@@ -63,7 +65,8 @@
                 text="Распечатать"
                 icon="print"
                 small="true"
-                :disabled="!valid">
+                :disabled="!isValid"
+                @click.native="print()">
             </button-comp>
         </div>
 
@@ -82,7 +85,6 @@ import ButtonComp from '../UI/ButtonComp.vue';
 export default {
     data() {
         return {
-            valid: false,
             typeOfDelivery: {},
             payer: {
                 who: {},
@@ -96,7 +98,30 @@ export default {
     },
     computed: {
         isValid() {
-            return { isValid: false }
+
+            let isValidLoad = false;
+
+            if (this.load.places) {
+                this.load.places.forEach((place) => {
+                    if (place.weight &&
+                        place.length &&
+                        place.width &&
+                        place.height &&
+                        place.price
+                    ) isValidLoad = true;
+                });
+            }
+
+            if (this.sender.phone &&
+                this.sender.name &&
+                this.sender.docs.series &&
+                this.sender.docs.number &&
+                this.sender.adress.adress &&
+                this.getter.phone &&
+                this.getter.name &&
+                this.getter.adress.adress &&
+                isValidLoad) return true;
+            else return false;
         },
         typesOfDelivery() {
             const types = [];
@@ -191,8 +216,8 @@ export default {
                     region: 'ДНР',
                     terminals: [
                         {
-                            value: 1,
-                            name: 'ул. 250-летия Донбасса, ост. "Универмаг"'
+                            num: 1,
+                            adress: 'ул. 250-летия Донбасса, ост. "Универмаг"'
                         }
                     ]
                 },
@@ -274,22 +299,26 @@ export default {
                     region: 'РФ',
                     terminals: [
                         {
-                            value: 1,
-                            name: 'ул. Доватора, 148'
+                            num: 1,
+                            adress: 'ул. Доватора, 148'
                         }
                     ]
                 }
             ]
         },
-        citiesFrom() {
-            if (this.typeOfDelivery.value === 1 || this.typeOfDelivery.value === 2) {
-                return this.cities.filter((city) => city.terminals !== null);
-            } else return this.cities;
+        isCurFrom() {
+            return (this.typeOfDelivery.value === 1 || this.typeOfDelivery.value === 2) ? false : true;
         },
-        citiesTo() {
-            if (this.typeOfDelivery.value === 1 || this.typeOfDelivery.value === 3) {
-                return this.cities.filter((city) => city.terminals !== null);
-            } else return this.cities;
+        isCurTo() {
+            return (this.typeOfDelivery.value === 1 || this.typeOfDelivery.value === 3) ? false : true;
+        },
+        citiesWithTerminals() {
+            return this.cities.filter((city) => city.terminals !== null);
+        }
+    },
+    methods: {
+        print() {
+            window.print();
         }
     },
     components: {
