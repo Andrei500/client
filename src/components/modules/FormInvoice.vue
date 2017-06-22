@@ -8,12 +8,10 @@
                     <select-comp
                         width="170px"
                         :options="typesOfDelivery"
-                        v-model="typeOfDelivery"
-                        @input="focusToNext('payer')">
+                        v-model="typeOfDelivery">
                     </select-comp>
                     <p>Оплата:</p>
                     <select-comp
-                        ref="payer"
                         width="170px"
                         :options="typesOfPayer"
                         v-model="payer.who">
@@ -37,11 +35,12 @@
             <client
                 title="Отправитель"
                 v-model="sender"
-                autofocus>
+                :cities="citiesFrom">
             </client>
             <client
                 title="Получатель"
                 v-model="getter"
+                :cities="citiesTo"
                 hiddenDocsFields>
             </client>
         </div>
@@ -50,6 +49,8 @@
             v-model="load"
             @addedPlace="scrollDown($refs.invoice_form, 40)">
         </load>
+
+        <textarea v-model="description" rows="2" placeholder="Дополнительная информация..."></textarea>
 
         <div class="footer">
             <calc-panel
@@ -89,7 +90,8 @@ export default {
             },
             sender: {},
             getter: {},
-            load: {}
+            load: {},
+            description: ''
         }
     },
     computed: {
@@ -121,6 +123,173 @@ export default {
                     value: 3
                 }
             ]
+        },
+        cities() {
+            return [{
+                    value: 1,
+                    name: 'Амвросиевка',
+                    region: 'ДНР',
+                    terminals: null
+                },
+                {
+                    value: 2,
+                    name: 'Горловка',
+                    region: 'ДНР',
+                    terminals: null
+                },
+                {
+                    value: 3,
+                    name: 'Дебальцево',
+                    region: 'ДНР',
+                    terminals: null
+                },
+                {
+                    value: 4,
+                    name: 'Докучаевск',
+                    region: 'ДНР',
+                    terminals: null
+                },
+                {
+                    value: 5,
+                    name: 'Донецк',
+                    region: 'ДНР',
+                    terminals: null
+                },
+                {
+                    value: 6,
+                    name: 'Енакиево',
+                    region: 'ДНР',
+                    terminals: null
+                },
+                {
+                    value: 7,
+                    name: 'Ждановка',
+                    region: 'ДНР',
+                    terminals: null
+                },
+                {
+                    value: 8,
+                    name: 'Зугрес',
+                    region: 'ДНР',
+                    terminals: null
+                },
+                {
+                    value: 9,
+                    name: 'Иловайск',
+                    region: 'ДНР',
+                    terminals: null
+                },
+                {
+                    value: 10,
+                    name: 'Кировское',
+                    region: 'ДНР',
+                    terminals: null
+                },
+                {
+                    value: 11,
+                    name: 'Макеевка',
+                    region: 'ДНР',
+                    terminals: [
+                        {
+                            value: 1,
+                            name: 'ул. 250-летия Донбасса, ост. "Универмаг"'
+                        }
+                    ]
+                },
+                {
+                    value: 12,
+                    name: 'Моспино',
+                    region: 'ДНР',
+                    terminals: null
+                },
+                {
+                    value: 13,
+                    name: 'Новоазовск',
+                    region: 'ДНР',
+                    terminals: null
+                },
+                {
+                    value: 14,
+                    name: 'Новый свет',
+                    region: 'ДНР',
+                    terminals: null
+                },
+                {
+                    value: 15,
+                    name: 'Седово',
+                    region: 'ДНР',
+                    terminals: null
+                },
+                {
+                    value: 16,
+                    name: 'Снежное',
+                    region: 'ДНР',
+                    terminals: null
+                },
+                {
+                    value: 17,
+                    name: 'Старобешево',
+                    region: 'ДНР',
+                    terminals: null
+                },
+                {
+                    value: 18,
+                    name: 'Тельманово',
+                    region: 'ДНР',
+                    terminals: null
+                },
+                {
+                    value: 19,
+                    name: 'Торез',
+                    region: 'ДНР',
+                    terminals: null
+                },
+                {
+                    value: 20,
+                    name: 'Углегорск',
+                    region: 'ДНР',
+                    terminals: null
+                },
+                {
+                    value: 21,
+                    name: 'Харцызск',
+                    region: 'ДНР',
+                    terminals: null
+                },
+                {
+                    value: 22,
+                    name: 'Шахтерск',
+                    region: 'ДНР',
+                    terminals: null
+                },
+                {
+                    value: 23,
+                    name: 'Ясиноватая',
+                    region: 'ДНР',
+                    terminals: null
+                },
+                {
+                    value: 24,
+                    name: 'Ростов-на-Дону',
+                    region: 'РФ',
+                    terminals: [
+                        {
+                            value: 1,
+                            name: 'ул. Доватора, 148'
+                        }
+                    ]
+                }
+            ]
+        },
+        citiesFrom() {
+            if (this.typeOfDelivery.value === 1 || this.typeOfDelivery.value === 2) {
+                return this.cities.filter((city) => city.terminals !== null);
+            } else return this.cities;
+        },
+        citiesTo() {
+            if (this.typeOfDelivery.value === 1 || this.typeOfDelivery.value === 3) {
+                return this.cities.filter((city) => city.terminals !== null);
+            } else return this.cities;
         }
     },
     components: {
@@ -218,6 +387,19 @@ export default {
         & > div
             width: 480px
 
+    textarea
+        width: 100%
+        outline: none
+        padding: 20px
+        font: 14px 'Light'
+        border-radius: 5px
+        border: 1px solid $medium
+        margin-bottom: 30px
+        resize: none
+        transition: all .3s ease
+
+        &:focus
+            border-color: $primary-color
 
     .to-down-enter-active, .to-down-leave-active,
         transition: all .3s ease
