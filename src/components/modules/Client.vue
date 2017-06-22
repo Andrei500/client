@@ -17,8 +17,7 @@
             type="text"
             placeholder="Телефон"
             v-model="client.phone"
-            mask="tel"
-            :autofocus="autofocus">
+            mask="tel">
         </field>
 
         <field
@@ -45,12 +44,23 @@
         </typehead>
 
         <field
+            v-if="isCur"
             ref="adress"
             width="210px"
             type="text"
             placeholder="Адрес"
-            v-model="client.adress.adress">
+            v-model="client.adress.adress.name">
         </field>
+
+        <select-comp
+            v-else
+            ref="adress"
+            width="210px"
+            :options="terminals"
+            v-model="client.adress.adress"
+            @destroy="client.adress.adress.name = ''">
+        </select-comp>
+
         <template v-if="!hiddenDocsFields">
             <select-comp
                 width="210px"
@@ -92,7 +102,13 @@ export default {
             type: String,
             default: 'Заголовок'
         },
-        autofocus: {
+        cities: {
+            type: Array,
+            default() {
+                return [];
+            }
+        },
+        isCur: {
             type: Boolean,
             default: false
         },
@@ -117,7 +133,7 @@ export default {
                     number: 0
                 },
                 adress: {
-                    city: '',
+                    city: {},
                     adress: ''
                 }
             },
@@ -145,156 +161,16 @@ export default {
             ]
         }
     },
-
     computed: {
-        cities() {
-            return [{
-                    value: 1,
-                    name: 'Амвросиевка',
-                    region: 'ДНР',
-                    terminal: false
-                },
-                {
-                    value: 2,
-                    name: 'Горловка',
-                    region: 'ДНР',
-                    terminal: false
-                },
-                {
-                    value: 3,
-                    name: 'Дебальцево',
-                    region: 'ДНР',
-                    terminal: false
-                },
-                {
-                    value: 4,
-                    name: 'Докучаевск',
-                    region: 'ДНР',
-                    terminal: false
-                },
-                {
-                    value: 5,
-                    name: 'Донецк',
-                    region: 'ДНР',
-                    terminal: true
-                },
-                {
-                    value: 6,
-                    name: 'Енакиево',
-                    region: 'ДНР',
-                    terminal: false
-                },
-                {
-                    value: 7,
-                    name: 'Ждановка',
-                    region: 'ДНР',
-                    terminal: false
-                },
-                {
-                    value: 8,
-                    name: 'Зугрес',
-                    region: 'ДНР',
-                    terminal: false
-                },
-                {
-                    value: 9,
-                    name: 'Иловайск',
-                    region: 'ДНР',
-                    terminal: false
-                },
-                {
-                    value: 10,
-                    name: 'Кировское',
-                    region: 'ДНР',
-                    terminal: false
-                },
-                {
-                    value: 11,
-                    name: 'Макеевка',
-                    region: 'ДНР',
-                    terminal: true
-                },
-                {
-                    value: 12,
-                    name: 'Моспино',
-                    region: 'ДНР',
-                    terminal: false
-                },
-                {
-                    value: 13,
-                    name: 'Новоазовск',
-                    region: 'ДНР',
-                    terminal: false
-                },
-                {
-                    value: 14,
-                    name: 'Новый свет',
-                    region: 'ДНР',
-                    terminal: false
-                },
-                {
-                    value: 15,
-                    name: 'Седово',
-                    region: 'ДНР',
-                    terminal: false
-                },
-                {
-                    value: 16,
-                    name: 'Снежное',
-                    region: 'ДНР',
-                    terminal: false
-                },
-                {
-                    value: 17,
-                    name: 'Старобешево',
-                    region: 'ДНР',
-                    terminal: false
-                },
-                {
-                    value: 18,
-                    name: 'Тельманово',
-                    region: 'ДНР',
-                    terminal: false
-                },
-                {
-                    value: 19,
-                    name: 'Торез',
-                    region: 'ДНР',
-                    terminal: false
-                },
-                {
-                    value: 20,
-                    name: 'Углегорск',
-                    region: 'ДНР',
-                    terminal: false
-                },
-                {
-                    value: 21,
-                    name: 'Харцызск',
-                    region: 'ДНР',
-                    terminal: false
-                },
-                {
-                    value: 22,
-                    name: 'Шахтерск',
-                    region: 'ДНР',
-                    terminal: false
-                },
-                {
-                    value: 23,
-                    name: 'Ясиноватая',
-                    region: 'ДНР',
-                    terminal: false
-                },
-                {
-                    value: 24,
-                    name: 'Ростов-на-Дону',
-                    region: 'РФ',
-                    terminal: true
-                }
-            ]
+        terminals() {
+            if (this.client.adress.city.terminals) {
+                return this.client.adress.city.terminals.map((terminal) => {
+                    return { name: 'отд. №' + terminal.num + ', ' + terminal.adress };
+                });
+            }
         }
     },
+
     methods: {
         addOffset(who, val) {
             const
@@ -324,7 +200,7 @@ export default {
     .field_wrap
         display: flex
         justify-content: space-between
-        align-items: flex-start
+        align-content: flex-start
         margin-bottom: 20px
         flex-wrap: wrap
         transition: all .3s linear
