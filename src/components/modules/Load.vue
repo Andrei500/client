@@ -223,7 +223,7 @@ export default {
         display: flex
         justify-content: space-between
         align-items: flex-start
-        margin-bottom: 35px
+        margin-bottom: 20px
         flex-wrap: wrap
         transition: all .3s linear
         background: #fff
