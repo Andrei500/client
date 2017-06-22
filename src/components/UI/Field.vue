@@ -13,8 +13,9 @@
         >
         <label
             @click="focusToInput()"
-            :class="{ active : !!value  }"
-        >{{placeholder}}</label>
+            :class="{ active : !!value  }">
+            {{ placeholder }}
+        </label>
 
     </div>
 </template>
@@ -110,6 +111,7 @@ export default {
         padding: 17px 0 7px
         height: 40px
         transition: all .3s ease
+        text-overflow: ellipsis
 
         &:focus
             padding: 17px 0 6px
