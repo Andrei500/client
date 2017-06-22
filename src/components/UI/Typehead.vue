@@ -74,6 +74,11 @@ export default {
             selectIndex: 0
         }
     },
+    watch: {
+        options(options) {
+            this.select(options[0]);
+        }
+    },
     computed: {
         filteredOptions() {
             const
@@ -127,9 +132,6 @@ export default {
             this.selectIndex = 0;
             this.$refs.list.scrollTop = 0;
         }
-    },
-    mounted() {
-        this.select(this.options[0]);
     }
 }
 </script>
