@@ -64,6 +64,11 @@ export default {
             selectIndex: 0
         }
     },
+    watch: {
+        options(options) {
+            this.select(options[0]);
+        }
+    },
     methods: {
         select(option) {
             this.selected = option;
