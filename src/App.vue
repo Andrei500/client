@@ -40,7 +40,7 @@ body
         background: rgba(0, 0, 0, .8)
         transition: all .3s ease 0
         padding: 5px 10px
-        height: 26px
+        height: 24px
         font: 12px 'Light'
         color: #fff
         border-radius: 3px
@@ -58,7 +58,7 @@ body
             content: ''
             position: absolute
             right: -12px
-            top: 7px
+            top: 6px
             border: 6px solid transparent
             border-left: 6px solid rgba(0, 0, 0, .8)
 
@@ -66,7 +66,7 @@ body
             content: ''
             position: absolute
             left: -12px
-            top: 7px
+            top: 6px
             border: 6px solid transparent
             border-right: 6px solid rgba(0, 0, 0, .8)
 
