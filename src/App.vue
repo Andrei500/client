@@ -12,6 +12,7 @@ export default {
 @import "./assets/css/normalize.css"
 @import "./assets/css/fonts.css"
 @import "./assets/css/icon-font.css"
+@import "./assets/css/print.sass"
 
 @import "./configs/styles_config.sass"
 

@@ -1,0 +1,52 @@
+@media print
+
+    @page
+        margin: 0
+
+    body *
+        visibility: hidden
+
+    .invoice, .invoice *
+        visibility: visible
+
+    .invoice
+        position: fixed
+        top: .5cm
+        left: 1cm
+        width: 18cm
+        height: 14cm
+
+        & .invoice_head
+            display: flex
+            justify-content: space-between
+            align-items: center
+            margin-bottom: .5cm
+
+            & img
+                height: 2cm
+
+            & h2
+                text-align: right
+                line-height: 150%
+
+                & strong
+                    font-weight: normal
+                    font-family: 'Medium'
+
+    .invoice > table
+        width: 100%
+        border: 1px solid darken(#f0f0f0, 5%)
+
+        & > tr > td
+            border: 1px solid darken(#f0f0f0, 5%)
+            padding: 10px
+
+            &  table tr
+                border-top: 1px solid #edeef0
+
+            & > table > tr > td
+                padding: 5px 0
+
+            & span
+                display: inline-block
+                width: 70px
