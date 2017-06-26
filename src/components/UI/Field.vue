@@ -99,7 +99,7 @@ export default {
         position: relative
         height: 40px
         line-height: 40px
-
+        display: inline-block
 
     input
         border: none
