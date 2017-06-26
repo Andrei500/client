@@ -64,10 +64,10 @@ export default {
             width: 25px
             height: 25px
             outline: none
-            border: 1px solid $medium
+            border: none
+            border-top: 1px solid $medium
+            border-bottom: 1px solid $medium
             text-align: center
-            border-left: none
-            border-right: none
 
             &::-webkit-inner-spin-button
                 -webkit-appearance: none
@@ -80,6 +80,10 @@ export default {
             height: 25px
             width: 20px
             cursor: pointer
+            transition: all .3s ease
+
+            &:hover
+                background: $medium
 
             &:first-of-type
                 border-radius: 5px 0 0 5px
