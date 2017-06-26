@@ -188,19 +188,12 @@ export default {
             return this.round(maxWeight);
         },
         addSum(sum) {
-            let index;
-            this.sums.forEach((item, idx) => {
-                if (item.name === sum.name) index = idx;
-            });
-            (index === undefined) ? this.sums.push(sum) : this.sums[index].value = sum.value;
+            const index = this.sums.findIndex(item => item.name === sum.name);
+            (index === -1) ? this.sums.push(sum) : this.sums[index].value = sum.value;
         },
         delSum(sum) {
-            let index;
-            this.sums.forEach((item, idx) => {
-                if (item.name === sum.name) index = idx;
-            });
-            if (index === undefined) return;
-            else this.sums.splice(index, 1);
+            const index = this.sums.findIndex(item => item.name === sum.name);
+            if (index !== -1) this.sums.splice(index, 1);
         },
         trans() {
             const
