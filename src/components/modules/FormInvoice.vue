@@ -70,6 +70,46 @@
             </button-comp>
         </div>
 
+        <div class="invoice">
+            <div class="invoice_head">
+                <img src="../../assets/img/logo_invoice.jpg">
+                <h2>Экспресс-накладная <br /><strong>№2030001261</strong></h2>
+            </div>
+            <table cellspacing="0">
+                <tr>
+                    <td><span>Дата приема:</span> 21.06.17</td>
+                    <td><span>Дата доставки:</span> 23.06.17</td>
+                </tr>
+                <tr>
+                    <td>
+                        <table>
+                            <h4>Отправитель</h4>
+                            <tr>
+                                <td>Город</td><td>{{ sender.adress.city.name }}</td>
+                            </tr>
+                            <tr>
+                                <td>Адрес</td><td>{{ sender.adress.adress.name }}</td>
+                            </tr>
+                            <tr>
+                                <td>ФИО</td><td>{{ sender.name }}</td>
+                            </tr>
+                            <tr>
+                                <td>Телефон</td><td>{{ sender.phone }}</td>
+                            </tr>
+                        </table>
+
+                    </td>
+                    <td>
+                        <h4>Получатель</h4>
+                        <span>Город:</span> {{ getter.adress.city.name }} <br>
+                        <span>Адрес:</span> {{ getter.adress.adress.name }} <br>
+                        <span>ФИО:</span> {{ getter.name }} <br>
+                        <span>Телефон:</span> {{ getter.phone }}
+                    </td>
+                </tr>
+            </table>
+        </div>
+
     </div>
 </template>
 
@@ -90,38 +130,60 @@ export default {
                 who: {},
                 name: ''
             },
-            sender: {},
-            getter: {},
+            sender: {
+                jur: {
+                    is: {},
+                    org: ''
+                },
+                phone: '+',
+                name: '',
+                docs: {
+                    type: {},
+                    series: '',
+                    number: 0
+                },
+                adress: {
+                    city: {
+                        name: ''
+                    },
+                    adress: ''
+                }
+            },
+            getter: {
+                jur: {
+                    is: {},
+                    org: ''
+                },
+                phone: '+',
+                name: '',
+                docs: {
+                    type: {},
+                    series: '',
+                    number: 0
+                },
+                adress: {
+                    city: {
+                        name: ''
+                    },
+                    adress: ''
+                }
+            },
             load: {},
             description: ''
         }
     },
     computed: {
         isValid() {
-
-            let isValidLoad = false;
-
             if (this.load.places) {
-                this.load.places.forEach((place) => {
-                    if (place.weight &&
-                        place.length &&
-                        place.width &&
-                        place.height &&
-                        place.price
-                    ) isValidLoad = true;
-                });
-            }
+                const
+                    isValidLoad = this.load.places.every((place) => {
+                        return (place.type.value !== 2)  ? place.weight && place.length && place.width && place.height && place.price : !!place.price;
+                    }),
+                    s = this.sender,
+                    g = this.getter;
 
-            if (this.sender.phone &&
-                this.sender.name &&
-                this.sender.docs.series &&
-                this.sender.docs.number &&
-                this.sender.adress.adress &&
-                this.getter.phone &&
-                this.getter.name &&
-                this.getter.adress.adress &&
-                isValidLoad) return true;
-            else return false;
+                return s.phone && s.name && s.docs.series && s.docs.number && s.adress.adress && g.phone && g.name && g.adress.adress && isValidLoad;
+            }
         },
         typesOfDelivery() {
             const types = [];
