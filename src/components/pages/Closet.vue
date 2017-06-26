@@ -70,7 +70,7 @@ export default {
     .fade-in-left-enter,
     .fade-in-left-leave-to
         opacity: 0
-        transform: translate(100px)
+        transform: translateX(200px)
 
     .top_panel
         width: 100%
