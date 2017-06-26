@@ -124,6 +124,7 @@ export default {
 
     div
         position: relative
+        display: inline-block
 
     .select
         display: flex
