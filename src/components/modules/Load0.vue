@@ -237,7 +237,7 @@ export default {
             height: 60px
             line-height: 22px
             padding: 20px 0 20px 25px
-            font-family: 'Regular'
+            font-weight: 500
             border-bottom: 1px solid $medium
             border-right: 1px solid $medium
             margin-left: -20px

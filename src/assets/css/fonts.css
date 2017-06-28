@@ -1,27 +1,27 @@
 /** Regular */
 @font-face {
-  font-family: "Light";
+  font-family: "SF";
   font-weight: 400;
   src: url("../fonts/SF-UI-Text-Regular.ttf");
 }
 
 /** Medium */
 @font-face {
-  font-family: "Regular";
+  font-family: "SF";
   font-weight: 500;
   src: url("../fonts/SF-UI-Text-Medium.ttf");
 }
 
 /** Semi Bold */
 @font-face {
-  font-family: "Medium";
+  font-family: "SF";
   font-weight: 600;
   src: url("../fonts/SF-UI-Text-Semibold.ttf");
 }
 
 /** Bold */
 @font-face {
-  font-family: "Bold";
+  font-family: "SF";
   font-weight: 700;
   src: url("../fonts/SF-UI-Text-Bold.ttf");
 }

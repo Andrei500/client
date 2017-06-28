@@ -1,5 +1,3 @@
-document.body.style.zoom = (window.innerWidth * 100 / 1295) + "%";
-
 import Vue from 'vue';
 
 import VueRouter from 'vue-router';
@@ -18,13 +16,13 @@ import App from './App';
 import { routes } from './routes.js';
 
 const router = new VueRouter({
-    mode: 'history',
-    routes
+  mode: 'history',
+  routes
 });
 
 new Vue({
-    el: '#app',
-    router,
-    template: '<App/>',
-    components: { App }
+  el: '#app',
+  router,
+  template: '<App/>',
+  components: { App }
 });
