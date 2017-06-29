@@ -1,8 +1,13 @@
 <template>
+
+  <!-- # Форма ввода доп услуги и доп информации -->
+
 <div class="field_wrap">
+
   <div class="title">
     <h4>Дополнительно</h4>
   </div>
+
   <div class="checkbox_wrap">
     <checkbox
       title="Упаковка"
@@ -13,27 +18,30 @@
       v-model="more.sendBack.active">
     </checkbox>
   </div>
+
   <select-comp
-    v-if="more.sendBack.active.value"
+    v-if="more.sendBack.active"
     autofocus
-    width="210px"
     :options="typesOfLoad"
     v-model="more.sendBack.type"
-    @destroy="more.sendBack.type = {}">
+    @destroy="more.sendBack.type = {}"
+    width="210px">
   </select-comp>
+
   <transition name="to-down">
     <field
       v-if="more.sendBack.type.value === 2"
-      width="210px"
       type="text"
       placeholder="Сумма, р"
       autofocus
-      v-model="more.sendBack.sum"
-      @destroy="more.sendBack.sum = 0">
+      v-model.number="more.sendBack.sum"
+      @destroy="more.sendBack.sum = 0"
+      width="210px">
     </field>
   </transition>
+
   <textarea
-    :class="{ active: more.sendBack.active.value }"
+    :class="{ active: more.sendBack.active }"
     v-model="more.description"
     placeholder="Дополнительная информация...">
   </textarea>
@@ -41,9 +49,9 @@
 </template>
 
 <script>
-import Field from '../UI/Field.vue';
-import SelectComp from '../UI/SelectComp.vue';
-import Checkbox from '../UI/Checkbox.vue';
+import Field from '../../UI/Field.vue';
+import SelectComp from '../../UI/SelectComp.vue';
+import Checkbox from '../../UI/Checkbox.vue';
 
 export default {
   data() {
@@ -52,13 +60,17 @@ export default {
         pack: false,
         sendBack: {
           active: false,
-          type: {},
+          type: {
+            name: '',
+            value: 0
+          },
           sum: 0
         },
         description: ''
       }
     }
   },
+
   watch: {
     more: {
       handler() {
@@ -67,24 +79,17 @@ export default {
       deep: true
     }
   },
+
   computed: {
     typesOfLoad() {
       return [
-        {
-          name: 'Груз',
-          value: 0
-        },
-        {
-          name: 'Документ',
-          value: 1
-        },
-        {
-          name: 'Ценные бумаги',
-          value: 2
-        }
+        { value: 0, name: 'Груз' },
+        { value: 1, name: 'Документ' },
+        { value: 2, name: 'Ценные бумаги' }
       ];
     }
   },
+
   components: {
     Field,
     SelectComp,
@@ -95,7 +100,7 @@ export default {
 
 <style lang="sass" scoped>
 
-@import "../../configs/styles_config.sass"
+@import "../../../configs/styles_config.sass"
 
 .checkbox_wrap
   width: 210px
@@ -115,6 +120,7 @@ textarea
   transition: all .3s ease
   height: 100px
   position: absolute
+  left: 20px
   bottom: 20px
 
   &.active

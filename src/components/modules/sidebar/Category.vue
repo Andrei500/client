@@ -4,7 +4,7 @@
   <ul>
     <li v-for="item in menuItems">
       <a href="#" slot="title">{{ item.name }}
-        <span v-if="item.value">{{ item.value }}</span>
+        <span v-if="item.count > 0">{{ item.count }}</span>
       </a>
     </li>
   </ul>
@@ -23,15 +23,15 @@ export default {
       default () {
         return [{
             name: 'Пункт 1',
-            value: 1
+            count: 1
           },
           {
             name: 'Пункт 2',
-            value: 2
+            count: 2
           },
           {
             name: 'Пункт 3',
-            value: 3
+            count: 3
           }
         ]
       }
@@ -42,7 +42,7 @@ export default {
 
 <style lang="sass" scoped>
 
-@import "../../configs/styles_config.sass"
+@import "../../../configs/styles_config.sass"
 
 h5
   font-size: 12px

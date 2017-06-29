@@ -1,5 +1,9 @@
 <template>
+
+    <!-- # Кастомный input -->
+
 <div :style="{ width }">
+
   <input
     ref="input"
     autocomplete="off"
@@ -8,13 +12,15 @@
     :min="(type === 'number') ? 0 : false"
     v-mask="regEx"
     :value="value || ''"
-    @focus="addPlus()"
-    @input="setValue($event.target.value)">
+    @input="$emit('input', $event.target.value)"
+  >
+
   <label
-    @click="focusToInput()"
+    @click="$refs.input.focus()"
     :class="{ active : !!value  }">
     {{ placeholder }}
   </label>
+
 </div>
 </template>
 
@@ -30,8 +36,8 @@ export default {
       default: ''
     },
     mask: {
-      type: String,
-      default: ''
+      type: [String, Boolean],
+      default: false
     },
     autofocus: {
       type: Boolean,
@@ -50,10 +56,12 @@ export default {
       default: ''
     }
   },
+
   computed: {
+    //  Регулярка для маски ввода
     regEx() {
       const mask = this.mask;
-      if (mask) {
+      if (!!mask) {
         let exp;
         switch (mask) {
           case 'tel':
@@ -64,23 +72,11 @@ export default {
       } else return false;
     }
   },
-  methods: {
-    setValue(value) {
-      this.$emit('input', value);
-    },
-    addPlus() {
-      if (this.mask == 'tel') {
-        if (!this.value) this.setValue('+');
-        else return;
-      } else return;
-    },
-    focusToInput() {
-      this.$refs.input.focus();
-    }
-  },
+
   mounted() {
-    if (this.autofocus) this.focusToInput();
+    if (this.autofocus) this.$refs.input.focus();;
   },
+
   destroyed() {
     this.$emit('destroy');
   }

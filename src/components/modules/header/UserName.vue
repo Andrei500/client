@@ -1,23 +1,31 @@
 <template>
+
+  <!-- # Имя и меню пользователя -->
+
 <div class="name_wrap">
-  <a @click="toggleMenu()" href="#" :class="['name', { 'active': active }]">
+
+  <a @mousedown.prevent="toggleMenu()" href="#" :class="['name', { 'active': active }]">
     <div>
       <h4>{{ userName }}</h4>
       <span>{{ city + ', отд. #' + number }}</span>
     </div>
     <button><i class="icon-chevron"></i></button>
   </a>
+
   <ul v-if="active">
-    <li @click.stop="darkMode = !darkMode">Темный режим
+    <li @mousedown.stop="darkMode = !darkMode">
+      Темный режим
       <switcher v-model="darkMode" :selected="darkMode" />
     </li>
     <router-link tag="li" to="/login">Выйти</router-link>
   </ul>
+
 </div>
 </template>
 
 <script>
-import Switcher from '../UI/Switcher.vue';
+import Switcher from '../../UI/Switcher.vue';
+
 export default {
   data() {
     return {
@@ -28,6 +36,7 @@ export default {
       darkMode: false
     }
   },
+
   methods: {
     toggleMenu() {
       if (!this.active) document.addEventListener('click', this.closeUserMenu, false);
@@ -40,6 +49,7 @@ export default {
       }
     }
   },
+
   components: {
     Switcher
   }
@@ -48,7 +58,7 @@ export default {
 
 <style lang="sass" scoped>
 
-@import "../../configs/styles_config.sass"
+@import "../../../configs/styles_config.sass"
 
 .name_wrap
   position: relative

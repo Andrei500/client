@@ -1,63 +1,75 @@
 <template>
+
+  <!-- # Форма ввода данных о грузе -->
+
 <div class="field_wrap">
+
   <div class="title">
     <h4>Груз</h4>
-    <number v-model="load.countOfSeats" :title="sits"></number>
+    <number v-model="load.countOfSeats" :title="formOfWord"></number>
   </div>
+
   <select-comp
-    width="210px"
     :options="typesOfLoad"
     v-model="load.type"
-    @input="changeType($event); focusToNext('description')">
+    @input="changeType($event); focusToNext('description')"
+    width="210px">
   </select-comp>
+
   <field
     ref="description"
     type="text"
     placeholder="Описание"
     v-model="load.description">
   </field>
+
   <field
-    width="72px"
     type="number"
     placeholder="Вес, кг"
-    :disabled="!!load.type.value"
-    v-model.number="load.weight">
+    :disabled="load.type.value !== 0"
+    v-model.number="load.weight"
+    width="72px">
   </field>
+
   <field
-    width="72px"
     type="number"
     placeholder="Д, см"
-    :disabled="!!load.type.value"
-    v-model.number="load.length">
+    :disabled="load.type.value !== 0"
+    v-model.number="load.length"
+    width="72px">
   </field>
+
   <field
-    width="72px"
     type="number"
     placeholder="Ш, см"
-    :disabled="!!load.type.value"
-    v-model.number="load.width">
+    :disabled="load.type.value !== 0"
+    v-model.number="load.width"
+    width="72px">
   </field>
+
   <field
-    width="72px"
     type="number"
     placeholder="В, см"
-    :disabled="!!load.type.value"
-    v-model.number="load.height">
+    :disabled="load.type.value !== 0"
+    v-model.number="load.height"
+    width="72px">
   </field>
+
   <field
-    width="72px"
     type="number"
     placeholder="Цена, р"
     :disabled="load.type.value === 1"
-    v-model.number="load.price">
+    v-model.number="load.price"
+    width="72px">
   </field>
+
 </div>
 </template>
 
 <script>
-import Field from '../UI/Field.vue';
-import SelectComp from '../UI/SelectComp.vue';
-import Number from '../UI/Number.vue';
+import Field from '../../UI/Field.vue';
+import SelectComp from '../../UI/SelectComp.vue';
+import Number from '../../UI/Number.vue';
 
 export default {
   data() {
@@ -74,28 +86,29 @@ export default {
       }
     }
   },
+
+  watch: {
+    load: {
+      handler(load) {
+        this.$emit('input', load);
+      },
+      deep: true
+    }
+  },
+
   computed: {
-    sits() {
+    formOfWord() {
       let word = 'мест';
       if (this.load.countOfSeats === 1) word = 'место';
       if (this.load.countOfSeats > 1 && this.load.countOfSeats < 5) word = 'места';
 
       return word;
     },
-    typesOfLoad: function () {
+    typesOfLoad() {
       return [
-        {
-          name: 'Груз',
-          value: 0
-        },
-        {
-          name: 'Документ',
-          value: 1
-        },
-        {
-          name: 'Ценные бумаги',
-          value: 2
-        }
+        { value: 0, name: 'Груз' },
+        { value: 1, name: 'Документ' },
+        { value: 2, name: 'Ценные бумаги' }
       ];
     }
   },
@@ -121,9 +134,6 @@ export default {
     Field,
     SelectComp,
     Number
-  },
-  updated() {
-    this.$emit('input', this.load);
   }
 }
 </script>

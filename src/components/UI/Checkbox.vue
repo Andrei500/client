@@ -1,33 +1,37 @@
 <template lang="html">
-<div :style="{ fontSize: size }">
+
+  <!-- # Кастомный checkbox -->
+
+<div :style="{ fontSize }">
+
   <input @focus="$emit('focus')" type="checkbox" v-model="value">
-  <label @click="value = !value">{{ title }}</label>
+  <label @mousedown="value = !value">{{ title }}</label>
+
 </div>
 </template>
 
 <script>
 export default {
   props: {
-    size: {
+    fontSize: {
       type: String,
       default: '14px'
     },
     title: {
       type: String,
-      default: 'Заголовок'
+      default: ''
     }
   },
+
   data() {
     return {
       value: false
     }
   },
+
   watch: {
     value(val) {
-      this.$emit('input', {
-        name: this.title,
-        value: val
-      });
+      this.$emit('input', val);
     }
   }
 }

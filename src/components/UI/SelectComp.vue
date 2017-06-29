@@ -1,5 +1,10 @@
 <template>
+
+  <!-- # Кастомный select -->
+
 <div :style="{ width }">
+
+  <!-- Выбранное значение -->
   <a href="#" ref="select" :class="['select', { 'active': showList }]"
     @mousedown.prevent="onClick()"
     @focus="onFocus()"
@@ -11,8 +16,11 @@
     <span>{{ selected.name }}</span>
     <i class="icon-chevron"></i>
   </a>
+
+  <!-- Список вариантов -->
   <div class="list_wrap">
     <transition name="to-bottom">
+
       <ul v-if="showList" ref="list">
         <li
           v-for="(option, index) in options"
@@ -21,6 +29,7 @@
           {{ option.name }}
         </li>
       </ul>
+
     </transition>
   </div>
 </div>
@@ -41,43 +50,36 @@ export default {
       type: Array,
       default() {
         return [
-          {
-            name: 'Option 1',
-            value: 1
-          },
-          {
-            name: 'Option 2',
-            value: 2
-          },
-          {
-            name: 'Option 3',
-            value: 3
-          }
+          { value: 1, name: 'Option 1' },
+          { value: 2, name: 'Option 2' },
+          { value: 1, name: 'Option 3' }
         ];
       }
     }
   },
+
   data() {
     return {
       showList: false,
-      selected: {},
+      selected: {
+        value: 0,
+        name: ''
+      },
       selectIndex: 0
     }
   },
+
   watch: {
     options(options) {
       this.select(options[0]);
     }
   },
+
   methods: {
     select(option) {
       this.selected = option;
       this.$emit('input', option);
       this.$refs.select.blur();
-    },
-    onClick() {
-      if (this.showList) this.$refs.select.blur();
-      else this.$refs.select.focus();
     },
     onFocus() {
       this.showList = true;
@@ -86,6 +88,11 @@ export default {
       this.selectIndex = 0;
       this.showList = false;
     },
+    onClick() {
+      if (!this.showList) this.$refs.select.focus();
+      else this.$refs.select.blur();
+    },
+
     onDownKey() {
       if (this.options.length -1 > this.selectIndex) this.selectIndex++;
     },
@@ -99,10 +106,12 @@ export default {
       this.$refs.select.blur();
     }
   },
+
   mounted() {
     this.select(this.options[0]);
     if (this.autofocus) this.$refs.select.focus();
   },
+
   destroyed() {
     this.$emit('destroy');
   }

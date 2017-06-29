@@ -1,44 +1,54 @@
 <template>
-<div ref="invoice_form" class="invoice_form">
+
+  <!-- # Форма создания накладной -->
+
+<div class="invoice_form">
+
+  <!-- Верхняя панель -->
   <div class="header">
     <div class="title_wrap">
+
       <h3><i class="icon-add_ttn"></i>Создание накладной</h3>
-        <p>Доставка:</p>
-        <select-comp
-          width="170px"
-          :options="typesOfDelivery"
-          v-model="typeOfDelivery">
-        </select-comp>
+      <p>Доставка:</p>
+      <select-comp
+        :options="typesOfDelivery"
+        v-model="typeOfDelivery"
+        width="170px">
+      </select-comp>
 
-        <p>Оплата:</p>
-        <select-comp
-          width="170px"
-          :options="typesOfPayer"
-          v-model="payer.who">
-        </select-comp>
+      <p>Оплата:</p>
+      <select-comp
+        :options="typesOfPayer"
+        v-model="payer.who"
+        width="170px">
+      </select-comp>
 
-        <p style="margin: 0 20px 0 0"></p>
+      <p style="margin: 0 20px 0 0"></p>
+      <transition name="to-down">
+        <field
+          v-if="payer.who.value === 3"
+          type="text"
+          placeholder="Организация"
+          v-model="payer.name"
+          autofocus
+          width="160px">
+        </field>
+      </transition>
 
-        <transition name="to-down">
-          <field
-            v-if="payer.who.value === 3"
-            width="160px"
-            type="text"
-            placeholder="Организация"
-            v-model="payer.name"
-            autofocus>
-          </field>
-        </transition>
     </div>
-    <button @click="$emit('close')"><i class="icon-close"></i></button>
+    <button @mousedown="$emit('close')"><i class="icon-close"></i></button>
   </div>
-  <div class="clients_wrap">
+
+  <!-- Карточки с полями -->
+  <div class="cards_wrap">
+
     <client
       title="Отправитель"
       v-model="sender"
       :isCur="isCurFrom"
       :cities="(isCurFrom) ? cities : citiesWithTerminals">
     </client>
+
     <client
       title="Получатель"
       v-model="getter"
@@ -46,14 +56,15 @@
       :cities="(isCurTo) ? cities : citiesWithTerminals"
       hiddenDocsFields>
     </client>
-    <load
-      v-model="load"
-      @addedPlace="scrollDown($refs.invoice_form, 40)">
-    </load>
+
+    <load v-model="load"></load>
     <services v-model="more"></services>
+
   </div>
 
+  <!-- Нижняя панель -->
   <div class="footer">
+
     <div class="calc-panel">
       <span>{{ resultOfCalc.total + ' р' }}</span>
       <div v-for="sum in resultOfCalc.filteredSums" :key="sum">
@@ -61,13 +72,15 @@
         <p>{{ sum.value + ' р'}}</p>
       </div>
     </div>
+
     <button-comp
       text="Распечатать"
       icon="print"
       small
       :disabled="!isValid"
-      @click.native="print()">
+      @mousedown.native="print()">
     </button-comp>
+
   </div>
 
   <!-- <div class="invoice">
@@ -113,31 +126,40 @@
 </template>
 
 <script>
-import config from '../../configs/main_app_config.js';
-import Field from '../UI/Field.vue';
-import Client from '../modules/Client.vue';
-import Load from '../modules/Load.vue';
-import Services from '../modules/Services.vue';
-import SelectComp from '../UI/SelectComp.vue';
-import ButtonComp from '../UI/ButtonComp.vue';
+import Field from '../../UI/Field.vue';
+import SelectComp from '../../UI/SelectComp.vue';
+import ButtonComp from '../../UI/ButtonComp.vue';
+
+import Client from './Client.vue';
+import Load from './Load.vue';
+import Services from './Services.vue';
 
 export default {
   data() {
     return {
-      typeOfDelivery: {},
+      typeOfDelivery: {
+        name: '',
+        value: 0
+      },
       payer: {
-        who: {},
+        who: {
+          name: '',
+          value: 0
+        },
         name: ''
       },
       sender: {
         jur: {
-          is: {},
+          is: false,
           org: ''
         },
         phone: '+',
         name: '',
         docs: {
-          type: {},
+          type: {
+            name: '',
+            value: 0
+          },
           series: '',
           number: 0
         },
@@ -151,13 +173,16 @@ export default {
       },
       getter: {
         jur: {
-          is: {},
+          is: false,
           org: ''
         },
         phone: '+',
         name: '',
         docs: {
-          type: {},
+          type: {
+            name: '',
+            value: 0
+          },
           series: '',
           number: 0
         },
@@ -171,7 +196,10 @@ export default {
       },
       load: {
         countOfSeats: 1,
-        type: {},
+        type: {
+          name: '',
+          value: 0
+        },
         description: '',
         weight: 0,
         length: 0,
@@ -180,19 +208,20 @@ export default {
         price: 0
       },
       more: {
-        pack: {
-          name: '',
-          value: false
-        },
+        pack: false,
         sendBack: {
           active: false,
-          type: {},
+          type: {
+            name: '',
+            value: 0
+          },
           sum: 0
         },
         description: ''
       },
 
       tables: {
+        //  Тарифные зоны для расчета
         TZ: [
      //    0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23
           [1, 3, 4, 4, 4, 3, 3, 3, 2, 3, 3, 3, 4, 3, 4, 3, 3, 4, 3, 4, 3, 3, 3, 7], // 0  Амвросиевка
@@ -221,6 +250,7 @@ export default {
           [7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 1]  // 23 Ростов-на-Дону
         ],
 
+        //  Сроки доставки
         periods: [
      //    0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23
           [1, 3, 4, 4, 4, 3, 3, 3, 2, 3, 3, 3, 4, 3, 4, 3, 3, 4, 3, 4, 3, 3, 3, 7], // 0  Амвросиевка
@@ -249,6 +279,7 @@ export default {
           [7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 1]  // 23 Ростов-на-Дону
         ],
 
+        //  Тариф для расчета (определяется весом)
         tariff: [
           {
             min: 0,
@@ -305,210 +336,197 @@ export default {
       }
     }
   },
-  computed: {
-    isValid() {
-      if (this.load.places) {
-        const
-          isValidLoad = this.load.places.every((place) => {
-            return (place.type.value !== 2)  ? place.weight && place.length && place.width && place.height && place.price : !!place.price;
-          }),
-          s = this.sender,
-          g = this.getter;
 
-        return s.phone && s.name && s.docs.series && s.docs.number && s.adress.adress && g.phone && g.name && g.adress.adress && isValidLoad;
-      }
+  computed: {
+
+    //  Активация кнопки "Распечатать", если все необходимые данные введены
+    isValid() {
+        const l = this.load, s = this.sender, g = this.getter;
+        return s.phone && s.name && s.docs.series && s.docs.number && s.adress.adress &&
+               g.phone && g.name && g.adress.adress &&
+               l.type.value !== 2  ? l.weight && l.length && l.width && l.height && l.price : !!l.price;
     },
     typesOfDelivery() {
-      const types = [];
-      for (var i = 0; i < config.typesOfDelivery.length; i++) {
-        types.push({
-          name: config.typesOfDelivery[i],
-          value: (i + 1)
-        });
-      }
-      return types;
+      return [
+        { value: 1, name: 'Склад-Склад' },
+        { value: 2, name: 'Склад-Адрес' },
+        { value: 3, name: 'Адрес-Склад' },
+        { value: 4, name: 'Адрес-Адрес' }
+      ];
     },
     typesOfPayer() {
       return [
-        {
-          name: 'Отправитель',
-          value: 1
-        },
-        {
-          name: 'Получатель',
-          value: 2
-        },
-        {
-          name: 'Третье лицо...',
-          value: 3
-        }
+        { value: 1, name: 'Отправитель' },
+        { value: 2, name: 'Получатель' },
+        { value: 3, name: 'Третье лицо...' }
       ]
     },
     cities() {
-        return [{
-                value: 1,
-                name: 'Амвросиевка',
-                region: 'ДНР',
-                terminals: null
-            },
-            {
-                value: 2,
-                name: 'Горловка',
-                region: 'ДНР',
-                terminals: null
-            },
-            {
-                value: 3,
-                name: 'Дебальцево',
-                region: 'ДНР',
-                terminals: null
-            },
-            {
-                value: 4,
-                name: 'Докучаевск',
-                region: 'ДНР',
-                terminals: null
-            },
-            {
-                value: 5,
-                name: 'Донецк',
-                region: 'ДНР',
-                terminals: null
-            },
-            {
-                value: 6,
-                name: 'Енакиево',
-                region: 'ДНР',
-                terminals: null
-            },
-            {
-                value: 7,
-                name: 'Ждановка',
-                region: 'ДНР',
-                terminals: null
-            },
-            {
-                value: 8,
-                name: 'Зугрес',
-                region: 'ДНР',
-                terminals: null
-            },
-            {
-                value: 9,
-                name: 'Иловайск',
-                region: 'ДНР',
-                terminals: null
-            },
-            {
-                value: 10,
-                name: 'Кировское',
-                region: 'ДНР',
-                terminals: null
-            },
-            {
-                value: 11,
-                name: 'Макеевка',
-                region: 'ДНР',
-                terminals: [
-                    {
-                        num: 1,
-                        adress: 'ул. 250-летия Донбасса, ост. "Универмаг"'
-                    }
-                ]
-            },
-            {
-                value: 12,
-                name: 'Моспино',
-                region: 'ДНР',
-                terminals: null
-            },
-            {
-                value: 13,
-                name: 'Новоазовск',
-                region: 'ДНР',
-                terminals: null
-            },
-            {
-                value: 14,
-                name: 'Новый свет',
-                region: 'ДНР',
-                terminals: null
-            },
-            {
-                value: 15,
-                name: 'Седово',
-                region: 'ДНР',
-                terminals: null
-            },
-            {
-                value: 16,
-                name: 'Снежное',
-                region: 'ДНР',
-                terminals: null
-            },
-            {
-                value: 17,
-                name: 'Старобешево',
-                region: 'ДНР',
-                terminals: null
-            },
-            {
-                value: 18,
-                name: 'Тельманово',
-                region: 'ДНР',
-                terminals: null
-            },
-            {
-                value: 19,
-                name: 'Торез',
-                region: 'ДНР',
-                terminals: null
-            },
-            {
-                value: 20,
-                name: 'Углегорск',
-                region: 'ДНР',
-                terminals: null
-            },
-            {
-                value: 21,
-                name: 'Харцызск',
-                region: 'ДНР',
-                terminals: null
-            },
-            {
-                value: 22,
-                name: 'Шахтерск',
-                region: 'ДНР',
-                terminals: null
-            },
-            {
-                value: 23,
-                name: 'Ясиноватая',
-                region: 'ДНР',
-                terminals: null
-            },
-            {
-                value: 24,
-                name: 'Ростов-на-Дону',
-                region: 'РФ',
-                terminals: [
-                    {
-                        num: 1,
-                        adress: 'ул. Доватора, 148'
-                    }
-                ]
-            }
+        return [
+          {
+              value: 1,
+              name: 'Амвросиевка',
+              region: 'ДНР',
+              terminals: []
+          },
+          {
+              value: 2,
+              name: 'Горловка',
+              region: 'ДНР',
+              terminals: []
+          },
+          {
+              value: 3,
+              name: 'Дебальцево',
+              region: 'ДНР',
+              terminals: []
+          },
+          {
+              value: 4,
+              name: 'Докучаевск',
+              region: 'ДНР',
+              terminals: []
+          },
+          {
+              value: 5,
+              name: 'Донецк',
+              region: 'ДНР',
+              terminals: []
+          },
+          {
+              value: 6,
+              name: 'Енакиево',
+              region: 'ДНР',
+              terminals: []
+          },
+          {
+              value: 7,
+              name: 'Ждановка',
+              region: 'ДНР',
+              terminals: []
+          },
+          {
+              value: 8,
+              name: 'Зугрес',
+              region: 'ДНР',
+              terminals: []
+          },
+          {
+              value: 9,
+              name: 'Иловайск',
+              region: 'ДНР',
+              terminals: []
+          },
+          {
+              value: 10,
+              name: 'Кировское',
+              region: 'ДНР',
+              terminals: []
+          },
+          {
+              value: 11,
+              name: 'Макеевка',
+              region: 'ДНР',
+              terminals: [
+                  { num: 1, adress: 'ул. 250-летия Донбасса, ост. "Универмаг"' }
+              ]
+          },
+          {
+              value: 12,
+              name: 'Моспино',
+              region: 'ДНР',
+              terminals: []
+          },
+          {
+              value: 13,
+              name: 'Новоазовск',
+              region: 'ДНР',
+              terminals: []
+          },
+          {
+              value: 14,
+              name: 'Новый свет',
+              region: 'ДНР',
+              terminals: []
+          },
+          {
+              value: 15,
+              name: 'Седово',
+              region: 'ДНР',
+              terminals: []
+          },
+          {
+              value: 16,
+              name: 'Снежное',
+              region: 'ДНР',
+              terminals: []
+          },
+          {
+              value: 17,
+              name: 'Старобешево',
+              region: 'ДНР',
+              terminals: []
+          },
+          {
+              value: 18,
+              name: 'Тельманово',
+              region: 'ДНР',
+              terminals: []
+          },
+          {
+              value: 19,
+              name: 'Торез',
+              region: 'ДНР',
+              terminals: []
+          },
+          {
+              value: 20,
+              name: 'Углегорск',
+              region: 'ДНР',
+              terminals: []
+          },
+          {
+              value: 21,
+              name: 'Харцызск',
+              region: 'ДНР',
+              terminals: []
+          },
+          {
+              value: 22,
+              name: 'Шахтерск',
+              region: 'ДНР',
+              terminals: []
+          },
+          {
+              value: 23,
+              name: 'Ясиноватая',
+              region: 'ДНР',
+              terminals: []
+          },
+          {
+              value: 24,
+              name: 'Ростов-на-Дону',
+              region: 'РФ',
+              terminals: [
+                  { num: 1, adress: 'ул. Доватора, 148' }
+              ]
+          }
         ]
     },
+
+    //  Забор с адреса?
     isCurFrom() {
       return (this.typeOfDelivery.value === 1 || this.typeOfDelivery.value === 2) ? false : true;
     },
+
+    //  Доставить на адрес?
     isCurTo() {
       return (this.typeOfDelivery.value === 1 || this.typeOfDelivery.value === 3) ? false : true;
     },
+
+    //  Города с отделениями
     citiesWithTerminals() {
-      return this.cities.filter((city) => city.terminals !== null);
+      return this.cities.filter((city) => city.terminals.length > 0);
     },
 
     //  Расчет стоимости доставки
@@ -536,7 +554,7 @@ export default {
         return this.round(maxWeight);
       })();
 
-      // Тариф по рассчитанному весу
+      // Определяем тариф по рассчитанному весу
       if (weight > 0) {
         tariff = this.tables.tariff.find((item, index, array) => {
           //  Если выбран последний тариф - значит вес > 50 кг и цена уже не фиксированная
@@ -585,9 +603,9 @@ export default {
         },
 
         {
-          name: this.more.pack.name,
+          name: 'Упаковка',
           value: (() => {
-            return (this.more.pack.value) ? 100 : 0;
+            return (this.more.pack) ? 100 : 0;
           })()
         }
       ];
@@ -618,7 +636,7 @@ export default {
 
 <style lang="sass">
 
-@import "../../configs/styles_config.sass"
+@import "../../../configs/styles_config.sass"
 
 .invoice_form
   position: absolute
@@ -647,7 +665,6 @@ export default {
   justify-content: space-between
   z-index: 6
   width: 1020px
-  transition: all .3s ease
 
 .footer
   bottom: 0
@@ -695,7 +712,7 @@ export default {
     &:hover
       color: $dark
 
-.clients_wrap
+.cards_wrap
   display: flex
   justify-content: space-between
   flex-wrap: wrap

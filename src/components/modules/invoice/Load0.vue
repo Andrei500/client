@@ -89,14 +89,14 @@
             <button
                 v-tooltip.left="(load.places.length > 1) ? 'Убрать место' : false"
                 :disabled="!(load.places.length > 1)"
-                @click="delPlace(index)">
+                @mousedown="delPlace(index)">
                 <i class="icon-close"></i>
             </button>
         </div>
     </transition-group>
 
     <div class="add_btn_wrap">
-        <button @click="addPlace($event)">+ Добавить место</button>
+        <button @mousedown="addPlace($event)">+ Добавить место</button>
     </div>
     </div>
 </template>

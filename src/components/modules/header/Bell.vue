@@ -1,19 +1,28 @@
 <template>
+
+  <!-- Колокольчик для уведомлений -->
+
 <div class="bell_wrap">
-  <button @click="toggleActive()" :class="['bell', { 'active': active }]">
+
+  <button @mousedown="toggleActive()" :class="['bell', { 'active': active }]">
     <i class="icon-bell"></i>
     <span v-if="!active && news.length" class="counter">{{ news.length }}</span>
   </button>
+
+  <!-- Выавдающее меню новостей -->
   <ul v-if="active">
     <span class="news_title">Оповещения</span>
-    <template v-if="news.length">
-      <li v-for="item in news"><a href="#">{{ item.title }}</a></li>
+
+    <template v-if="!!news.length">
+      <li v-for="item in news">
+        <a href="#">{{ item.title }}</a>
+      </li>
       <a class="see_all" href="#">Посмотреть все<i class="icon-chevron"></i></a>
     </template>
-    <template v-else>
-      <p>Нет новых оповещений...</p>
-    </template>
+
+    <p v-else>Нет новых оповещений...</p>
   </ul>
+
 </div>
 </template>
 
@@ -21,25 +30,20 @@
 export default {
   data() {
     return {
-      counter: 1,
       active: false,
       news: [
-        {
-          title: 'Новая инструкция по приему груза'
-        },
-        {
-          title: 'Изменения в тарификаторах'
-        },
-        {
-          title: 'Новые правила оформления накладной'
-        }
+        { title: 'Новая инструкция по приему груза' },
+        { title: 'Изменения в тарификаторах' },
+        { title: 'Новые правила оформления накладной' }
       ]
     }
   },
+
   methods: {
     toggleActive() {
-      if (!this.active) document.addEventListener('click', this.closeBell, false);
-      else document.removeEventListener('click', this.closeBell, false);
+      if (!this.active) {
+        document.addEventListener('click', this.closeBell, false);
+      } else document.removeEventListener('click', this.closeBell, false);
 
       this.active = !this.active;
     },
@@ -53,10 +57,7 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-@import "../../configs/styles_config.sass"
-
-*
-  box-sizing: border-box
+@import "../../../configs/styles_config.sass"
 
 .bell_wrap
   position: relative

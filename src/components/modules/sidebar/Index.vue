@@ -1,30 +1,36 @@
 <template>
+
+  <!-- # Сайдбар -->
+
 <div class="sidebar">
+
   <div class="logo_head">
-    <img src="../../assets/img/logo.png" height="40" alt="">
+    <img src="../../../assets/img/logo.png" height="40" alt="">
     <h2>{{ shortName }}</h2>
     <p>кабинет оператора</p>
   </div>
+
   <div class="sidebar_child">
     <button-comp
       text="Создать накладную"
       :disabled="disabledButton"
-      @click.native="$emit('openFormInvoice')">
+      @mousedown.native="$emit('openFormInvoice')">
     </button-comp>
   </div>
+
   <div class="sidebar_child" v-for="item in menu">
-    <sidebar-category
+    <category
       :title="item.title"
       :menuItems="item.menuItems">
-    </sidebar-category>
+    </category>
   </div>
 </div>
 </template>
 
 <script>
-import config from '../../configs/main_app_config.js';
-import ButtonComp from '../UI/ButtonComp.vue';
-import SidebarCategory from './SidebarCategory.vue';
+import config from '../../../configs/main_app_config.js';
+import ButtonComp from '../../UI/ButtonComp.vue';
+import Category from './Category.vue';
 
 export default {
   props: {
@@ -33,66 +39,53 @@ export default {
       default: false
     }
   },
+
   data() {
     return {
-      shortName: config.shortName,
-      menu: [
+      shortName: config.shortName
+    }
+  },
+
+  computed: {
+    menu() {
+      return [
         {
           title: 'Накладные',
-          menuItems: [{
-              name: 'К отправлению',
-              value: 7
-            },
-            {
-              name: 'К получению',
-              value: 12
-            },
-            {
-              name: 'К выдаче',
-              value: 5
-            }
+          menuItems: [
+            { name: 'К отправлению', count: 7 },
+            { name: 'К получению',  count: 12 },
+            { name: 'К выдаче', count: 5 }
           ]
         },
         {
           title: 'Ведомости',
           menuItems: [
-            {
-              name: 'Погрузочные',
-              value: 7
-            },
-            {
-              name: 'Выгрузочные',
-              value: 12
-            },
-            {
-              name: 'Касса',
-              value: '3750 р'
-            }
+            { name: 'Погрузочные', count: 7 },
+            { name: 'Выгрузочные', count: 12 },
+            { name: 'Касса', count: '3750 р' }
           ]
         },
         {
           title: 'Справка',
-          menuItems: [{
-              name: 'Документы для работы'
-            },
-            {
-              name: 'Как работать в системе'
-            }
+          menuItems: [
+            { name: 'Документы для работы' },
+            { name: 'Как работать в системе' }
           ]
         }
-      ]
+      ];
     }
   },
+
   components: {
     ButtonComp,
-    SidebarCategory
+    Category
   }
 }
 </script>
 
 <style lang="sass">
 
-@import "../../configs/styles_config.sass"
+@import "../../../configs/styles_config.sass"
 
 .sidebar
   position: fixed

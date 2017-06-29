@@ -1,13 +1,20 @@
 <template>
+
+  <!-- # Элемент "Количество" -->
+
   <div>
-    <button @click="dec()">-</button>
+    <button @mousedown="dec()">-</button>
+
     <input
       type="number"
       min="1"
       v-model="count"
       @keydown.right="inc()"
-      @keydown.left="dec()">
-    <button @click="inc()">+</button>
+      @keydown.left="dec()"
+    >
+
+    <button @mousedown="inc()">+</button>
+
     <span>{{ title }}</span>
   </div>
 </template>
@@ -23,16 +30,19 @@ export default {
       default: ''
     }
   },
+
   data() {
     return {
       count: 0
     }
   },
+
   watch: {
     count(value) {
       this.$emit('input', value);
     }
   },
+
   methods: {
     inc() {
       if (this.count >= 0) this.count++;
@@ -41,6 +51,7 @@ export default {
       if (this.count > 1) this.count--;
     }
   },
+
   mounted() {
     this.count = this.value;
   }

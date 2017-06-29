@@ -1,8 +1,14 @@
 <template>
+
+  <!-- # Список select с поиском -->
+
 <div :style="{ width }">
+
+  <!-- Поле ввода -->
   <input
     type="text"
     ref="select"
+    v-model="search"
     :class="['select', { 'active': showList }]"
     @input="onInput()"
     @mousedown.prevent="onClick()"
@@ -12,23 +18,33 @@
     @keydown.up="onUpKey()"
     @keydown.enter="onEnterKey()"
     @keydown.esc="onEscape()"
-    v-model="search">
-  <span @mousedown.prevent="onClick()" v-if="!showList" ref="text">{{ selected.name }}
-    <sup class="extendValue" v-if="extendValue">{{ selected[extendValue] }}</sup>
+  >
+
+  <!-- Имя выбранного значения -->
+  <span ref="text" v-if="!showList" @mousedown.prevent="onClick()">
+    {{ selected.name }}
+    <!-- Дополнительное значение -->
+    <sup class="extendValue" v-if="!!extendValue">{{ selected[extendValue] }}</sup>
   </span>
+
+  <!-- Стрелка -->
   <i @mousedown.prevent="onClick()" class="icon-chevron"></i>
 
+  <!-- Выпадающий список -->
   <div class="list_wrap">
     <transition name="to-bottom">
+
       <ul v-if="showList" ref="list">
-        <li :class="[selectIndex === index ? 'active_item': '']"
+        <li
+          :class="[selectIndex === index ? 'active_item': '']"
           v-for="(option, index) in filteredOptions"
           @mousedown.prevent="select(option)">
           {{ option.name }}
           <sup class="extendValue" v-if="extendValue">{{ option[extendValue] }}</sup>
         </li>
-        <li v-if="!filteredOptions">Город не найден...</li>
+        <li v-if="filteredOptions.length === 0">Город не найден...</li>
       </ul>
+
     </transition>
   </div>
 </div>
@@ -45,24 +61,15 @@ export default {
       type: Array,
       default() {
         return [
-          {
-            name: 'Option 1',
-            value: 1
-          },
-          {
-            name: 'Option 2',
-            value: 2
-          },
-          {
-            name: 'Option 3',
-            value: 3
-          }
+          { name: 'Option 1', value: 1 },
+          { name: 'Option 2', value: 2 },
+          { name: 'Option 3', value: 3 }
         ];
       }
     },
     extendValue: {
-      type: String,
-      default: ''
+      type: [String, Boolean],
+      default: false
     }
   },
 
@@ -86,11 +93,11 @@ export default {
       const
         search = this.search,
         filteredOptions = this.options.filter((option) => {
-            const pathOfCityName = option.name.split('').slice(0, search.length).join('');
-            if (search.toLowerCase() === pathOfCityName.toLowerCase()) return option;
+          const pathOfCityName = option.name.split('').slice(0, search.length).join('');
+          if (search.toLowerCase() === pathOfCityName.toLowerCase()) return option;
         });
 
-      return (filteredOptions.length) ? filteredOptions : false;
+      return (filteredOptions.length) ? filteredOptions : [];
     }
   },
 
@@ -99,10 +106,6 @@ export default {
       this.selected = option;
       this.$emit('input', option);
       this.$refs.select.blur();
-    },
-    onClick() {
-      if (this.showList) this.$refs.select.blur();
-      else this.$refs.select.focus();
     },
     onFocus() {
       this.showList = true;
@@ -113,16 +116,24 @@ export default {
       this.$refs.list.scrollTop = 0;
       this.showList = false;
     },
+
+    onClick() {
+      if (this.showList) this.$refs.select.blur();
+      else this.$refs.select.focus();
+    },
     onDownKey() {
       if (this.filteredOptions.length -1 > this.selectIndex) {
         this.selectIndex++;
-        if (this.selectIndex > 2) this.$refs.list.scrollTop += this.$refs.list.children[0].clientHeight;
+        if (this.selectIndex > 2) {
+          this.$refs.list.scrollTop += this.$refs.list.children[0].clientHeight;
+        }
       }
     },
     onUpKey() {
       if (this.selectIndex > 0) {
         this.selectIndex--;
-        if (this.selectIndex < (this.filteredOptions.length -2 )) this.$refs.list.scrollTop -= this.$refs.list.children[0].clientHeight;
+        if (this.selectIndex < (this.filteredOptions.length -2 ))
+          this.$refs.list.scrollTop -= this.$refs.list.children[0].clientHeight;
       }
     },
     onEnterKey() {
@@ -135,6 +146,10 @@ export default {
       this.selectIndex = 0;
       this.$refs.list.scrollTop = 0;
     }
+  },
+
+  mounted() {
+    this.select(this.options[0]);
   }
 }
 </script>

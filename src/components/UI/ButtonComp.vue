@@ -1,10 +1,14 @@
 <template>
+
+  <!-- # Кнопка -->
+
   <button
     :class="{ 'small': small }"
     :disabled="disabled">
-    <i v-if="icon" :class="'icon-' + icon"></i>
+    <i v-if="!!icon" :class="'icon-' + icon"></i>
       {{ text }}
   </button>
+
 </template>
 
 <script>
@@ -19,8 +23,8 @@ export default {
       default: false
     },
     icon: {
-      type: String,
-      default: ''
+      type: [String, Boolean],
+      default: false
     },
     small: {
       type: Boolean,

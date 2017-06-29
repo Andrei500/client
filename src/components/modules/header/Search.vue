@@ -1,8 +1,12 @@
 <template>
+
+  <!-- # Поле поиска -->
+
 <form @submit="search($event)" class="search">
   <input placeholder="Поиск накладных по номеру, имени, телефону..." type="text" v-model.trim="query">
   <button><i class="icon-search"></i></button>
 </form>
+
 </template>
 
 <script>
@@ -12,10 +16,12 @@ export default {
       query: ''
     }
   },
+
   methods: {
     search(e) {
       e.preventDefault();
-      if (this.query) {
+
+      if (!!this.query) {
         this.$router.push({
           path: '/results',
           query: {
@@ -31,7 +37,7 @@ export default {
 
 <style lang="sass">
 
-@import "../../configs/styles_config.sass"
+@import "../../../configs/styles_config.sass"
 
 .search
   height: 40px

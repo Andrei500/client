@@ -1,5 +1,5 @@
 <template>
-  <button type="submit" :disabled="disabled">{{text}}</button>
+  <button type="submit" :disabled="disabled">{{ text }}</button>
 </template>
 
 <script>
@@ -7,7 +7,7 @@ export default {
   props: {
     text: {
       type: String,
-      default: 'OK'
+      default: ''
     },
     disabled: {
       type: Boolean,
@@ -23,7 +23,6 @@ export default {
 
 button
   width: 100%
-  box-sizing: border-box
   padding: 15px 0
   border: none
   border-radius: 3px
